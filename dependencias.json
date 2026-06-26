@@ -1,0 +1,308 @@
+[
+  {
+    "id": 1,
+    "nombre": "Jefatura de Policía",
+    "jefe": "Com. Gral. Mgtr. Jacinto Rolón",
+    "email": "policia.jefatura@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 2,
+    "nombre": "Dirección Secretaría General",
+    "jefe": "Com. My. David Rolando Raúl Foschiatti",
+    "email": "policia.jefatura@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 3,
+    "nombre": "Dirección Seguridad Gubernamental, Legislativa y Superior Tribunal de Justicia",
+    "jefe": "Com. Gral. Tec. Guillermo David Morgan",
+    "email": "policia.custodia@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 4,
+    "nombre": "Dirección Asesoría Letrada",
+    "jefe": "Com. Insp. Dr. Sebastián González",
+    "email": "policia.dal@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 5,
+    "nombre": "Dirección de Análisis Criminal",
+    "jefe": "Com. Insp. Lic. Lopez Jonatan Guillermo",
+    "email": "policia.dacush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 6,
+    "nombre": "Subjefatura de Policía",
+    "jefe": "Com. Gral. Lic. Barrios Kogan Oscar Alfredo",
+    "email": "subjefaturapolicia@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 7,
+    "nombre": "Dirección General Regional Zona Norte",
+    "jefe": "Com. Gral. Dr. Elio Rubén Cárdenas",
+    "email": "policia.dgrzn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 8,
+    "nombre": "Dirección General Regional Zona Sur",
+    "jefe": "Com. Gral. Tec. Enzo Osvaldo Hoyos",
+    "email": "policia.dgrzs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 9,
+    "nombre": "Dirección General de Recursos Humanos",
+    "jefe": "Com. My. Dr. Maximiliano Enrique Cruz",
+    "email": "policia.dgrh@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 10,
+    "nombre": "Dirección General de Administración",
+    "jefe": "Com. Gral. Cristian Maximiliano Salinas",
+    "email": "policia.dga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 11,
+    "nombre": "Dirección General de Investigaciones Criminales",
+    "jefe": "Com. Gral. Tec. Cardenas Victor Alejandro",
+    "email": "policia.dgic@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 12,
+    "nombre": "Dirección Institutos Policiales",
+    "jefe": "Com. Gral. Tec. Manuel Anzoategui",
+    "email": "policia.dip@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 13,
+    "nombre": "Dirección Investigaciones Administrativas Zona Norte",
+    "jefe": "Com. Insp. Dr. Sebastián Gustavo Juarez Galanti",
+    "email": "policia.diazn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 14,
+    "nombre": "Dirección Investigaciones Administrativas Zona Sur",
+    "jefe": "Com. Lic. Eleonora Roxana Mamani",
+    "email": "policia.diazs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 15,
+    "nombre": "Oficina de Información Institucional Río Grande",
+    "jefe": "Com. Insp. Tec. María Laura Gómez",
+    "email": "policia.cominst@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 16,
+    "nombre": "Oficina de Información Institucional Ushuaia",
+    "jefe": "Com. Tec. David Matías Peralta Lopez",
+    "email": "policia.cominst@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 17,
+    "nombre": "División Bienestar Policial Ushuaia",
+    "jefe": "Com. Insp. Mgtr. Véronica Alejandra Cumicheo Coloane",
+    "email": "policia.dbpush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 18,
+    "nombre": "División Bienestar Policial Río Grande",
+    "jefe": "Com. Insp. Lic. Rolando Walter Avellaneda",
+    "email": "policia.dbprga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 19,
+    "nombre": "División Delitos Complejos Río Grande",
+    "jefe": "Com. Insp. Tec. Maximiliano Javier Villafaña",
+    "email": "policia.ddcrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 20,
+    "nombre": "División Narcocriminalidad y Delitos Federales Río Grande",
+    "jefe": "Com. My. Tec. Javier Osvaldo Medina",
+    "email": "policia.dndfrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 21,
+    "nombre": "División Investigaciones Complejas y Narcocriminalidad Tolhuin",
+    "jefe": "Com. My. María Emilia Fuentes",
+    "email": "policia.ddcyntol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 22,
+    "nombre": "División Delitos Complejos Ushuaia",
+    "jefe": "Com. Insp. Lic. Roberto Carlos Diaz Ibarra",
+    "email": "policia.ddcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 23,
+    "nombre": "División Narcocriminalidad y Delitos Federales Ushuaia",
+    "jefe": "Com. Insp. Tec. Gustavo Javier Diaz",
+    "email": "policia.dndfush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 24,
+    "nombre": "División Policía Científica Río Grande",
+    "jefe": "Com. Insp. Lic. Juan Pablo Rosales",
+    "email": "policia.dpcrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 25,
+    "nombre": "División Policía Científica Tolhuin",
+    "jefe": "Ppal. Lic. Alejandro Emanuel Aguirre",
+    "email": "policia.dpctol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 26,
+    "nombre": "División Policía Científica Ushuaia",
+    "jefe": "Com. My. Mgtr. Darío Nicolás Monzon",
+    "email": "policia.dpcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 27,
+    "nombre": "División Documentación e Identificación Policial Río Grande",
+    "jefe": "Com. Insp. Valeria del Carmen Perez Velazquez",
+    "email": "policia.ddirga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 28,
+    "nombre": "División Documentación e Identificación Policial Ushuaia",
+    "jefe": "Com. Insp. Tec. Fatima Carola del Valle Menichetti",
+    "email": "policia.dgic@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 29,
+    "nombre": "Unidad Regional Sur",
+    "jefe": "Com. My. Adan Luis Eduardo Foschiatti",
+    "email": "policia.urzs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 30,
+    "nombre": "Comisaría Primera Ushuaia",
+    "jefe": "Com. My. Tec. Martín Miguel Bobba",
+    "email": "policia.com1ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 31,
+    "nombre": "Comisaría Segunda Ushuaia",
+    "jefe": "Com. Insp. Luis María Medina",
+    "email": "policia.com2ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 32,
+    "nombre": "Comisaría Tercera Ushuaia",
+    "jefe": "Com. Insp. Tec. José Luis Brizuela",
+    "email": "policia.com3ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 33,
+    "nombre": "Comisaría Cuarta Ushuaia",
+    "jefe": "Com. Insp. Derlis Alfredo Filippini",
+    "email": "policia.com4ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 34,
+    "nombre": "Comisaría Quinta Ushuaia",
+    "jefe": "Com. Insp. Tec. Luis Gustavo Perick",
+    "email": "policia.com5ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 35,
+    "nombre": "Comisaría de Género y Familia N° 1 Ushuaia",
+    "jefe": "Com. Insp. Tec. Noelia Daniela Mazzelli",
+    "email": "policia.comgyf1ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 36,
+    "nombre": "Comisaría de Género y Familia N° 2 Ushuaia",
+    "jefe": "Com. Tec. Irene Lucía Marin Levin",
+    "email": "policia.comgyf2ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 37,
+    "nombre": "División Servicios Especiales Ushuaia",
+    "jefe": "Com. Insp. Tec. Luis Eduardo Arce",
+    "email": "policia.dseush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 38,
+    "nombre": "División Comunicaciones Ushuaia",
+    "jefe": "Com. Insp. Tec. David Nicolás Albo",
+    "email": "policia.dcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 39,
+    "nombre": "Unidad Regional Norte",
+    "jefe": "Com. My. Lic. Angel Ismael Lasala",
+    "email": "policia.urzn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 40,
+    "nombre": "Comisaría Primera Río Grande",
+    "jefe": "Com. My. Abg. Luis Adolfo Iglesias",
+    "email": "policia.com1rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 41,
+    "nombre": "Comisaría Segunda Río Grande",
+    "jefe": "Com. My. Diego Roberto Alderete",
+    "email": "policia.com2rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 42,
+    "nombre": "Comisaría Tercera Río Grande",
+    "jefe": "Com. My. Lucas Atilio Choque",
+    "email": "policia.com3rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 43,
+    "nombre": "Comisaría Cuarta Río Grande",
+    "jefe": "Com. My. Tec. Anibal Horacio Arias",
+    "email": "policia.com4rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 44,
+    "nombre": "Comisaría Quinta Río Grande",
+    "jefe": "Com. Insp. Miguel Ángel Nieva",
+    "email": "policia.com5rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 45,
+    "nombre": "Comisaría de Género y Familia Río Grande",
+    "jefe": "Com. Insp. Tec. Luciana Valeria Aguirre",
+    "email": "policia.comgyf1rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 46,
+    "nombre": "División Servicios Especiales Río Grande",
+    "jefe": "Com. My. Jorge Sebastián Cortez",
+    "email": "policia.dserga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 47,
+    "nombre": "División Bomberos Río Grande",
+    "jefe": "Com. My. Esteban Javier Cejas",
+    "email": "policia.dbrg@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 48,
+    "nombre": "División Comunicaciones Río Grande",
+    "jefe": "Com. My. Ivan Omar Gallucci Mansilla",
+    "email": "policia.dcomrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 49,
+    "nombre": "Unidad Regional Centro",
+    "jefe": "Com. My. Proc. Víctor Oscar Serrano",
+    "email": "policia.dgrzc@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 50,
+    "nombre": "Comisaría Tolhuin",
+    "jefe": "Com. My. Gastón Gustavo Aguilera",
+    "email": "policia.com1tol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 51,
+    "nombre": "Comisaría de Género y Familia Tolhuin",
+    "jefe": "Com. Insp. Lic. Ramiro Ignacio Sibauti",
+    "email": "policia.comgyf1tol@tierradelfuego.gob.ar"
+  }
+]

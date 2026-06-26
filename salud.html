@@ -1,0 +1,2178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Policia de Tierra del Fuego - Licencia Medica</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #080d0b;
+            --bg-card: #111c16;
+            --bg-input: #0b1410;
+            --fg: #e2ece6;
+            --fg-muted: #6d9480;
+            --fg-dim: #3d5e4e;
+            --accent: #2dd4a0;
+            --accent-hover: #5eead4;
+            --accent-glow: rgba(45, 212, 160, .12);
+            --accent-soft: rgba(45, 212, 160, .06);
+            --gold: #d4a72d;
+            --gold-soft: rgba(212, 167, 45, .08);
+            --gold-border: rgba(212, 167, 45, .2);
+            --danger: #ef4444;
+            --danger-soft: rgba(239, 68, 68, .1);
+            --warning: #f59e0b;
+            --warning-soft: rgba(245, 158, 11, .08);
+            --border: #1a2e24;
+            --radius: 14px;
+            --radius-sm: 10px;
+            --radius-lg: 18px;
+            --shadow: 0 2px 16px rgba(0, 0, 0, .3);
+            --tr: .25s cubic-bezier(.4, 0, .2, 1);
+            --safe-b: env(safe-area-inset-bottom, 0px);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100dvh;
+            overflow-x: hidden;
+            line-height: 1.55
+        }
+
+        .bg-atm {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        .bg-atm::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(45, 212, 160, .05) 0%, transparent 70%);
+            animation: b1 20s ease-in-out infinite
+        }
+
+        .bg-atm::after {
+            content: '';
+            position: absolute;
+            bottom: -15%;
+            right: -15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(212, 167, 45, .03) 0%, transparent 70%);
+            animation: b2 26s ease-in-out infinite
+        }
+
+        @keyframes b1 {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1)
+            }
+
+            50% {
+                transform: translate(50px, 40px) scale(1.08)
+            }
+        }
+
+        @keyframes b2 {
+
+            0%,
+            100% {
+                transform: translate(0, 0)
+            }
+
+            50% {
+                transform: translate(-40px, -50px) scale(1.1)
+            }
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 16px 100px
+        }
+
+        /* Header */
+        .hdr {
+            text-align: center;
+            padding: 20px 0 16px
+        }
+
+        .hdr-shield {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px
+        }
+
+        .shield {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), #0d9466);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            box-shadow: 0 3px 14px rgba(45, 212, 160, .25);
+            border: 1.5px solid rgba(255, 255, 255, .06);
+            flex-shrink: 0
+        }
+
+        .hdr-info {
+            text-align: left
+        }
+
+        .hdr-info h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            line-height: 1.2
+        }
+
+        .hdr-info p {
+            font-size: .6rem;
+            color: var(--fg-dim);
+            letter-spacing: .3px;
+            margin-top: 1px
+        }
+
+        .hdr h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -.3px
+        }
+
+        .hdr .sub {
+            color: var(--fg-muted);
+            font-size: .8rem;
+            margin-top: 2px
+        }
+
+        /* Barra progreso mobile */
+        .prog-bar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(8, 13, 11, .94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 16px;
+            margin: 0 -16px 16px
+        }
+
+        .prog-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px
+        }
+
+        .prog-step {
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .prog-step i {
+            font-size: .7rem
+        }
+
+        .prog-total {
+            font-size: .72rem;
+            color: var(--fg-dim);
+            font-weight: 500
+        }
+
+        .prog-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden
+        }
+
+        .prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #0d9466);
+            border-radius: 2px;
+            transition: width .4s ease
+        }
+
+        /* Stepper desktop */
+        .stepper {
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 0 4px
+        }
+
+        .st-i {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 0 0 auto;
+            z-index: 2
+        }
+
+        .st-c {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: .75rem;
+            color: var(--fg-dim);
+            transition: var(--tr)
+        }
+
+        .st-c i {
+            font-size: .65rem
+        }
+
+        .st-l {
+            font-size: .58rem;
+            color: var(--fg-dim);
+            margin-top: 5px;
+            text-align: center;
+            max-width: 72px;
+            line-height: 1.2;
+            font-weight: 500;
+            transition: var(--tr)
+        }
+
+        .st-ln {
+            width: 32px;
+            height: 2px;
+            background: var(--border);
+            margin-top: 16px;
+            transition: var(--tr);
+            flex-shrink: 0
+        }
+
+        .st-i.act .st-c {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+            color: var(--accent);
+            box-shadow: 0 0 14px rgba(45, 212, 160, .18)
+        }
+
+        .st-i.act .st-l {
+            color: var(--accent)
+        }
+
+        .st-i.done .st-c {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: #fff
+        }
+
+        .st-i.done .st-l {
+            color: var(--fg-muted)
+        }
+
+        .st-ln.done {
+            background: var(--accent)
+        }
+
+        .st-i.hid {
+            opacity: .15;
+            pointer-events: none
+        }
+
+        .st-ln.hid {
+            opacity: .15
+        }
+
+        @media(min-width:768px) {
+            .prog-bar {
+                display: none
+            }
+
+            .stepper {
+                display: flex
+            }
+
+            .app {
+                padding-bottom: 40px
+            }
+        }
+
+        /* Paneles */
+        .panel {
+            display: none;
+            animation: fu .35s ease
+        }
+
+        .panel.act {
+            display: block
+        }
+
+        @keyframes fu {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .card-t {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px
+        }
+
+        .card-s {
+            color: var(--fg-muted);
+            font-size: .8rem;
+            margin-bottom: 20px
+        }
+
+        @media(min-width:768px) {
+            .card {
+                padding: 28px 30px
+            }
+
+            .card-t {
+                font-size: 1.25rem
+            }
+
+            .card-s {
+                font-size: .85rem;
+                margin-bottom: 24px
+            }
+        }
+
+        /* Formularios */
+        .fg {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px
+        }
+
+        .fg label {
+            font-size: .76rem;
+            font-weight: 500;
+            color: var(--fg-muted);
+            display: flex;
+            align-items: center;
+            gap: 3px
+        }
+
+        .fg label .rq {
+            color: var(--danger);
+            font-size: .85rem
+        }
+
+        .fg input,
+        .fg select,
+        .fg textarea {
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            color: var(--fg);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .92rem;
+            transition: var(--tr);
+            outline: none;
+            width: 100%;
+            min-height: 46px;
+            -webkit-appearance: none
+        }
+
+        .fg input::placeholder,
+        .fg textarea::placeholder {
+            color: var(--fg-dim)
+        }
+
+        .fg input:focus,
+        .fg select:focus,
+        .fg textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow)
+        }
+
+        .fg input.err,
+        .fg select.err {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 3px var(--danger-soft)
+        }
+
+        .fg .em {
+            font-size: .7rem;
+            color: var(--danger);
+            display: none;
+            align-items: center;
+            gap: 3px;
+            margin-top: 1px
+        }
+
+        .fg .em.vis {
+            display: flex
+        }
+
+        .fg textarea {
+            resize: vertical;
+            min-height: 72px
+        }
+
+        .fg select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236d9480' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px
+        }
+
+        .fgrid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0
+        }
+
+        @media(min-width:768px) {
+            .fgrid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0 18px
+            }
+
+            .fgrid .full {
+                grid-column: 1/-1
+            }
+        }
+
+        /* Jefe */
+        .jefe-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--gold-soft);
+            border: 1.5px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            margin-top: 6px;
+            animation: fu .3s ease
+        }
+
+        .jefe-box .jb-i {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(212, 167, 45, .12);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .85rem;
+            flex-shrink: 0
+        }
+
+        .jefe-box .jb-n {
+            flex: 1;
+            min-width: 0
+        }
+
+        .jefe-box .jb-lb {
+            font-size: .65rem;
+            color: var(--fg-dim);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            font-weight: 600
+        }
+
+        .jefe-box .jb-nm {
+            font-size: .84rem;
+            color: var(--gold);
+            font-weight: 600
+        }
+
+        .jefe-box .jb-dp {
+            font-size: .7rem;
+            color: var(--fg-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        /* Toggle */
+        .tg {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .tr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            transition: var(--tr);
+            cursor: pointer;
+            min-height: 54px
+        }
+
+        .tr:active {
+            transform: scale(.98)
+        }
+
+        .tr.sel {
+            border-color: var(--accent);
+            background: var(--accent-soft)
+        }
+
+        .tr-i {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0
+        }
+
+        .tr-ic {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .95rem;
+            flex-shrink: 0
+        }
+
+        .tr-ic.g {
+            background: rgba(45, 212, 160, .1);
+            color: var(--accent)
+        }
+
+        .tr-ic.a {
+            background: var(--warning-soft);
+            color: var(--warning)
+        }
+
+        .tr-tx h4 {
+            font-size: .88rem;
+            font-weight: 600;
+            line-height: 1.2
+        }
+
+        .tr-tx p {
+            font-size: .7rem;
+            color: var(--fg-muted);
+            margin-top: 1px
+        }
+
+        .sw {
+            width: 44px;
+            height: 24px;
+            background: var(--border);
+            border-radius: 12px;
+            position: relative;
+            transition: var(--tr);
+            flex-shrink: 0
+        }
+
+        .sw::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: var(--fg-dim);
+            border-radius: 50%;
+            transition: var(--tr)
+        }
+
+        .tr.sel .sw {
+            background: var(--accent)
+        }
+
+        .tr.sel .sw::after {
+            left: 23px;
+            background: #fff
+        }
+
+        /* Radio cards */
+        .rc-g {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .rc {
+            padding: 16px 12px;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--tr);
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+
+        .rc:active {
+            transform: scale(.97)
+        }
+
+        .rc.sel {
+            border-color: var(--accent);
+            background: var(--accent-soft)
+        }
+
+        .rc .rc-i {
+            font-size: 1.4rem;
+            margin-bottom: 7px;
+            color: var(--fg-dim);
+            transition: var(--tr)
+        }
+
+        .rc.sel .rc-i {
+            color: var(--accent)
+        }
+
+        .rc h4 {
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: 2px
+        }
+
+        .rc p {
+            font-size: .68rem;
+            color: var(--fg-muted);
+            line-height: 1.3
+        }
+
+        /* Checkbox */
+        .chk {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 14px;
+            background: var(--bg-input);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--tr);
+            margin-top: 10px;
+            min-height: 50px
+        }
+
+        .chk:active {
+            transform: scale(.98)
+        }
+
+        .chk.ck {
+            border-color: var(--accent);
+            background: var(--accent-soft)
+        }
+
+        .ck-b {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--tr);
+            flex-shrink: 0
+        }
+
+        .ck-b i {
+            font-size: .55rem;
+            color: #fff;
+            opacity: 0;
+            transform: scale(0);
+            transition: var(--tr)
+        }
+
+        .chk.ck .ck-b {
+            background: var(--accent);
+            border-color: var(--accent)
+        }
+
+        .chk.ck .ck-b i {
+            opacity: 1;
+            transform: scale(1)
+        }
+
+        .chk span {
+            font-size: .84rem;
+            color: var(--fg-muted);
+            transition: var(--tr)
+        }
+
+        .chk.ck span {
+            color: var(--fg)
+        }
+
+        /* Condicional */
+        .cond {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height .4s ease, opacity .3s ease, margin .3s ease;
+            margin-top: 0
+        }
+
+        .cond.vis {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 14px
+        }
+
+        /* Upload */
+        .uz {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 24px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--tr);
+            background: var(--bg-input)
+        }
+
+        .uz:active {
+            transform: scale(.98)
+        }
+
+        .uz:hover,
+        .uz.dov {
+            border-color: var(--accent);
+            background: var(--accent-soft)
+        }
+
+        .uz .uz-i {
+            font-size: 1.6rem;
+            color: var(--fg-dim);
+            margin-bottom: 8px;
+            transition: var(--tr)
+        }
+
+        .uz:hover .uz-i {
+            color: var(--accent)
+        }
+
+        .uz h4 {
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: 2px
+        }
+
+        .uz p {
+            font-size: .73rem;
+            color: var(--fg-muted)
+        }
+
+        .uz input {
+            display: none
+        }
+
+        .fl-l {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .fl-i {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            animation: fu .3s ease
+        }
+
+        .fl-i .fi-ic {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            flex-shrink: 0
+        }
+
+        .fl-i .fi-n {
+            flex: 1;
+            min-width: 0
+        }
+
+        .fl-i .fi-nm {
+            font-size: .8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .fl-i .fi-sz {
+            font-size: .67rem;
+            color: var(--fg-muted)
+        }
+
+        .fl-i .fi-rm {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            border: none;
+            background: var(--danger-soft);
+            color: var(--danger);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .7rem;
+            transition: var(--tr);
+            flex-shrink: 0
+        }
+
+        .fl-i .fi-rm:active {
+            transform: scale(.9)
+        }
+
+        .um {
+            display: flex;
+            flex-direction: column;
+            gap: 16px
+        }
+
+        .us-t {
+            font-size: .82rem;
+            font-weight: 600;
+            color: var(--fg);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px
+        }
+
+        .us-t i {
+            color: var(--accent);
+            font-size: .78rem
+        }
+
+        /* Resumen */
+        .ss {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            overflow: hidden
+        }
+
+        .ss-h {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            cursor: pointer;
+            transition: var(--tr);
+            min-height: 48px
+        }
+
+        .ss-h:active {
+            background: var(--accent-soft)
+        }
+
+        .ss-h h4 {
+            font-size: .82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .ss-h h4 i {
+            color: var(--accent);
+            font-size: .78rem
+        }
+
+        .eb {
+            font-size: .72rem;
+            color: var(--accent);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: var(--tr);
+            padding: 6px 10px;
+            border-radius: 6px
+        }
+
+        .eb:active {
+            background: var(--accent-soft)
+        }
+
+        .ss-b {
+            padding: 12px 14px
+        }
+
+        .ss-g {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px
+        }
+
+        @media(min-width:768px) {
+            .ss-g {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px 20px
+            }
+        }
+
+        .sf {
+            display: flex;
+            flex-direction: column;
+            gap: 1px
+        }
+
+        .sf.fu {
+            grid-column: 1/-1
+        }
+
+        .sf .sl {
+            font-size: .65rem;
+            color: var(--fg-dim);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            font-weight: 600
+        }
+
+        .sf .sv {
+            font-size: .84rem;
+            color: var(--fg);
+            font-weight: 500
+        }
+
+        .sf .sv.empty {
+            color: var(--fg-dim);
+            font-style: italic;
+            font-weight: 400
+        }
+
+        .ss-fl {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+
+        .ss-ft {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            font-size: .72rem;
+            color: var(--fg-muted)
+        }
+
+        .ss-ft i {
+            color: var(--accent);
+            font-size: .6rem
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 16px;
+            font-size: .7rem;
+            font-weight: 600
+        }
+
+        .badge.gn {
+            background: rgba(45, 212, 160, .1);
+            color: var(--accent)
+        }
+
+        .badge.am {
+            background: var(--warning-soft);
+            color: var(--warning)
+        }
+
+        /* ═══ BOTONES: siempre en cada paso ═══ */
+        .nav-btns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 22px;
+            gap: 10px
+        }
+
+        .btn-p {
+            background: linear-gradient(135deg, var(--accent), #0d9466);
+            color: #fff;
+            box-shadow: 0 3px 14px rgba(45, 212, 160, .2);
+            border: none;
+            padding: 13px 24px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--tr);
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border-radius: var(--radius-sm);
+            min-height: 48px
+        }
+
+        .btn-p:active {
+            transform: scale(.97)
+        }
+
+        .btn-p:hover {
+            box-shadow: 0 5px 20px rgba(45, 212, 160, .3)
+        }
+
+        .btn-s {
+            background: var(--bg-input);
+            color: var(--fg-muted);
+            border: 1.5px solid var(--border);
+            padding: 13px 24px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--tr);
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border-radius: var(--radius-sm);
+            min-height: 48px
+        }
+
+        .btn-s:active {
+            transform: scale(.97)
+        }
+
+        .btn-s:hover {
+            border-color: var(--fg-dim);
+            color: var(--fg)
+        }
+
+        .btn-p:disabled,
+        .btn-s:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+            transform: none !important
+        }
+
+        .spacer {
+            flex: 1
+        }
+
+        /* Bottom bar mobile (acceso rápido, los botones reales están en cada paso) */
+        .bot-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(8, 13, 11, .95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            padding: 10px 16px;
+            padding-bottom: calc(10px + var(--safe-b));
+            display: flex;
+            gap: 10px
+        }
+
+        .bot-bar .btn-p,
+        .bot-bar .btn-s {
+            flex: 1;
+            justify-content: center
+        }
+
+        @media(min-width:768px) {
+            .bot-bar {
+                display: none
+            }
+        }
+
+        /* Toast */
+        .toast-c {
+            position: fixed;
+            top: 60px;
+            left: 16px;
+            right: 16px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none
+        }
+
+        @media(min-width:768px) {
+            .toast-c {
+                top: 20px;
+                left: auto;
+                right: 20px;
+                width: auto;
+                max-width: 340px
+            }
+        }
+
+        .toast {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: .82rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, .4);
+            animation: tI .35s ease;
+            pointer-events: auto
+        }
+
+        .toast.ok {
+            background: #065f46;
+            color: #a7f3d0;
+            border: 1px solid #10b981
+        }
+
+        .toast.er {
+            background: #7f1d1d;
+            color: #fca5a5;
+            border: 1px solid #ef4444
+        }
+
+        .toast.in {
+            background: #1e3a5f;
+            color: #93c5fd;
+            border: 1px solid #3b82f6
+        }
+
+        @keyframes tI {
+            from {
+                opacity: 0;
+                transform: translateY(-10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes tO {
+            from {
+                opacity: 1;
+                transform: translateY(0)
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px)
+            }
+        }
+
+        /* Modal */
+        .mod-ov {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px
+        }
+
+        .mod-ov.vis {
+            display: flex
+        }
+
+        .mod-bx {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 30px 24px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: fu .4s ease;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .5)
+        }
+
+        .mod-bx .si {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #0d9466);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 24px rgba(45, 212, 160, .3)
+        }
+
+        .mod-bx h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 6px
+        }
+
+        .mod-bx p {
+            color: var(--fg-muted);
+            font-size: .84rem
+        }
+
+        .tr-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            margin: 12px 0;
+            padding: 10px;
+            background: var(--accent-soft);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(45, 212, 160, .15)
+        }
+
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 18px 0
+        }
+
+        .sec-lbl {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .sec-lbl::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-atm"></div>
+    <div class="toast-c" id="toastC"></div>
+
+    <div class="mod-ov" id="modOk">
+        <div class="mod-bx">
+            <div class="si"><i class="fas fa-check"></i></div>
+            <h2>Solicitud Registrada</h2>
+            <p>La licencia fue ingresada al sistema.</p>
+            <div class="tr-num" id="trNum">LM-2025-00001</div>
+            <p style="font-size:.75rem;margin-top:4px">Se notificara automaticamente al jefe de dependencia.</p>
+            <button class="btn-p" onclick="resetApp()" style="width:100%;justify-content:center;margin-top:16px"><i
+                    class="fas fa-plus"></i> Nueva Solicitud</button>
+        </div>
+    </div>
+
+    <div class="app">
+        <header class="hdr">
+            <div class="hdr-shield">
+                <div class="shield"><i class="fas fa-shield-halved"></i></div>
+                <div class="hdr-info">
+                    <h3>Policia de Tierra del Fuego</h3>
+                    <p>Sistema de Licencias</p>
+                </div>
+            </div>
+            <h1>Licencia Medica</h1>
+            <p class="sub">Registro para personal policial</p>
+        </header>
+
+        <!-- Barra progreso mobile -->
+        <div class="prog-bar" id="progBar">
+            <div class="prog-top">
+                <span class="prog-step" id="pS"><i class="fas fa-clipboard-list"></i> Tipo de Solicitud</span>
+                <span class="prog-total" id="pT">1 / 6</span>
+            </div>
+            <div class="prog-track">
+                <div class="prog-fill" id="pF" style="width:16.66%"></div>
+            </div>
+        </div>
+
+        <!-- Stepper desktop -->
+        <nav class="stepper" id="stepper" aria-label="Pasos">
+            <div class="st-i act" data-step="1">
+                <div class="st-c">1</div><span class="st-l">Tipo</span>
+            </div>
+            <div class="st-ln" data-line="1"></div>
+            <div class="st-i" data-step="2">
+                <div class="st-c">2</div><span class="st-l">Personal</span>
+            </div>
+            <div class="st-ln" data-line="2" id="lnTer"></div>
+            <div class="st-i" data-step="3" id="sTer">
+                <div class="st-c">3</div><span class="st-l">Tercero</span>
+            </div>
+            <div class="st-ln" data-line="3"></div>
+            <div class="st-i" data-step="4">
+                <div class="st-c">4</div><span class="st-l">Detalle</span>
+            </div>
+            <div class="st-ln" data-line="4"></div>
+            <div class="st-i" data-step="5">
+                <div class="st-c">5</div><span class="st-l">Docs</span>
+            </div>
+            <div class="st-ln" data-line="5"></div>
+            <div class="st-i" data-step="6">
+                <div class="st-c">6</div><span class="st-l">Resumen</span>
+            </div>
+        </nav>
+
+        <!-- ═══ PASO 1 ═══ -->
+        <section class="panel act" id="p1">
+            <div class="card">
+                <h2 class="card-t">Tipo de Solicitud</h2>
+                <p class="card-s">Defini el alcance y naturaleza</p>
+                <div class="sec-lbl">Beneficiario</div>
+                <div class="tg">
+                    <div class="tr sel" id="tPr" onclick="setTipo('propia')" role="switch" aria-checked="true"
+                        tabindex="0">
+                        <div class="tr-i">
+                            <div class="tr-ic g"><i class="fas fa-user"></i></div>
+                            <div class="tr-tx">
+                                <h4>Licencia Propia</h4>
+                                <p>Para el personal policial</p>
+                            </div>
+                        </div>
+                        <div class="sw"></div>
+                    </div>
+                    <div class="tr" id="tAt" onclick="setTipo('atendible')" role="switch" aria-checked="false"
+                        tabindex="0">
+                        <div class="tr-i">
+                            <div class="tr-ic a"><i class="fas fa-people-arrows"></i></div>
+                            <div class="tr-tx">
+                                <h4>Atendible</h4>
+                                <p>Para atender a un tercero</p>
+                            </div>
+                        </div>
+                        <div class="sw"></div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="sec-lbl">Naturaleza</div>
+                <div class="rc-g">
+                    <div class="rc sel" id="rcN" onclick="setNat('nueva')" tabindex="0" role="radio"
+                        aria-checked="true">
+                        <div class="rc-i"><i class="fas fa-file-medical"></i></div>
+                        <h4>Nueva</h4>
+                        <p>Primera del episodio</p>
+                    </div>
+                    <div class="rc" id="rcP" onclick="setNat('prolongacion')" tabindex="0" role="radio"
+                        aria-checked="false">
+                        <div class="rc-i"><i class="fas fa-file-circle-plus"></i></div>
+                        <h4>Prolongacion</h4>
+                        <p>Extension vigente</p>
+                    </div>
+                </div>
+                <div class="cond" id="cProl">
+                    <div class="fg"><label>Nro. Licencia Anterior <span class="rq">*</span></label><input type="text"
+                            id="nroLicAnt" placeholder="Ej: LM-2025-00123"><span class="em" id="eNroL"><i
+                                class="fas fa-exclamation-circle"></i> Ingresá el numero</span></div>
+                </div>
+            </div>
+            <div class="nav-btns">
+                <div class="spacer"></div><button class="btn-p" onclick="next(1)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- ═══ PASO 2 ═══ -->
+        <section class="panel" id="p2">
+            <div class="card">
+                <h2 class="card-t">Datos del Personal</h2>
+                <p class="card-s">Informacion del efectivo policial</p>
+                <div class="fgrid">
+                    <div class="fg"><label>Legajo <span class="rq">*</span></label><input type="text" id="sLeg"
+                            placeholder="Ej: 12345" maxlength="8" inputmode="numeric"><span class="em" id="eLeg"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Grado <span class="rq">*</span></label><select id="sGra">
+                            <option value="">Seleccionar</option>
+                            <option>Suboficial Mayor</option>
+                            <option>Sargento 1ro</option>
+                            <option>Sargento</option>
+                            <option>Cabo 1ro</option>
+                            <option>Cabo</option>
+                            <option>Agente</option>
+                            <option>Comisario General</option>
+                            <option>Comisario Inspector</option>
+                            <option>Comisario</option>
+                            <option>Subcomisario</option>
+                            <option>Principal</option>
+                            <option>Inspector</option>
+                            <option>Subinspector</option>
+                            <option>Ayudante</option>
+                        </select><span class="em" id="eGra"><i class="fas fa-exclamation-circle"></i> Requerido</span>
+                    </div>
+                    <div class="fg"><label>DNI <span class="rq">*</span></label><input type="text" id="sDni"
+                            placeholder="Ej: 35123456" maxlength="10" inputmode="numeric"><span class="em" id="eDni"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>CUIL / CUIT</label><input type="text" id="sCui"
+                            placeholder="Ej: 20-35123456-8"></div>
+                    <div class="fg full"><label>Apellido y Nombres <span class="rq">*</span></label><input type="text"
+                            id="sNom" placeholder="Apellido, Nombres" autocomplete="name"><span class="em" id="eNom"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Fecha de Nacimiento <span class="rq">*</span></label><input type="date"
+                            id="sFN"><span class="em" id="eFN"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Genero</label><select id="sGen">
+                            <option value="">Seleccionar</option>
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                            <option value="X">No binario</option>
+                            <option value="NP">Prefiero no decir</option>
+                        </select></div>
+                    <div class="fg"><label>Telefono <span class="rq">*</span></label><input type="tel" id="sTel"
+                            placeholder="Ej: 2901 555-1234" inputmode="tel" autocomplete="tel"><span class="em"
+                            id="eTel"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Email</label><input type="email" id="sEma" placeholder="correo@ejemplo.com"
+                            inputmode="email" autocomplete="email"></div>
+                    <div class="fg full"><label>Direccion</label><input type="text" id="sDir"
+                            placeholder="Calle, numero, piso, depto" autocomplete="street-address"></div>
+                    <div class="fg"><label>Localidad</label><input type="text" id="sLoc" placeholder="Ej: Ushuaia">
+                    </div>
+                    <div class="fg"><label>Codigo Postal</label><input type="text" id="sCP" placeholder="Ej: V9410"
+                            maxlength="10"></div>
+                    <div class="fg full"><label>Obra Social <span class="rq">*</span></label><input type="text" id="sOS"
+                            placeholder="Ej: OSPF, Osde, PAMI..."><span class="em" id="eOS"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Nro. Afiliado</label><input type="text" id="sNAf" placeholder="Ej: 12345678">
+                    </div>
+                    <div class="fg"><label>Division / Funcion</label><input type="text" id="sDiv"
+                            placeholder="Ej: Patrulla, Administracion"></div>
+                </div>
+                <div class="divider"></div>
+                <div class="fg" style="margin-bottom:0">
+                    <label><i class="fas fa-building-shield"
+                            style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span
+                            class="rq">*</span></label>
+                    <select id="sDep" onchange="onDep()">
+                        <option value="">Seleccionar dependencia</option>
+                    </select>
+                    <span class="em" id="eDep"><i class="fas fa-exclamation-circle"></i> Requerido</span>
+                    <div class="jefe-box" id="jBox" style="display:none">
+                        <div class="jb-i"><i class="fas fa-user-tie"></i></div>
+                        <div class="jb-n">
+                            <div class="jb-lb">Jefe a notificar</div>
+                            <div class="jb-nm" id="jNm">-</div>
+                            <div class="jb-dp" id="jDp">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(2)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(2)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 3 ═══ -->
+        <section class="panel" id="p3">
+            <div class="card">
+                <h2 class="card-t">Datos del Tercero</h2>
+                <p class="card-s">Persona a quien asistis</p>
+                <div class="fg"><label>Vinculo <span class="rq">*</span></label><select id="tVin">
+                        <option value="">Seleccionar</option>
+                        <option>Hijo/a</option>
+                        <option>Esposo/a</option>
+                        <option>Concubino/a</option>
+                        <option>Padre</option>
+                        <option>Madre</option>
+                        <option>Hermano/a</option>
+                        <option>Suegro/a</option>
+                        <option>Nuera/Yerno</option>
+                        <option>Otro</option>
+                    </select><span class="em" id="eTV"><i class="fas fa-exclamation-circle"></i> Seleccioná</span></div>
+                <div class="fg"><label>Nombre Completo <span class="rq">*</span></label><input type="text" id="tNom"
+                        placeholder="Apellido, Nombres"><span class="em" id="eTN"><i
+                            class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                <div class="fg"><label>DNI <span class="rq">*</span></label><input type="text" id="tDni"
+                        placeholder="Ej: 35123456" maxlength="10" inputmode="numeric"><span class="em" id="eTD"><i
+                            class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                <div class="fg"><label>Fecha de Nacimiento</label><input type="date" id="tFN"></div>
+                <div class="fg"><label>Obra Social del Tercero</label><input type="text" id="tOS"
+                        placeholder="Ej: PAMI"></div>
+                <div class="fg"><label>Nro. Afiliado</label><input type="text" id="tNAf" placeholder="Ej: 12345678">
+                </div>
+                <div class="fg"><label>Diagnostico <span class="rq">*</span></label><textarea id="tDiag"
+                        placeholder="Motivo por el cual se necesita atender al tercero" rows="3"></textarea><span
+                        class="em" id="eTDi"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(3)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(3)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 4 ═══ -->
+        <section class="panel" id="p4">
+            <div class="card">
+                <h2 class="card-t">Detalle de la Licencia</h2>
+                <p class="card-s">Informacion clinica y periodos</p>
+                <div class="fgrid">
+                    <div class="fg"><label>Fecha Desde <span class="rq">*</span></label><input type="date"
+                            id="lDes"><span class="em" id="eDes"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Fecha Hasta <span class="rq">*</span></label><input type="date"
+                            id="lHas"><span class="em" id="eHas"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg full"><label>CIE-10 <span class="rq">*</span></label><input type="text" id="lCie"
+                            placeholder="Ej: J06.9 - Infeccion aguda vias respiratorias"><span class="em" id="eCie"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg full"><label>Descripcion Diagnostico</label><textarea id="lDiD"
+                            placeholder="Detalle adicional (opcional)" rows="2"></textarea></div>
+                    <div class="fg full"><label>Medico Tratante <span class="rq">*</span></label><input type="text"
+                            id="lMed" placeholder="Apellido y nombre"><span class="em" id="eMed"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Especialidad <span class="rq">*</span></label><select id="lEsp">
+                            <option value="">Seleccionar</option>
+                            <option>Clinica Medica</option>
+                            <option>Cardiologia</option>
+                            <option>Traumatologia</option>
+                            <option>Ginecologia</option>
+                            <option>Obstetricia</option>
+                            <option>Pediatria</option>
+                            <option>Psiquiatria</option>
+                            <option>Neurologia</option>
+                            <option>Oncologia</option>
+                            <option>Oftalmologia</option>
+                            <option>Dermatologia</option>
+                            <option>Otorrinolaringologia</option>
+                            <option>Gastroenterologia</option>
+                            <option>Neumonologia</option>
+                            <option>Endocrinologia</option>
+                            <option>Urologia</option>
+                            <option>Cirugia General</option>
+                            <option>Otra</option>
+                        </select><span class="em" id="eEsp"><i class="fas fa-exclamation-circle"></i> Requerido</span>
+                    </div>
+                    <div class="fg"><label>Matricula</label><input type="text" id="lMat" placeholder="Ej: MN 12345">
+                    </div>
+                    <div class="fg"><label>Institucion</label><input type="text" id="lIns"
+                            placeholder="Hospital, clinica..."></div>
+                    <div class="fg"><label>Tel. Medico</label><input type="tel" id="lTM" placeholder="Ej: 2901 555-1234"
+                            inputmode="tel"></div>
+                </div>
+                <div class="divider"></div>
+                <div class="chk" id="chkI" onclick="togI()" tabindex="0" role="checkbox" aria-checked="false">
+                    <div class="ck-b"><i class="fas fa-check"></i></div>
+                    <span><i class="fas fa-hospital" style="color:var(--danger);margin-right:3px;font-size:.8rem"></i>
+                        Requiere internacion</span>
+                </div>
+                <div class="cond" id="cInt">
+                    <div class="fgrid">
+                        <div class="fg"><label>Fecha Ingreso</label><input type="date" id="lFI"></div>
+                        <div class="fg"><label>Sala / Piso</label><input type="text" id="lSal"
+                                placeholder="Ej: Piso 3, Sala 12"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(4)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(4)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 5 ═══ -->
+        <section class="panel" id="p5">
+            <div class="card">
+                <h2 class="card-t">Documentacion</h2>
+                <p class="card-s">Subi certificados y estudios</p>
+                <div class="um">
+                    <div>
+                        <div class="us-t"><i class="fas fa-file-medical-alt"></i> Certificado Medico (obligatorio)</div>
+                        <div class="uz" id="zC" onclick="document.getElementById('fC').click()"
+                            ondragover="dO(event,'zC')" ondragleave="dL(event,'zC')" ondrop="dD(event,'cert')"><input
+                                type="file" id="fC" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'cert')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>PDF, JPG o PNG. Max 10MB.</p>
+                        </div>
+                        <div class="fl-l" id="lC"></div>
+                    </div>
+                    <div class="divider"></div>
+                    <div>
+                        <div class="us-t"><i class="fas fa-microscope"></i> Estudios Complementarios</div>
+                        <div class="uz" id="zE" onclick="document.getElementById('fE').click()"
+                            ondragover="dO(event,'zE')" ondragleave="dL(event,'zE')" ondrop="dD(event,'est')"><input
+                                type="file" id="fE" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'est')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>Analisis, radiografias, etc.</p>
+                        </div>
+                        <div class="fl-l" id="lE"></div>
+                    </div>
+                    <div class="divider"></div>
+                    <div>
+                        <div class="us-t"><i class="fas fa-prescription-bottle-medical"></i> Receta u Orden Medica</div>
+                        <div class="uz" id="zR" onclick="document.getElementById('fR').click()"
+                            ondragover="dO(event,'zR')" ondragleave="dL(event,'zR')" ondrop="dD(event,'rec')"><input
+                                type="file" id="fR" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'rec')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>Receta, orden, derivacion.</p>
+                        </div>
+                        <div class="fl-l" id="lR"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(5)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(5)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 6 ═══ -->
+        <section class="panel" id="p6">
+            <div class="card">
+                <h2 class="card-t">Resumen</h2>
+                <p class="card-s">Verificá antes de confirmar</p>
+                <div id="sumC"></div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(6)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="doSubmit()"><i class="fas fa-paper-plane"></i>
+                    Confirmar y Enviar</button></div>
+        </section>
+
+    </div>
+
+    <!-- Bottom bar mobile: duplica los botones del paso actual para acceso rapido -->
+    <div class="bot-bar" id="botBar">
+        <button class="btn-s" id="bPrev" onclick="prev(S.cur)" style="display:none"><i class="fas fa-arrow-left"></i>
+            Anterior</button>
+        <button class="btn-p" id="bNext" onclick="next(S.cur)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" id="bSub" onclick="doSubmit()" style="display:none"><i class="fas fa-paper-plane"></i>
+                    Confirmar</button>
+    </div>
+
+    <script>
+        /* ═══ DEPENDENCIAS ═══ */
+        // Se define DEPS con let como fallback (respaldo) si la carga dinámica falla o se abre localmente (file://)
+        let DEPS = [
+  {
+    "id": 1,
+    "nombre": "Jefatura de Policía",
+    "jefe": "Com. Gral. Mgtr. Jacinto Rolón",
+    "email": "policia.jefatura@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 2,
+    "nombre": "Dirección Secretaría General",
+    "jefe": "Com. My. David Rolando Raúl Foschiatti",
+    "email": "policia.jefatura@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 3,
+    "nombre": "Dirección Seguridad Gubernamental, Legislativa y Superior Tribunal de Justicia",
+    "jefe": "Com. Gral. Tec. Guillermo David Morgan",
+    "email": "policia.custodia@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 4,
+    "nombre": "Dirección Asesoría Letrada",
+    "jefe": "Com. Insp. Dr. Sebastián González",
+    "email": "policia.dal@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 5,
+    "nombre": "Dirección de Análisis Criminal",
+    "jefe": "Com. Insp. Lic. Lopez Jonatan Guillermo",
+    "email": "policia.dacush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 6,
+    "nombre": "Subjefatura de Policía",
+    "jefe": "Com. Gral. Lic. Barrios Kogan Oscar Alfredo",
+    "email": "subjefaturapolicia@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 7,
+    "nombre": "Dirección General Regional Zona Norte",
+    "jefe": "Com. Gral. Dr. Elio Rubén Cárdenas",
+    "email": "policia.dgrzn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 8,
+    "nombre": "Dirección General Regional Zona Sur",
+    "jefe": "Com. Gral. Tec. Enzo Osvaldo Hoyos",
+    "email": "policia.dgrzs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 9,
+    "nombre": "Dirección General de Recursos Humanos",
+    "jefe": "Com. My. Dr. Maximiliano Enrique Cruz",
+    "email": "policia.dgrh@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 10,
+    "nombre": "Dirección General de Administración",
+    "jefe": "Com. Gral. Cristian Maximiliano Salinas",
+    "email": "policia.dga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 11,
+    "nombre": "Dirección General de Investigaciones Criminales",
+    "jefe": "Com. Gral. Tec. Cardenas Victor Alejandro",
+    "email": "policia.dgic@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 12,
+    "nombre": "Dirección Institutos Policiales",
+    "jefe": "Com. Gral. Tec. Manuel Anzoategui",
+    "email": "policia.dip@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 13,
+    "nombre": "Dirección Investigaciones Administrativas Zona Norte",
+    "jefe": "Com. Insp. Dr. Sebastián Gustavo Juarez Galanti",
+    "email": "policia.diazn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 14,
+    "nombre": "Dirección Investigaciones Administrativas Zona Sur",
+    "jefe": "Com. Lic. Eleonora Roxana Mamani",
+    "email": "policia.diazs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 15,
+    "nombre": "Oficina de Información Institucional Río Grande",
+    "jefe": "Com. Insp. Tec. María Laura Gómez",
+    "email": "policia.cominst@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 16,
+    "nombre": "Oficina de Información Institucional Ushuaia",
+    "jefe": "Com. Tec. David Matías Peralta Lopez",
+    "email": "policia.cominst@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 17,
+    "nombre": "División Bienestar Policial Ushuaia",
+    "jefe": "Com. Insp. Mgtr. Véronica Alejandra Cumicheo Coloane",
+    "email": "policia.dbpush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 18,
+    "nombre": "División Bienestar Policial Río Grande",
+    "jefe": "Com. Insp. Lic. Rolando Walter Avellaneda",
+    "email": "policia.dbprga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 19,
+    "nombre": "División Delitos Complejos Río Grande",
+    "jefe": "Com. Insp. Tec. Maximiliano Javier Villafaña",
+    "email": "policia.ddcrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 20,
+    "nombre": "División Narcocriminalidad y Delitos Federales Río Grande",
+    "jefe": "Com. My. Tec. Javier Osvaldo Medina",
+    "email": "policia.dndfrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 21,
+    "nombre": "División Investigaciones Complejas y Narcocriminalidad Tolhuin",
+    "jefe": "Com. My. María Emilia Fuentes",
+    "email": "policia.ddcyntol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 22,
+    "nombre": "División Delitos Complejos Ushuaia",
+    "jefe": "Com. Insp. Lic. Roberto Carlos Diaz Ibarra",
+    "email": "policia.ddcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 23,
+    "nombre": "División Narcocriminalidad y Delitos Federales Ushuaia",
+    "jefe": "Com. Insp. Tec. Gustavo Javier Diaz",
+    "email": "policia.dndfush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 24,
+    "nombre": "División Policía Científica Río Grande",
+    "jefe": "Com. Insp. Lic. Juan Pablo Rosales",
+    "email": "policia.dpcrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 25,
+    "nombre": "División Policía Científica Tolhuin",
+    "jefe": "Ppal. Lic. Alejandro Emanuel Aguirre",
+    "email": "policia.dpctol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 26,
+    "nombre": "División Policía Científica Ushuaia",
+    "jefe": "Com. My. Mgtr. Darío Nicolás Monzon",
+    "email": "policia.dpcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 27,
+    "nombre": "División Documentación e Identificación Policial Río Grande",
+    "jefe": "Com. Insp. Valeria del Carmen Perez Velazquez",
+    "email": "policia.ddirga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 28,
+    "nombre": "División Documentación e Identificación Policial Ushuaia",
+    "jefe": "Com. Insp. Tec. Fatima Carola del Valle Menichetti",
+    "email": "policia.dgic@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 29,
+    "nombre": "Unidad Regional Sur",
+    "jefe": "Com. My. Adan Luis Eduardo Foschiatti",
+    "email": "policia.urzs@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 30,
+    "nombre": "Comisaría Primera Ushuaia",
+    "jefe": "Com. My. Tec. Martín Miguel Bobba",
+    "email": "policia.com1ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 31,
+    "nombre": "Comisaría Segunda Ushuaia",
+    "jefe": "Com. Insp. Luis María Medina",
+    "email": "policia.com2ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 32,
+    "nombre": "Comisaría Tercera Ushuaia",
+    "jefe": "Com. Insp. Tec. José Luis Brizuela",
+    "email": "policia.com3ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 33,
+    "nombre": "Comisaría Cuarta Ushuaia",
+    "jefe": "Com. Insp. Derlis Alfredo Filippini",
+    "email": "policia.com4ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 34,
+    "nombre": "Comisaría Quinta Ushuaia",
+    "jefe": "Com. Insp. Tec. Luis Gustavo Perick",
+    "email": "policia.com5ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 35,
+    "nombre": "Comisaría de Género y Familia N° 1 Ushuaia",
+    "jefe": "Com. Insp. Tec. Noelia Daniela Mazzelli",
+    "email": "policia.comgyf1ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 36,
+    "nombre": "Comisaría de Género y Familia N° 2 Ushuaia",
+    "jefe": "Com. Tec. Irene Lucía Marin Levin",
+    "email": "policia.comgyf2ush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 37,
+    "nombre": "División Servicios Especiales Ushuaia",
+    "jefe": "Com. Insp. Tec. Luis Eduardo Arce",
+    "email": "policia.dseush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 38,
+    "nombre": "División Comunicaciones Ushuaia",
+    "jefe": "Com. Insp. Tec. David Nicolás Albo",
+    "email": "policia.dcush@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 39,
+    "nombre": "Unidad Regional Norte",
+    "jefe": "Com. My. Lic. Angel Ismael Lasala",
+    "email": "policia.urzn@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 40,
+    "nombre": "Comisaría Primera Río Grande",
+    "jefe": "Com. My. Abg. Luis Adolfo Iglesias",
+    "email": "policia.com1rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 41,
+    "nombre": "Comisaría Segunda Río Grande",
+    "jefe": "Com. My. Diego Roberto Alderete",
+    "email": "policia.com2rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 42,
+    "nombre": "Comisaría Tercera Río Grande",
+    "jefe": "Com. My. Lucas Atilio Choque",
+    "email": "policia.com3rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 43,
+    "nombre": "Comisaría Cuarta Río Grande",
+    "jefe": "Com. My. Tec. Anibal Horacio Arias",
+    "email": "policia.com4rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 44,
+    "nombre": "Comisaría Quinta Río Grande",
+    "jefe": "Com. Insp. Miguel Ángel Nieva",
+    "email": "policia.com5rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 45,
+    "nombre": "Comisaría de Género y Familia Río Grande",
+    "jefe": "Com. Insp. Tec. Luciana Valeria Aguirre",
+    "email": "policia.comgyf1rga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 46,
+    "nombre": "División Servicios Especiales Río Grande",
+    "jefe": "Com. My. Jorge Sebastián Cortez",
+    "email": "policia.dserga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 47,
+    "nombre": "División Bomberos Río Grande",
+    "jefe": "Com. My. Esteban Javier Cejas",
+    "email": "policia.dbrg@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 48,
+    "nombre": "División Comunicaciones Río Grande",
+    "jefe": "Com. My. Ivan Omar Gallucci Mansilla",
+    "email": "policia.dcomrga@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 49,
+    "nombre": "Unidad Regional Centro",
+    "jefe": "Com. My. Proc. Víctor Oscar Serrano",
+    "email": "policia.dgrzc@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 50,
+    "nombre": "Comisaría Tolhuin",
+    "jefe": "Com. My. Gastón Gustavo Aguilera",
+    "email": "policia.com1tol@tierradelfuego.gob.ar"
+  },
+  {
+    "id": 51,
+    "nombre": "Comisaría de Género y Familia Tolhuin",
+    "jefe": "Com. Insp. Lic. Ramiro Ignacio Sibauti",
+    "email": "policia.comgyf1tol@tierradelfuego.gob.ar"
+  }
+];
+
+        /* ═══ ESTADO ═══ */
+        const S = { cur: 1, tipo: 'propia', nat: 'nueva', intern: false, jefe: null, arch: { cert: [], est: [], rec: [] } };
+        const SL = { 1: { i: 'fa-clipboard-list', l: 'Tipo de Solicitud' }, 2: { i: 'fa-id-badge', l: 'Datos del Personal' }, 3: { i: 'fa-people-arrows', l: 'Datos del Tercero' }, 4: { i: 'fa-notes-medical', l: 'Detalle de la Licencia' }, 5: { i: 'fa-paperclip', l: 'Documentacion' }, 6: { i: 'fa-check-double', l: 'Resumen y Envio' } };
+        /* ═══ INIT ═══ */
+        (async function () {
+            const s = document.getElementById('sDep');
+            
+            const renderDeps = () => {
+                s.innerHTML = '<option value="">Seleccionar dependencia</option>';
+                DEPS.forEach(d => {
+                    const o = document.createElement('option');
+                    o.value = d.id;
+                    o.textContent = d.nombre;
+                    s.appendChild(o);
+                });
+            };
+
+            try {
+                const res = await fetch('dependencias.json');
+                if (res.ok) {
+                    DEPS = await res.json();
+                    console.log('Dependencias cargadas dinámicamente.');
+                }
+            } catch (err) {
+                console.warn('No se pudo cargar dependencias.json de forma dinámica (usando fallback local):', err);
+            }
+
+            renderDeps();
+            updVis();
+            updBot();
+        })();
+
+        /* ═══ PASO 1 ═══ */
+        function setTipo(t) { S.tipo = t; document.getElementById('tPr').classList.toggle('sel', t === 'propia'); document.getElementById('tAt').classList.toggle('sel', t === 'atendible'); document.getElementById('tPr').setAttribute('aria-checked', t === 'propia'); document.getElementById('tAt').setAttribute('aria-checked', t === 'atendible'); updVis(); }
+        function setNat(n) { S.nat = n; document.getElementById('rcN').classList.toggle('sel', n === 'nueva'); document.getElementById('rcP').classList.toggle('sel', n === 'prolongacion'); document.getElementById('rcN').setAttribute('aria-checked', n === 'nueva'); document.getElementById('rcP').setAttribute('aria-checked', n === 'prolongacion'); const c = document.getElementById('cProl'); if (n === 'prolongacion') c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('nroLicAnt').value = ''; } }
+        function togI() { S.intern = !S.intern; const e = document.getElementById('chkI'); e.classList.toggle('ck', S.intern); e.setAttribute('aria-checked', S.intern); const c = document.getElementById('cInt'); if (S.intern) c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('lFI').value = ''; document.getElementById('lSal').value = ''; } }
+        function updVis() { const a = S.tipo === 'atendible'; document.getElementById('sTer').classList.toggle('hid', !a); document.getElementById('lnTer').classList.toggle('hid', !a); }
+
+        /* ═══ DEPENDENCIA → JEFE ═══ */
+        function onDep() { const id = parseInt(document.getElementById('sDep').value); const b = document.getElementById('jBox'); if (!id) { b.style.display = 'none'; S.jefe = null; return; } const d = DEPS.find(x => x.id === id); if (d) { S.jefe = d; document.getElementById('jNm').textContent = d.jefe; document.getElementById('jDp').textContent = d.nombre + ' — ' + d.email; b.style.display = 'flex'; } }
+
+        /* ═══ NAVEGACION ═══ */
+        function isAtt() { return S.tipo === 'atendible'; }
+        function next(f) { if (!val(f)) return; let n = f + 1; if (f === 2 && !isAtt()) n = 4; go(n); }
+        function prev(f) { let p = f - 1; if (f === 4 && !isAtt()) p = 2; go(p); }
+        function go(s) { document.getElementById('p' + S.cur).classList.remove('act'); S.cur = s; document.getElementById('p' + s).classList.add('act'); updProg(); updStep(); updBot(); if (s === 6) genSum(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function goD(s) { document.getElementById('p' + S.cur).classList.remove('act'); S.cur = s; document.getElementById('p' + s).classList.add('act'); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        function updProg() { const tot = isAtt() ? 6 : 5; const rn = gRN(S.cur); document.getElementById('pF').style.width = Math.round(rn / tot * 100) + '%'; document.getElementById('pT').textContent = rn + ' / ' + tot; const info = SL[S.cur]; document.getElementById('pS').innerHTML = '<i class="fas ' + info.i + '"></i> ' + info.l; }
+        function gRN(s) { let n = 0; for (let i = 1; i <= s; i++) { const e = document.querySelector('.st-i[data-step="' + i + '"]'); if (!e.classList.contains('hid')) n++; } return n; }
+
+        function updStep() {
+            document.querySelectorAll('.st-i').forEach(e => { const s = +e.dataset.step; e.classList.remove('act', 'done'); if (e.classList.contains('hid')) return; if (s === S.cur) { e.classList.add('act'); e.querySelector('.st-c').textContent = gRN(s); } else if (s < S.cur) { e.classList.add('done'); e.querySelector('.st-c').innerHTML = '<i class="fas fa-check"></i>'; } else { e.querySelector('.st-c').textContent = gRN(s); } });
+            document.querySelectorAll('.st-ln').forEach(l => { const n = +l.dataset.line; l.classList.remove('done'); if (l.classList.contains('hid')) return; if (n < S.cur) l.classList.add('done'); });
+        }
+
+        function updBot() { const bp = document.getElementById('bPrev'), bn = document.getElementById('bNext'), bs = document.getElementById('bSub'); bp.style.display = S.cur > 1 ? 'flex' : 'none'; if (S.cur === 6) { bn.style.display = 'none'; bs.style.display = 'flex'; } else { bn.style.display = 'flex'; bs.style.display = 'none'; } }
+
+        /* ═══ VALIDACIONES ═══ */
+        function clrE() { document.querySelectorAll('.em').forEach(e => e.classList.remove('vis')); document.querySelectorAll('.err').forEach(e => e.classList.remove('err')); }
+        function sE(iid, eid) { const i = document.getElementById(iid); const e = document.getElementById(eid); if (i) i.classList.add('err'); if (e) e.classList.add('vis'); }
+        function val(s) {
+            clrE(); let o = true;
+            if (s === 1) { if (S.nat === 'prolongacion' && !document.getElementById('nroLicAnt').value.trim()) { sE('nroLicAnt', 'eNroL'); o = false; } }
+            if (s === 2) { if (!document.getElementById('sLeg').value.trim()) sE('sLeg', 'eLeg'), o = false; if (!document.getElementById('sGra').value) sE('sGra', 'eGra'), o = false; if (!document.getElementById('sDni').value.trim()) sE('sDni', 'eDni'), o = false; if (!document.getElementById('sNom').value.trim()) sE('sNom', 'eNom'), o = false; if (!document.getElementById('sFN').value) sE('sFN', 'eFN'), o = false; if (!document.getElementById('sTel').value.trim()) sE('sTel', 'eTel'), o = false; if (!document.getElementById('sOS').value.trim()) sE('sOS', 'eOS'), o = false; if (!document.getElementById('sDep').value) sE('sDep', 'eDep'), o = false; }
+            if (s === 3) { if (!document.getElementById('tVin').value) sE('tVin', 'eTV'), o = false; if (!document.getElementById('tNom').value.trim()) sE('tNom', 'eTN'), o = false; if (!document.getElementById('tDni').value.trim()) sE('tDni', 'eTD'), o = false; if (!document.getElementById('tDiag').value.trim()) sE('tDiag', 'eTDi'), o = false; }
+            if (s === 4) { if (!document.getElementById('lDes').value) sE('lDes', 'eDes'), o = false; if (!document.getElementById('lHas').value) sE('lHas', 'eHas'), o = false; const d = document.getElementById('lDes').value, h = document.getElementById('lHas').value; if (d && h && h < d) { sE('lHas', 'eHas'); document.getElementById('eHas').innerHTML = '<i class="fas fa-exclamation-circle"></i> Debe ser posterior'; o = false; } if (!document.getElementById('lCie').value.trim()) sE('lCie', 'eCie'), o = false; if (!document.getElementById('lMed').value.trim()) sE('lMed', 'eMed'), o = false; if (!document.getElementById('lEsp').value) sE('lEsp', 'eEsp'), o = false; }
+            if (s === 5) { if (!S.arch.cert.length) { toast('Subi al menos el certificado medico', 'er'); o = false; } }
+            if (!o) toast('Completá los campos obligatorios', 'er'); return o;
+        }
+
+        /* ═══ UPLOAD ═══ */
+        const MX = 10 * 1024 * 1024, ALW = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        function dO(e, z) { e.preventDefault(); document.getElementById(z).classList.add('dov'); }
+        function dL(e, z) { e.preventDefault(); document.getElementById(z).classList.remove('dov'); }
+        function dD(e, c) { e.preventDefault(); const z = 'z' + c.charAt(0).toUpperCase() + c.slice(1); document.getElementById(z).classList.remove('dov'); pF(e.dataTransfer.files, c); }
+        function fS(e, c) { pF(e.target.files, c); e.target.value = ''; }
+        function pF(files, cat) { let a = 0; for (const f of files) { if (!ALW.includes(f.type)) { toast('"' + f.name + '" formato no valido', 'er'); continue; } if (f.size > MX) { toast('"' + f.name + '" supera 10MB', 'er'); continue; } if (S.arch[cat].some(x => x.name === f.name && x.size === f.size)) { toast('"' + f.name + '" ya cargado', 'in'); continue; } S.arch[cat].push({ name: f.name, size: f.size, type: f.type, file: f }); a++; } if (a) { rF(cat); toast(a + ' archivo(s) cargado(s)', 'ok'); } }
+        function rmF(c, i) { S.arch[c].splice(i, 1); rF(c); }
+        function rF(cat) { const m = { cert: 'lC', est: 'lE', rec: 'lR' }; const l = document.getElementById(m[cat]); l.innerHTML = ''; S.arch[cat].forEach((f, i) => { const ext = f.name.split('.').pop().toUpperCase(); const ic = ext === 'PDF' ? 'fa-file-pdf' : 'fa-file-image'; l.innerHTML += `<div class="fl-i"><div class="fi-ic"><i class="fas ${ic}"></i></div><div class="fi-n"><div class="fi-nm">${esc(f.name)}</div><div class="fi-sz">${fSz(f.size)}</div></div><button class="fi-rm" onclick="rmF('${cat}',${i})" aria-label="Eliminar"><i class="fas fa-times"></i></button></div>`; }); }
+        function fSz(b) { return b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(1) + ' KB' : (b / 1048576).toFixed(1) + ' MB'; }
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+        /* ═══ RESUMEN ═══ */
+        function genSum() {
+            const c = document.getElementById('sumC'); let h = '';
+            const tb = S.tipo === 'propia' ? '<span class="badge gn"><i class="fas fa-user"></i> Propia</span>' : '<span class="badge am"><i class="fas fa-people-arrows"></i> Atendible</span>';
+            const nb = S.nat === 'nueva' ? '<span class="badge gn"><i class="fas fa-file-medical"></i> Nueva</span>' : '<span class="badge am"><i class="fas fa-file-circle-plus"></i> Prolongacion</span>';
+            h += `<div class="ss"><div class="ss-h" onclick="goD(1)"><h4><i class="fas fa-clipboard-list"></i> Tipo</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Tipo</span><span class="sv">${tb}</span></div><div class="sf"><span class="sl">Naturaleza</span><span class="sv">${nb}</span></div>${S.nat === 'prolongacion' ? `<div class="sf fu"><span class="sl">Lic. Anterior</span><span class="sv">${v('nroLicAnt')}</span></div>` : ''}</div></div></div>`;
+            const dep = DEPS.find(d => d.id === +v('sDep'));
+            h += `<div class="ss"><div class="ss-h" onclick="goD(2)"><h4><i class="fas fa-id-badge"></i> Personal</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Legajo</span><span class="sv">${v('sLeg')}</span></div><div class="sf"><span class="sl">Grado</span><span class="sv">${v('sGra')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('sDni')}</span></div><div class="sf"><span class="sl">CUIL</span><span class="sv">${v('sCui') || emp()}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('sNom')}</span></div><div class="sf"><span class="sl">Fec. Nac.</span><span class="sv">${fD(v('sFN'))}</span></div><div class="sf"><span class="sl">Telefono</span><span class="sv">${v('sTel')}</span></div><div class="sf"><span class="sl">Email</span><span class="sv">${v('sEma') || emp()}</span></div><div class="sf fu"><span class="sl">Direccion</span><span class="sv">${v('sDir') || emp()}</span></div><div class="sf"><span class="sl">Obra Social</span><span class="sv">${v('sOS')}</span></div><div class="sf fu"><span class="sl">Dependencia</span><span class="sv">${dep ? dep.nombre : emp()}</span></div><div class="sf fu"><span class="sl">Jefe a Notificar</span><span class="sv" style="color:var(--gold)">${dep ? dep.jefe + ' (' + dep.email + ')' : emp()}</span></div></div></div></div>`;
+            if (isAtt()) { h += `<div class="ss"><div class="ss-h" onclick="goD(3)"><h4><i class="fas fa-people-arrows"></i> Tercero</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Vinculo</span><span class="sv">${v('tVin')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('tDni')}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('tNom')}</span></div><div class="sf fu"><span class="sl">Diagnostico</span><span class="sv">${v('tDiag')}</span></div></div></div></div>`; }
+            h += `<div class="ss"><div class="ss-h" onclick="goD(4)"><h4><i class="fas fa-notes-medical"></i> Detalle</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Desde</span><span class="sv">${fD(v('lDes'))}</span></div><div class="sf"><span class="sl">Hasta</span><span class="sv">${fD(v('lHas'))}</span></div><div class="sf fu"><span class="sl">CIE-10</span><span class="sv">${v('lCie')}</span></div><div class="sf fu"><span class="sl">Medico</span><span class="sv">${v('lMed')}</span></div><div class="sf"><span class="sl">Especialidad</span><span class="sv">${v('lEsp')}</span></div><div class="sf"><span class="sl">Institucion</span><span class="sv">${v('lIns') || emp()}</span></div><div class="sf fu"><span class="sl">Internacion</span><span class="sv">${S.intern ? 'Si' : 'No'}</span></div>${S.intern ? `<div class="sf"><span class="sl">Fec. Ingreso</span><span class="sv">${fD(v('lFI')) || emp()}</span></div><div class="sf"><span class="sl">Sala</span><span class="sv">${v('lSal') || emp()}</span></div>` : ''}</div></div></div>`;
+            const af = [...S.arch.cert.map(f => ({ ...f, c: 'Cert' })), ...S.arch.est.map(f => ({ ...f, c: 'Estudio' })), ...S.arch.rec.map(f => ({ ...f, c: 'Receta' }))];
+            h += `<div class="ss"><div class="ss-h" onclick="goD(5)"><h4><i class="fas fa-paperclip"></i> Docs (${af.length})</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div>`; if (af.length) h += `<div class="ss-b"><div class="ss-fl">${af.map(f => `<span class="ss-ft"><i class="fas fa-file"></i> ${esc(f.name)} (${f.c})</span>`).join('')}</div></div>`; else h += `<div class="ss-b"><div class="ss-g"><div class="sf fu"><span class="sv empty">Sin archivos</span></div></div></div>`; h += '</div>';
+            c.innerHTML = h;
+        }
+        function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+        function fD(s) { if (!s) return ''; const p = s.split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : s; }
+        function emp() { return '<span class="empty">No informado</span>'; }
+
+        /* ═══ ENVIO ═══ */
+        function doSubmit() { const y = new Date().getFullYear(); const r = String(Math.floor(Math.random() * 99999) + 1).padStart(5, '0'); document.getElementById('trNum').textContent = 'LM-' + y + '-' + r; document.getElementById('modOk').classList.add('vis'); toast('Solicitud enviada con exito', 'ok'); }
+        function resetApp() { document.getElementById('modOk').classList.remove('vis'); S.cur = 1; S.tipo = 'propia'; S.nat = 'nueva'; S.intern = false; S.jefe = null; S.arch = { cert: [], est: [], rec: [] }; setTipo('propia'); setNat('nueva'); document.getElementById('chkI').classList.remove('ck'); document.getElementById('cProl').classList.remove('vis'); document.getElementById('cInt').classList.remove('vis'); document.getElementById('jBox').style.display = 'none'; document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = ''); rF('cert'); rF('est'); rF('rec'); clrE(); document.querySelectorAll('.panel').forEach(p => p.classList.remove('act')); document.getElementById('p1').classList.add('act'); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        /* ═══ TOASTS ═══ */
+        function toast(msg, type) { const c = document.getElementById('toastC'); const ic = { ok: 'fa-check-circle', er: 'fa-exclamation-triangle', in: 'fa-info-circle' }; const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<i class="fas ' + (ic[type] || ic.in) + '"></i> ' + msg; c.appendChild(t); setTimeout(() => { t.style.animation = 'tO .3s ease forwards'; setTimeout(() => t.remove(), 300); }, 3500); }
+
+
+        /* Teclado */
+        document.querySelectorAll('[role="switch"],[role="checkbox"],[role="radio"]').forEach(el => { el.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); el.click(); } }); });
+    </script>
+</body>
+
+</html>
