@@ -1,0 +1,15 @@
+[
+  { "id": 1, "nombre": "Enfermedad común" },
+  { "id": 2, "nombre": "Por enfermedad o accidente de largo tratamiento, vinculado al servicio" },
+  { "id": 3, "nombre": "Por enfermedad o accidente de largo tratamiento, desvinculado al servicio" },
+  { "id": 4, "nombre": "Atención familiar" },
+  { "id": 5, "nombre": "Donación de sangre" },
+  { "id": 6, "nombre": "Maternidad" },
+  { "id": 7, "nombre": "Por lactancia" },
+  { "id": 8, "nombre": "Para donar órganos" },
+  { "id": 9, "nombre": "Licencia pandemia" },
+  { "id": 10, "nombre": "Dto. 564/18 lic. extraordinaria" },
+  { "id": 11, "nombre": "Dto. 564/18 lic. extraordinaria ley 911-art 9" },
+  { "id": 12, "nombre": "Art" },
+  { "id": 13, "nombre": "Fallecimiento" }
+]

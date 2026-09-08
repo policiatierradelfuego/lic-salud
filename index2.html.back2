@@ -127,8 +127,7 @@
             <!-- Derecha: Botón de Usuario / Iniciar Sesión -->
             <div class="hdr-right">
                 <div class="user-top-bar">
-                    <button class="user-btn" id="btnUserMenu" onclick="toggleUserDropdown()"
-                        aria-label="Menú de Usuario">
+                    <button class="user-btn" id="btnUserMenu" onclick="toggleUserDropdown()" aria-label="Menú de Usuario">
                         <div class="user-avatar" id="hdrUserAvatar"><i class="fas fa-user"></i></div>
                         <div class="user-info-text">
                             <span class="user-name" id="hdrUserName">Iniciar Sesión</span>
@@ -144,12 +143,10 @@
                         <div id="udMenuLogged" style="display:none">
                             <button class="ud-item" onclick="openPasswordModal()"><i class="fas fa-key"></i> Cambiar
                                 Contraseña</button>
-                            <button class="ud-item" onclick="openMyRequestsModal()"><i class="fas fa-folder-open"></i>
-                                Mis
+                            <button class="ud-item" onclick="openMyRequestsModal()"><i class="fas fa-folder-open"></i> Mis
                                 Solicitudes</button>
                             <div class="ud-divider"></div>
-                            <button class="ud-item logout" onclick="doLogout()"><i
-                                    class="fas fa-right-from-bracket"></i>
+                            <button class="ud-item logout" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i>
                                 Cerrar Sesión</button>
                         </div>
                         <div id="udMenuGuest">
@@ -208,6 +205,22 @@
                     <label>Motivo de la Licencia <span class="rq">*</span></label>
                     <select id="sMotivo" onchange="onMotivoChange()">
                         <option value="">Seleccionar motivo</option>
+                        <option value="Enfermedad comun">Enfermedad común</option>
+                        <option value="Por enfermedad o accidente de largo tratamiento, vinculado al servicio">Por
+                            enfermedad o accidente de largo tratamiento, vinculado al servicio</option>
+                        <option value="Por enfermedad o accidente de largo tratamiento, desvinculado al servicio">Por
+                            enfermedad o accidente de largo tratamiento, desvinculado al servicio</option>
+                        <option value="Atencion familiar">Atención familiar</option>
+                        <option value="Donacion de sangre">Donación de sangre</option>
+                        <option value="Maternidad">Maternidad</option>
+                        <option value="Por lactancia">Por lactancia</option>
+                        <option value="Para donar organos">Para donar órganos</option>
+                        <option value="Licencia pandemia">Licencia pandemia</option>
+                        <option value="Dto. 564/18 lic. extraordinaria">Dto. 564/18 lic. extraordinaria</option>
+                        <option value="Dto. 564/18 lic. extraordinaria ley 911-art 9">Dto. 564/18 lic. extraordinaria
+                            ley 911-art 9</option>
+                        <option value="Art">Art</option>
+                        <option value="Fallecimiento">Fallecimiento</option>
                     </select>
                     <span class="em" id="eMotivo"><i class="fas fa-exclamation-circle"></i> Seleccioná un motivo</span>
                 </div>
@@ -263,6 +276,37 @@
                                 title="Dato oficial no modificable"></i> <span class="rq">*</span></label><select
                             id="sGra" disabled>
                             <option value="">Seleccionar</option>
+
+                            <option>Comisario General</option>
+                            <option>Comisario Inspector</option>
+                            <option>Comisario</option>
+                            <option>Subcomisario</option>
+                            <option>Principal</option>
+                            <option>Inspector</option>
+                            <option>Subinspector</option>
+                            <option>Ayudante</option>
+                            <option>Suboficial Mayor</option>
+                            <option>Sargento 1ro</option>
+                            <option>Sargento</option>
+                            <option>Cabo 1ro</option>
+                            <option>Cabo</option>
+                            <option>Agente</option>
+                            <option>PC Auxiliar Sup 1º</option>
+                            <option>PC Auxiliar Sup 2º</option>
+                            <option>PC Auxiliar Sup 3º</option>
+                            <option>PC Auxiliar Sup 4º</option>
+                            <option>PC Auxiliar Sup 5º</option>
+                            <option>PC Auxiliar Sup 6º</option>
+                            <option>PC Auxiliar Sup 7º</option>
+                            <option>PC Auxiliar Sup 8º</option>
+                            <option>PC Auxiliar 1º</option>
+                            <option>PC Auxiliar 2º</option>
+                            <option>PC Auxiliar 3º</option>
+                            <option>PC Auxiliar 4º</option>
+                            <option>PC Auxiliar 5º</option>
+                            <option>PC Auxiliar 6º</option>
+                            <option>PC Auxiliar 7º</option>
+                            <option>PC Auxiliar 8º</option>
                         </select><span class="em" id="eGra"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg"><label>DNI <i class="fas fa-lock"
@@ -407,17 +451,35 @@
                             id="eCie"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
                     <div class="fg full"><label>Descripción Diagnóstico</label><textarea id="lDiD"
                             placeholder="Detalle adicional (opcional)" rows="2"></textarea></div>
-                    <div class="fg full"><label>Médico Tratante</label><input type="text" id="lMed"
-                            placeholder="Apellido y nombre"></div>
+                    <div class="fg full"><label>Médico Tratante</label><input type="text"
+                            id="lMed" placeholder="Apellido y nombre"></div>
                     <div class="fg"><label>Especialidad</label><select id="lEsp" onchange="onEspChange()">
                             <option value="">Seleccionar</option>
+                            <option>Cardiología</option>
+                            <option>Cirugía General</option>
+                            <option>Clínica Médica</option>
+                            <option>Dermatología</option>
+                            <option>Endocrinología</option>
+                            <option>Gastroenterología</option>
+                            <option>Ginecología</option>
+                            <option>Guardia Médica</option>
+                            <option>Neumonología</option>
+                            <option>Neurología</option>
+                            <option>Obstetricia</option>
+                            <option>Oftalmología</option>
+                            <option>Oncología</option>
+                            <option>Otorrinolaringología</option>
+                            <option>Pediatría</option>
+                            <option>Psiquiatría</option>
+                            <option>Traumatología</option>
+                            <option>Urología</option>
+                            <option>Otra</option>
                         </select>
                     </div>
                     <div class="fg cond full" id="cEspOtra">
                         <label>Especificar Especialidad <span class="rq">*</span></label>
                         <input type="text" id="lEspOtra" placeholder="Ingresá la especialidad médica">
-                        <span class="em" id="eEspOtra"><i class="fas fa-exclamation-circle"></i> Requerido al
-                            seleccionar 'Otra'</span>
+                        <span class="em" id="eEspOtra"><i class="fas fa-exclamation-circle"></i> Requerido al seleccionar 'Otra'</span>
                     </div>
                     <div class="fg"><label>Matrícula</label><input type="text" id="lMat" placeholder="Ej: MN 12345">
                     </div>
@@ -517,11 +579,316 @@
     </div>
 
     <script>
-        /* ═══ DEPENDENCIAS, MOTIVOS, JERARQUÍAS & ESPECIALIDADES ═══ */
-        let DEPS = [];
-        let MOTIVOS = [];
-        let JERARQUIAS = [];
-        let ESPECIALIDADES = [];
+        /* ═══ DEPENDENCIAS ═══ */
+        // Se define DEPS con let como fallback (respaldo) si la carga dinámica falla o se abre localmente (file://)
+        let DEPS = [
+            {
+                "id": 1,
+                "nombre": "Jefatura de Policía",
+                "jefe": "Com. Gral. Mgtr. Jacinto Rolón",
+                "email": "policia.jefatura@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 2,
+                "nombre": "Dirección Secretaría General",
+                "jefe": "Com. My. David Rolando Raúl Foschiatti",
+                "email": "policia.jefatura@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 3,
+                "nombre": "Dirección Seguridad Gubernamental, Legislativa y Superior Tribunal de Justicia",
+                "jefe": "Com. Gral. Tec. Guillermo David Morgan",
+                "email": "policia.custodia@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 4,
+                "nombre": "Dirección Asesoría Letrada",
+                "jefe": "Com. Insp. Dr. Sebastián González",
+                "email": "policia.dal@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 5,
+                "nombre": "Dirección de Análisis Criminal",
+                "jefe": "Com. Insp. Lic. Lopez Jonatan Guillermo",
+                "email": "policia.dacush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 6,
+                "nombre": "Subjefatura de Policía",
+                "jefe": "Com. Gral. Lic. Barrios Kogan Oscar Alfredo",
+                "email": "subjefaturapolicia@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 7,
+                "nombre": "Dirección General Regional Zona Norte",
+                "jefe": "Com. Gral. Dr. Elio Rubén Cárdenas",
+                "email": "policia.dgrzn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 8,
+                "nombre": "Dirección General Regional Zona Sur",
+                "jefe": "Com. Gral. Tec. Enzo Osvaldo Hoyos",
+                "email": "policia.dgrzs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 9,
+                "nombre": "Dirección General de Recursos Humanos",
+                "jefe": "Com. My. Dr. Maximiliano Enrique Cruz",
+                "email": "policia.dgrh@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 10,
+                "nombre": "Dirección General de Administración",
+                "jefe": "Com. Gral. Cristian Maximiliano Salinas",
+                "email": "policia.dga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 11,
+                "nombre": "Dirección General de Investigaciones Criminales",
+                "jefe": "Com. Gral. Tec. Cardenas Victor Alejandro",
+                "email": "policia.dgic@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 12,
+                "nombre": "Dirección Institutos Policiales",
+                "jefe": "Com. Gral. Tec. Manuel Anzoategui",
+                "email": "policia.dip@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 13,
+                "nombre": "Dirección Investigaciones Administrativas Zona Norte",
+                "jefe": "Com. Insp. Dr. Sebastián Gustavo Juarez Galanti",
+                "email": "policia.diazn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 14,
+                "nombre": "Dirección Investigaciones Administrativas Zona Sur",
+                "jefe": "Com. Lic. Eleonora Roxana Mamani",
+                "email": "policía.diazs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 15,
+                "nombre": "Oficina de Información Institucional Río Grande",
+                "jefe": "Com. Insp. Tec. María Laura Gómez",
+                "email": "policia.cominst@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 16,
+                "nombre": "Oficina de Información Institucional Ushuaia",
+                "jefe": "Com. Tec. David Matías Peralta Lopez",
+                "email": "policia.cominst@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 17,
+                "nombre": "División Bienestar Policial Ushuaia",
+                "jefe": "Com. Insp. Mgtr. Véronica Alejandra Cumicheo Coloane",
+                "email": "policia.dbpush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 18,
+                "nombre": "División Bienestar Policial Río Grande",
+                "jefe": "Com. Insp. Lic. Rolando Walter Avellaneda",
+                "email": "policia.dbprga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 19,
+                "nombre": "División Delitos Complejos Río Grande",
+                "jefe": "Com. Insp. Tec. Maximiliano Javier Villafaña",
+                "email": "policia.ddcrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 20,
+                "nombre": "División Narcocriminalidad y Delitos Federales Río Grande",
+                "jefe": "Com. My. Tec. Javier Osvaldo Medina",
+                "email": "policia.dndfrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 21,
+                "nombre": "División Investigaciones Complejas y Narcocriminalidad Tolhuin",
+                "jefe": "Com. My. María Emilia Fuentes",
+                "email": "policia.ddcyntol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 22,
+                "nombre": "División Delitos Complejos Ushuaia",
+                "jefe": "Com. Insp. Lic. Roberto Carlos Diaz Ibarra",
+                "email": "policia.ddcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 23,
+                "nombre": "División Narcocriminalidad y Delitos Federales Ushuaia",
+                "jefe": "Com. Insp. Tec. Gustavo Javier Diaz",
+                "email": "policia.dndfush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 24,
+                "nombre": "División Policía Científica Río Grande",
+                "jefe": "Com. Insp. Lic. Juan Pablo Rosales",
+                "email": "policia.dpcrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 25,
+                "nombre": "División Policía Científica Tolhuin",
+                "jefe": "Ppal. Lic. Alejandro Emanuel Aguirre",
+                "email": "policia.dpctol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 26,
+                "nombre": "División Policía Científica Ushuaia",
+                "jefe": "Com. My. Mgtr. Darío Nicolás Monzon",
+                "email": "policia.dpcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 27,
+                "nombre": "División Documentación e Identificación Policial Río Grande",
+                "jefe": "Com. Insp. Valeria del Carmen Perez Velazquez",
+                "email": "policia.ddirga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 28,
+                "nombre": "División Documentación e Identificación Policial Ushuaia",
+                "jefe": "Com. Insp. Tec. Fatima Carola del Valle Menichetti",
+                "email": "policia.dgic@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 29,
+                "nombre": "Unidad Regional Sur",
+                "jefe": "Com. My. Tec. Martín Miguel Bobba",
+                "email": "policia.urzs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 30,
+                "nombre": "Comisaría Primera Ushuaia",
+                "jefe": "Com. Insp. Juan Manuel Medina",
+                "email": "policia.com1ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 31,
+                "nombre": "Comisaría Segunda Ushuaia",
+                "jefe": "Com. Insp. Miguel Almada",
+                "email": "policia.com2ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 32,
+                "nombre": "Comisaría Tercera Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis María Medina",
+                "email": "policia.com3ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 33,
+                "nombre": "Comisaría Cuarta Ushuaia",
+                "jefe": "Com. Insp. Derlis Alfredo Filippini",
+                "email": "policia.com4ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 34,
+                "nombre": "Comisaría Quinta Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis Gustavo Perick",
+                "email": "policia.com5ush@tierradel fuego.gob.ar"
+            },
+            {
+                "id": 35,
+                "nombre": "Comisaría de Género y Familia N° 1 Ushuaia",
+                "jefe": "Com. Insp. Tec. Noelia Daniela Mazzelli",
+                "email": "policia.comgyf1ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 36,
+                "nombre": "Comisaría de Género y Familia N° 2 Ushuaia",
+                "jefe": "Com. Tec. Irene Lucía Marin Levin",
+                "email": "policia.comgyf2ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 37,
+                "nombre": "División Servicios Especiales Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis Eduardo Arce",
+                "email": "policia.dseush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 38,
+                "nombre": "División Comunicaciones Ushuaia",
+                "jefe": "Com. Insp. Tec. David Nicolás Albo",
+                "email": "policia.dcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 39,
+                "nombre": "Unidad Regional Norte",
+                "jefe": "Com. My. Lic. Angel Ismael Lasala",
+                "email": "policia.urzn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 40,
+                "nombre": "Comisaría Primera Río Grande",
+                "jefe": "Com. My. Abg. Luis Adolfo Iglesias",
+                "email": "policia.com1rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 41,
+                "nombre": "Comisaría Segunda Río Grande",
+                "jefe": "Com. My. Diego Roberto Alderete",
+                "email": "policia.com2rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 42,
+                "nombre": "Comisaría Tercera Río Grande",
+                "jefe": "Com. My. Lucas Atilio Choque",
+                "email": "policia.com3rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 43,
+                "nombre": "Comisaría Cuarta Río Grande",
+                "jefe": "Com. My. Tec. Anibal Horacio Arias",
+                "email": "policia.com4rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 44,
+                "nombre": "Comisaría Quinta Río Grande",
+                "jefe": "Com. Insp. Miguel Ángel Nieva",
+                "email": "policia.com5rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 45,
+                "nombre": "Comisaría de Género y Familia Río Grande",
+                "jefe": "Com. Lic. Paula Alejandra Moreno",
+                "email": "policia.comgyf1rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 46,
+                "nombre": "División Servicios Especiales Río Grande",
+                "jefe": "Com. My. Jorge Sebastián Cortez",
+                "email": "policia.dserga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 47,
+                "nombre": "División Bomberos Río Grande",
+                "jefe": "Com. Insp. Lic. Cristian Daniel Sepulveda",
+                "email": "policia.dbrg@tierredelfuego.gob.ar"
+            },
+            {
+                "id": 48,
+                "nombre": "División Comunicaciones Río Grande",
+                "jefe": "Com. My. Ivan Omar Gallucci Mansilla",
+                "email": "policia.dcomrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 49,
+                "nombre": "Unidad Regional Centro",
+                "jefe": "Com. My. Proc. Víctor Oscar Serrano",
+                "email": "policia.dgrzc@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 50,
+                "nombre": "Comisaría Tolhuin",
+                "jefe": "Com. My. Gastón Gustavo Aguilera",
+                "email": "policia.com1tol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 51,
+                "nombre": "Comisaría de Género y Familia Tolhuin",
+                "jefe": "Com. Insp. Lic. Ramiro Ignacio Sibauti",
+                "email": "policia.comgyf1tol@tierradelfuego.gob.ar"
+            }
+        ];
 
         /* ═══ USUARIO & AUTENTICACIÓN ═══ */
         let CURRENT_USER = null;
@@ -747,95 +1114,29 @@
         const SL = { 1: { i: 'fa-clipboard-list', l: 'Tipo de Solicitud' }, 2: { i: 'fa-id-badge', l: 'Datos del Personal' }, 3: { i: 'fa-people-arrows', l: 'Datos del Tercero' }, 4: { i: 'fa-notes-medical', l: 'Detalle de la Licencia' }, 5: { i: 'fa-paperclip', l: 'Documentacion' }, 6: { i: 'fa-check-double', l: 'Resumen y Envio' } };
         /* ═══ INIT ═══ */
         (async function () {
-            const sDep = document.getElementById('sDep');
-            const sMot = document.getElementById('sMotivo');
-            const sGra = document.getElementById('sGra');
-            const sEsp = document.getElementById('lEsp');
+            const s = document.getElementById('sDep');
 
             const renderDeps = () => {
-                sDep.innerHTML = '<option value="">Seleccionar dependencia</option>';
+                s.innerHTML = '<option value="">Seleccionar dependencia</option>';
                 DEPS.forEach(d => {
                     const o = document.createElement('option');
                     o.value = d.id;
                     o.textContent = d.nombre;
-                    sDep.appendChild(o);
-                });
-            };
-
-            const renderMotivos = () => {
-                sMot.innerHTML = '<option value="">Seleccionar motivo</option>';
-                MOTIVOS.forEach(m => {
-                    const o = document.createElement('option');
-                    o.value = m.nombre;
-                    o.textContent = m.nombre;
-                    sMot.appendChild(o);
-                });
-            };
-
-            const renderJerarquias = () => {
-                sGra.innerHTML = '<option value="">Seleccionar</option>';
-                JERARQUIAS.forEach(j => {
-                    const o = document.createElement('option');
-                    o.value = j.nombre;
-                    o.textContent = j.nombre;
-                    sGra.appendChild(o);
-                });
-            };
-
-            const renderEspecialidades = () => {
-                sEsp.innerHTML = '<option value="">Seleccionar</option>';
-                ESPECIALIDADES.forEach(e => {
-                    const o = document.createElement('option');
-                    o.value = e.nombre;
-                    o.textContent = e.nombre;
-                    sEsp.appendChild(o);
+                    s.appendChild(o);
                 });
             };
 
             try {
-                const resDeps = await fetch('json/dependencias.json');
-                if (resDeps.ok) {
-                    DEPS = await resDeps.json();
+                const res = await fetch('dependencias.json');
+                if (res.ok) {
+                    DEPS = await res.json();
                     console.log('Dependencias cargadas dinámicamente.');
                 }
             } catch (err) {
-                console.warn('No se pudo cargar json/dependencias.json:', err);
-            }
-
-            try {
-                const resMot = await fetch('json/motivos.json');
-                if (resMot.ok) {
-                    MOTIVOS = await resMot.json();
-                    console.log('Motivos cargados dinámicamente.');
-                }
-            } catch (err) {
-                console.warn('No se pudo cargar json/motivos.json:', err);
-            }
-
-            try {
-                const resGra = await fetch('json/jerarquias.json');
-                if (resGra.ok) {
-                    JERARQUIAS = await resGra.json();
-                    console.log('Jerarquías cargadas dinámicamente.');
-                }
-            } catch (err) {
-                console.warn('No se pudo cargar json/jerarquias.json:', err);
-            }
-
-            try {
-                const resEsp = await fetch('json/especialidades.json');
-                if (resEsp.ok) {
-                    ESPECIALIDADES = await resEsp.json();
-                    console.log('Especialidades cargadas dinámicamente.');
-                }
-            } catch (err) {
-                console.warn('No se pudo cargar json/especialidades.json:', err);
+                console.warn('No se pudo cargar dependencias.json de forma dinámica (usando fallback local):', err);
             }
 
             renderDeps();
-            renderMotivos();
-            renderJerarquias();
-            renderEspecialidades();
             updateUserHeaderUI();
             updVis();
             updBot();

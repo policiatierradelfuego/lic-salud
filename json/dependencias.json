@@ -81,7 +81,7 @@
     "id": 14,
     "nombre": "Dirección Investigaciones Administrativas Zona Sur",
     "jefe": "Com. Lic. Eleonora Roxana Mamani",
-    "email": "policia.diazs@tierradelfuego.gob.ar"
+    "email": "policía.diazs@tierradelfuego.gob.ar"
   },
   {
     "id": 15,
@@ -170,25 +170,25 @@
   {
     "id": 29,
     "nombre": "Unidad Regional Sur",
-    "jefe": "Com. My. Adan Luis Eduardo Foschiatti",
+    "jefe": "Com. My. Tec. Martín Miguel Bobba",
     "email": "policia.urzs@tierradelfuego.gob.ar"
   },
   {
     "id": 30,
     "nombre": "Comisaría Primera Ushuaia",
-    "jefe": "Com. My. Tec. Martín Miguel Bobba",
+    "jefe": "Com. Insp. Juan Manuel Medina",
     "email": "policia.com1ush@tierradelfuego.gob.ar"
   },
   {
     "id": 31,
     "nombre": "Comisaría Segunda Ushuaia",
-    "jefe": "Com. Insp. Luis María Medina",
+    "jefe": "Com. Insp. Miguel Almada",
     "email": "policia.com2ush@tierradelfuego.gob.ar"
   },
   {
     "id": 32,
     "nombre": "Comisaría Tercera Ushuaia",
-    "jefe": "Com. Insp. Tec. José Luis Brizuela",
+    "jefe": "Com. Insp. Tec. Luis María Medina",
     "email": "policia.com3ush@tierradelfuego.gob.ar"
   },
   {
@@ -201,7 +201,7 @@
     "id": 34,
     "nombre": "Comisaría Quinta Ushuaia",
     "jefe": "Com. Insp. Tec. Luis Gustavo Perick",
-    "email": "policia.com5ush@tierradelfuego.gob.ar"
+    "email": "policia.com5ush@tierradel fuego.gob.ar"
   },
   {
     "id": 35,
@@ -266,7 +266,7 @@
   {
     "id": 45,
     "nombre": "Comisaría de Género y Familia Río Grande",
-    "jefe": "Com. Insp. Tec. Luciana Valeria Aguirre",
+    "jefe": "Com. Lic. Paula Alejandra Moreno",
     "email": "policia.comgyf1rga@tierradelfuego.gob.ar"
   },
   {
@@ -278,8 +278,8 @@
   {
     "id": 47,
     "nombre": "División Bomberos Río Grande",
-    "jefe": "Com. My. Esteban Javier Cejas",
-    "email": "policia.dbrg@tierradelfuego.gob.ar"
+    "jefe": "Com. Insp. Lic. Cristian Daniel Sepulveda",
+    "email": "policia.dbrg@tierredelfuego.gob.ar"
   },
   {
     "id": 48,
