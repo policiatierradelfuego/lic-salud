@@ -204,12 +204,15 @@
             <div class="card">
                 <h2 class="card-t">Tipo de Solicitud</h2>
                 <p class="card-s">Definí el alcance y naturaleza</p>
-                <div class="fg">
+                <div class="fg" id="fgMotivo">
                     <label>Motivo de la Licencia <span class="rq">*</span></label>
                     <select id="sMotivo" onchange="onMotivoChange()">
                         <option value="">Seleccionar motivo</option>
                     </select>
                     <span class="em" id="eMotivo"><i class="fas fa-exclamation-circle"></i> Seleccioná un motivo</span>
+                    <div id="helpMotivo" style="display:none;font-size:0.8rem;color:var(--gold);margin-top:6px;align-items:center;gap:6px">
+                        <i class="fas fa-info-circle"></i> <span></span>
+                    </div>
                 </div>
                 <div class="divider"></div>
                 <div class="sec-lbl">Naturaleza</div>
@@ -220,17 +223,20 @@
                         <h4>Nueva</h4>
                         <p>Primera del episodio</p>
                     </div>
-                    <div class="rc" id="rcP" onclick="setNat('prolongacion')" tabindex="0" role="radio"
+                    <div class="rc" id="rcP" onclick="setNat('extension')" tabindex="0" role="radio"
                         aria-checked="false">
                         <div class="rc-i"><i class="fas fa-file-circle-plus"></i></div>
-                        <h4>Prolongación</h4>
+                        <h4>Extensión</h4>
                         <p>Extensión vigente</p>
                     </div>
                 </div>
                 <div class="cond" id="cProl">
-                    <div class="fg"><label>Nro. Licencia Anterior <span class="rq">*</span></label><input type="text"
-                            id="nroLicAnt" placeholder="Ej: LM-2025-00123"><span class="em" id="eNroL"><i
-                                class="fas fa-exclamation-circle"></i> Ingresá el número</span></div>
+                    <div class="fg"><label>Licencia Anterior a Extender <span class="rq">*</span></label>
+                        <select id="nroLicAnt" onchange="onLicAntChange()">
+                            <option value="">Seleccionar licencia vigente...</option>
+                        </select>
+                        <span class="em" id="eNroL"><i class="fas fa-exclamation-circle"></i> Seleccioná una licencia vigente</span>
+                    </div>
                 </div>
             </div>
             <div class="nav-btns">
@@ -517,11 +523,28 @@
     </div>
 
     <script>
-        /* ═══ DEPENDENCIAS, MOTIVOS, JERARQUÍAS & ESPECIALIDADES ═══ */
+        /* ═══ DEPENDENCIAS, MOTIVOS, JERARQUÍAS, ESPECIALIDADES & LICENCIAS VIGENTES ═══ */
         let DEPS = [];
         let MOTIVOS = [];
         let JERARQUIAS = [];
         let ESPECIALIDADES = [];
+        let LICENCIAS_VIGENTES = [
+            { nro: "LM-2025-00123", motivo: "Enfermedad común", desde: "01/03/2025", hasta: "15/03/2025" },
+            { nro: "LM-2025-00088", motivo: "Accidente de trabajo", desde: "20/02/2025", hasta: "10/03/2025" },
+            { nro: "LM-2025-00045", motivo: "Atención grupo familiar", desde: "05/03/2025", hasta: "12/03/2025" }
+        ];
+
+        function renderLicenciasVigentes() {
+            const sel = document.getElementById('nroLicAnt');
+            if (!sel) return;
+            sel.innerHTML = '<option value="">Seleccionar licencia vigente...</option>';
+            LICENCIAS_VIGENTES.forEach(lic => {
+                const o = document.createElement('option');
+                o.value = lic.nro;
+                o.textContent = `${lic.nro} — ${lic.motivo} (Vigente hasta ${lic.hasta})`;
+                sel.appendChild(o);
+            });
+        }
 
         /* ═══ USUARIO & AUTENTICACIÓN ═══ */
         let CURRENT_USER = null;
@@ -836,6 +859,7 @@
             renderMotivos();
             renderJerarquias();
             renderEspecialidades();
+            renderLicenciasVigentes();
             updateUserHeaderUI();
             updVis();
             updBot();
@@ -845,7 +869,53 @@
         function onMotivoChange() { const m = document.getElementById('sMotivo').value; S.motivo = m; S.tipo = (m === 'Atencion familiar') ? 'atendible' : 'propia'; updVis(); }
         function onEspChange() { const v = document.getElementById('lEsp').value; const c = document.getElementById('cEspOtra'); if (v === 'Otra') { c.classList.add('vis'); } else { c.classList.remove('vis'); document.getElementById('lEspOtra').value = ''; } }
         function setTipo(t) { S.tipo = t; updVis(); }
-        function setNat(n) { S.nat = n; document.getElementById('rcN').classList.toggle('sel', n === 'nueva'); document.getElementById('rcP').classList.toggle('sel', n === 'prolongacion'); document.getElementById('rcN').setAttribute('aria-checked', n === 'nueva'); document.getElementById('rcP').setAttribute('aria-checked', n === 'prolongacion'); const c = document.getElementById('cProl'); if (n === 'prolongacion') c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('nroLicAnt').value = ''; } }
+        function setNat(n) {
+            if (n === 'prolongacion') n = 'extension';
+            S.nat = n;
+            document.getElementById('rcN').classList.toggle('sel', n === 'nueva');
+            document.getElementById('rcP').classList.toggle('sel', n === 'extension');
+            document.getElementById('rcN').setAttribute('aria-checked', n === 'nueva');
+            document.getElementById('rcP').setAttribute('aria-checked', n === 'extension');
+            const c = document.getElementById('cProl');
+            const sMot = document.getElementById('sMotivo');
+            const helpMot = document.getElementById('helpMotivo');
+            if (n === 'extension') {
+                c.classList.add('vis');
+                if (document.getElementById('nroLicAnt').value) onLicAntChange();
+            } else {
+                c.classList.remove('vis');
+                document.getElementById('nroLicAnt').value = '';
+                if (sMot) sMot.disabled = false;
+                if (helpMot) helpMot.style.display = 'none';
+            }
+        }
+        function onLicAntChange() {
+            const val = document.getElementById('nroLicAnt').value;
+            const sMot = document.getElementById('sMotivo');
+            const helpMot = document.getElementById('helpMotivo');
+            if (!val) {
+                if (helpMot) helpMot.style.display = 'none';
+                if (sMot) sMot.disabled = false;
+                return;
+            }
+            const lic = LICENCIAS_VIGENTES.find(l => l.nro === val);
+            if (lic) {
+                let opt = Array.from(sMot.options).find(o => o.value === lic.motivo);
+                if (!opt) {
+                    opt = document.createElement('option');
+                    opt.value = lic.motivo;
+                    opt.textContent = lic.motivo;
+                    sMot.appendChild(opt);
+                }
+                sMot.value = lic.motivo;
+                sMot.disabled = true;
+                onMotivoChange();
+                if (helpMot) {
+                    helpMot.querySelector('span').textContent = `Motivo asignado automáticamente según la licencia a extender ${lic.nro}: "${lic.motivo}"`;
+                    helpMot.style.display = 'flex';
+                }
+            }
+        }
         function togI() { S.intern = !S.intern; const e = document.getElementById('chkI'); e.classList.toggle('ck', S.intern); e.setAttribute('aria-checked', S.intern); const c = document.getElementById('cInt'); if (S.intern) c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('lFI').value = ''; document.getElementById('lSal').value = ''; } }
         function updVis() { const a = S.tipo === 'atendible'; document.getElementById('sTer').classList.toggle('hid', !a); document.getElementById('lnTer').classList.toggle('hid', !a); updStep(); updProg(); }
 
@@ -874,7 +944,21 @@
         function sE(iid, eid) { const i = document.getElementById(iid); const e = document.getElementById(eid); if (i) i.classList.add('err'); if (e) e.classList.add('vis'); }
         function val(s) {
             clrE(); let o = true;
-            if (s === 1) { if (!document.getElementById('sMotivo').value) { sE('sMotivo', 'eMotivo'); o = false; } if (S.nat === 'prolongacion' && !document.getElementById('nroLicAnt').value.trim()) { sE('nroLicAnt', 'eNroL'); o = false; } }
+            if (s === 1) {
+                if (S.nat === 'extension' || S.nat === 'prolongacion') {
+                    if (!document.getElementById('nroLicAnt').value.trim()) {
+                        sE('nroLicAnt', 'eNroL');
+                        o = false;
+                    } else if (!S.motivo) {
+                        onLicAntChange();
+                    }
+                } else {
+                    if (!document.getElementById('sMotivo').value) {
+                        sE('sMotivo', 'eMotivo');
+                        o = false;
+                    }
+                }
+            }
             if (s === 2) { if (!document.getElementById('sLeg').value.trim()) sE('sLeg', 'eLeg'), o = false; if (!document.getElementById('sGra').value) sE('sGra', 'eGra'), o = false; if (!document.getElementById('sDni').value.trim()) sE('sDni', 'eDni'), o = false; if (!document.getElementById('sNom').value.trim()) sE('sNom', 'eNom'), o = false; if (!document.getElementById('sFN').value) sE('sFN', 'eFN'), o = false; if (!document.getElementById('sTel').value.trim()) sE('sTel', 'eTel'), o = false; if (!document.getElementById('sEma').value.trim()) sE('sEma', 'eEma'), o = false; if (!document.getElementById('sDir').value.trim()) sE('sDir', 'eDir'), o = false; if (!document.getElementById('sUsu').value.trim()) sE('sUsu', 'eUsu'), o = false; if (!document.getElementById('sOS').value.trim()) sE('sOS', 'eOS'), o = false; if (!document.getElementById('sDep').value) sE('sDep', 'eDep'), o = false; }
             if (s === 3) { if (!document.getElementById('tVin').value) sE('tVin', 'eTV'), o = false; if (!document.getElementById('tNom').value.trim()) sE('tNom', 'eTN'), o = false; if (!document.getElementById('tDni').value.trim()) sE('tDni', 'eTD'), o = false; if (!document.getElementById('tDiag').value.trim()) sE('tDiag', 'eTDi'), o = false; }
             if (s === 4) { if (!document.getElementById('lDes').value) sE('lDes', 'eDes'), o = false; if (!document.getElementById('lHas').value) sE('lHas', 'eHas'), o = false; const d = document.getElementById('lDes').value, h = document.getElementById('lHas').value; if (d && h && h < d) { sE('lHas', 'eHas'); document.getElementById('eHas').innerHTML = '<i class="fas fa-exclamation-circle"></i> Debe ser posterior'; o = false; } if (!document.getElementById('lCie').value.trim()) sE('lCie', 'eCie'), o = false; if (document.getElementById('lEsp').value === 'Otra' && !document.getElementById('lEspOtra').value.trim()) sE('lEspOtra', 'eEspOtra'), o = false; }
@@ -899,8 +983,8 @@
             const c = document.getElementById('sumC'); let h = '';
             const motText = S.motivo || 'No informado';
             const tb = S.tipo === 'propia' ? '<span class="badge gn"><i class="fas fa-user"></i> Propia</span>' : '<span class="badge am"><i class="fas fa-people-arrows"></i> Atendible</span>';
-            const nb = S.nat === 'nueva' ? '<span class="badge gn"><i class="fas fa-file-medical"></i> Nueva</span>' : '<span class="badge am"><i class="fas fa-file-circle-plus"></i> Prolongación</span>';
-            h += `<div class="ss"><div class="ss-h" onclick="goD(1)"><h4><i class="fas fa-clipboard-list"></i> Tipo y Motivo</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf fu"><span class="sl">Motivo</span><span class="sv">${esc(motText)}</span></div><div class="sf"><span class="sl">Tipo</span><span class="sv">${tb}</span></div><div class="sf"><span class="sl">Naturaleza</span><span class="sv">${nb}</span></div>${S.nat === 'prolongacion' ? `<div class="sf fu"><span class="sl">Lic. Anterior</span><span class="sv">${v('nroLicAnt')}</span></div>` : ''}</div></div></div>`;
+            const nb = S.nat === 'nueva' ? '<span class="badge gn"><i class="fas fa-file-medical"></i> Nueva</span>' : '<span class="badge am"><i class="fas fa-file-circle-plus"></i> Extensión</span>';
+            h += `<div class="ss"><div class="ss-h" onclick="goD(1)"><h4><i class="fas fa-clipboard-list"></i> Tipo y Motivo</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf fu"><span class="sl">Motivo</span><span class="sv">${esc(motText)}</span></div><div class="sf"><span class="sl">Tipo</span><span class="sv">${tb}</span></div><div class="sf"><span class="sl">Naturaleza</span><span class="sv">${nb}</span></div>${(S.nat === 'extension' || S.nat === 'prolongacion') ? `<div class="sf fu"><span class="sl">Lic. Anterior</span><span class="sv">${v('nroLicAnt')}</span></div>` : ''}</div></div></div>`;
             const dep = DEPS.find(d => d.id === +v('sDep'));
             h += `<div class="ss"><div class="ss-h" onclick="goD(2)"><h4><i class="fas fa-id-badge"></i> Personal</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Legajo</span><span class="sv">${v('sLeg')}</span></div><div class="sf"><span class="sl">Jerarquía</span><span class="sv">${v('sGra')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('sDni')}</span></div><div class="sf"><span class="sl">CUIL</span><span class="sv">${v('sCui') || emp()}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('sNom')}</span></div><div class="sf"><span class="sl">Fec. Nac.</span><span class="sv">${fD(v('sFN'))}</span></div><div class="sf"><span class="sl">Teléfono</span><span class="sv">${v('sTel')}</span></div><div class="sf"><span class="sl">Email</span><span class="sv">${v('sEma')}</span></div><div class="sf fu"><span class="sl">Dom. Real</span><span class="sv">${v('sDir') || emp()}</span></div><div class="sf fu"><span class="sl">Lugar Usufructo</span><span class="sv">${v('sUsu') || emp()}</span></div><div class="sf"><span class="sl">Obra Social</span><span class="sv">${v('sOS')}</span></div><div class="sf fu"><span class="sl">Dependencia</span><span class="sv">${dep ? dep.nombre : emp()}</span></div><div class="sf fu"><span class="sl">Jefe a Notificar</span><span class="sv" style="color:var(--gold)">${dep ? dep.jefe + ' (' + dep.email + ')' : emp()}</span></div></div></div></div>`;
             if (isAtt()) { h += `<div class="ss"><div class="ss-h" onclick="goD(3)"><h4><i class="fas fa-people-arrows"></i> Tercero</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Vínculo</span><span class="sv">${v('tVin')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('tDni')}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('tNom')}</span></div><div class="sf fu"><span class="sl">Diagnóstico</span><span class="sv">${v('tDiag')}</span></div></div></div></div>`; }
@@ -916,7 +1000,7 @@
 
         /* ═══ ENVIO ═══ */
         function doSubmit() { const y = new Date().getFullYear(); const r = String(Math.floor(Math.random() * 99999) + 1).padStart(5, '0'); document.getElementById('trNum').textContent = 'LM-' + y + '-' + r; document.getElementById('modOk').classList.add('vis'); toast('Solicitud enviada con éxito', 'ok'); }
-        function resetApp() { document.getElementById('modOk').classList.remove('vis'); S.cur = 1; S.tipo = 'propia'; S.motivo = ''; S.nat = 'nueva'; S.intern = false; S.jefe = null; S.arch = { cert: [], est: [], rec: [] }; setNat('nueva'); document.getElementById('chkI').classList.remove('ck'); document.getElementById('cProl').classList.remove('vis'); document.getElementById('cInt').classList.remove('vis'); document.getElementById('cEspOtra').classList.remove('vis'); document.getElementById('jBox').style.display = 'none'; document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = ''); rF('cert'); rF('est'); rF('rec'); clrE(); document.querySelectorAll('.panel').forEach(p => p.classList.remove('act')); document.getElementById('p1').classList.add('act'); updVis(); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function resetApp() { document.getElementById('modOk').classList.remove('vis'); S.cur = 1; S.tipo = 'propia'; S.motivo = ''; S.nat = 'nueva'; S.intern = false; S.jefe = null; S.arch = { cert: [], est: [], rec: [] }; setNat('nueva'); document.getElementById('chkI').classList.remove('ck'); document.getElementById('cProl').classList.remove('vis'); document.getElementById('cInt').classList.remove('vis'); document.getElementById('cEspOtra').classList.remove('vis'); document.getElementById('jBox').style.display = 'none'; if (document.getElementById('sMotivo')) document.getElementById('sMotivo').disabled = false; if (document.getElementById('helpMotivo')) document.getElementById('helpMotivo').style.display = 'none'; document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = ''); rF('cert'); rF('est'); rF('rec'); clrE(); document.querySelectorAll('.panel').forEach(p => p.classList.remove('act')); document.getElementById('p1').classList.add('act'); updVis(); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         /* ═══ TOASTS ═══ */
         function toast(msg, type) { const c = document.getElementById('toastC'); const ic = { ok: 'fa-check-circle', er: 'fa-exclamation-triangle', in: 'fa-info-circle' }; const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<i class="fas ' + (ic[type] || ic.in) + '"></i> ' + msg; c.appendChild(t); setTimeout(() => { t.style.animation = 'tO .3s ease forwards'; setTimeout(() => t.remove(), 300); }, 3500); }
