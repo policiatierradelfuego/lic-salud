@@ -2246,7 +2246,7 @@ body {
    ═══════════════════════════════════════════════════════════════ */
 .profile-hero-card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.85)),
-                linear-gradient(135deg, rgba(20, 127, 192, 0.08), transparent 40%, rgba(137, 201, 21, 0.08));
+        linear-gradient(135deg, rgba(20, 127, 192, 0.08), transparent 40%, rgba(137, 201, 21, 0.08));
     border: 1px solid var(--border);
     outline: 1px solid var(--border);
     border-radius: var(--radius-lg);
@@ -2411,6 +2411,165 @@ body {
     margin-bottom: 12px;
 }
 
+/* Stepper desktop anterior (oculto) */
+.stepper {
+    display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STEPPER LINEAL CONECTADO CON CÍRCULOS (REFERENCIA USUARIO TDF)
+   ═══════════════════════════════════════════════════════════════ */
+.line-stepper {
+    display: none;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 28px;
+    padding: 18px 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.82));
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    outline: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    position: relative;
+    user-select: none;
+}
+
+@media(min-width: 768px) {
+    .prog-bar {
+        display: none;
+    }
+    .line-stepper {
+        display: flex;
+    }
+    .app {
+        padding-bottom: 40px;
+    }
+}
+
+.ls-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    cursor: default;
+    transition: var(--tr);
+    min-width: 95px;
+}
+
+.ls-item.hid {
+    display: none !important;
+}
+
+.ls-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--fg-muted);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 8px rgba(25, 61, 82, 0.05);
+    margin-bottom: 8px;
+}
+
+.ls-num {
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+/* LÍNEA DE CONEXIÓN ENTRE PASOS */
+.ls-line {
+    flex: 1;
+    height: 2.5px;
+    background: var(--border);
+    margin-top: 20px;
+    margin-left: -14px;
+    margin-right: -14px;
+    transition: var(--tr);
+    z-index: 1;
+}
+
+.ls-line.done {
+    background: linear-gradient(90deg, var(--blue), var(--blue));
+}
+
+.ls-line.hid {
+    display: none !important;
+}
+
+/* TEXTO DEBAJO DEL CÍRCULO */
+.ls-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.ls-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--fg);
+    transition: var(--tr);
+    white-space: nowrap;
+}
+
+.ls-sub {
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: var(--tr);
+}
+
+/* PASO COMPLETADO (.done): Círculo Azul Sólido con Icono de Verificación */
+.ls-item.done {
+    cursor: pointer;
+}
+
+.ls-item.done .ls-circle {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(20, 127, 192, 0.28);
+}
+
+.ls-item.done .ls-title {
+    color: var(--fg);
+}
+
+.ls-item.done:hover .ls-circle {
+    transform: scale(1.08);
+}
+
+/* PASO ACTUAL (.act): Círculo Blanco con Borde Azul Resplandeciente */
+.ls-item.act .ls-circle {
+    background: #ffffff;
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: 0 0 0 5px var(--blue-soft), 0 4px 16px rgba(20, 127, 192, 0.22);
+}
+
+.ls-item.act .ls-title {
+    color: var(--blue);
+}
+
+.ls-item.act .ls-sub {
+    color: var(--fg);
+    font-weight: 600;
+}
+
 .auth-avatar {
     width: 42px;
     height: 42px;
@@ -2498,4 +2657,177 @@ body {
     font-size: 0.78rem;
     color: var(--fg-muted);
     margin-bottom: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DESPLEGABLE CON BUSCADOR Y LUPA DE DEPENDENCIAS
+   ═══════════════════════════════════════════════════════════════ */
+.custom-search-select {
+    position: relative;
+    width: 100%;
+}
+
+.search-select-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-select-box .search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--blue);
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: var(--tr);
+}
+
+.search-select-box input {
+    padding-left: 40px !important;
+    padding-right: 38px !important;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--fg);
+    transition: var(--tr);
+    width: 100%;
+}
+
+.search-select-box input:focus {
+    border-color: var(--blue);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(20, 127, 192, 0.14);
+}
+
+.search-select-box input.has-selection {
+    font-weight: 600;
+    color: var(--blue);
+    border-color: rgba(20, 127, 192, 0.4);
+    background: var(--blue-soft);
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(20, 127, 192, 0.12);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 0.72rem;
+    transition: var(--tr);
+}
+
+.search-clear-btn:hover {
+    background: var(--blue);
+    color: #ffffff;
+}
+
+.search-select-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid var(--blue-border);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 12px 32px rgba(25, 61, 82, 0.16);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 200;
+    max-height: 260px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    animation: fu 0.2s ease;
+}
+
+.search-select-list {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    gap: 2px;
+}
+
+.search-select-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--tr);
+    background: transparent;
+}
+
+.search-select-item:hover {
+    background: var(--blue-soft);
+}
+
+.search-select-item.selected {
+    background: rgba(20, 127, 192, 0.12);
+    border-left: 3px solid var(--blue);
+}
+
+.ss-item-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.ss-item-icon {
+    font-size: 1rem;
+    color: var(--blue);
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+}
+
+.ss-item-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.ss-item-title {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--fg);
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ss-item-sub {
+    font-size: 0.72rem;
+    color: var(--fg-muted);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ss-item-check {
+    color: var(--blue);
+    font-size: 0.82rem;
+    margin-left: 8px;
+}
+
+.search-select-no-results {
+    padding: 18px 14px;
+    text-align: center;
+    color: var(--fg-muted);
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }

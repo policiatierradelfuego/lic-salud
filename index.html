@@ -176,30 +176,71 @@
             </div>
         </div>
 
-        <!-- STEPPER DESKTOP -->
-        <nav class="stepper" id="stepper" aria-label="Pasos">
-            <div class="st-i act" data-step="1">
-                <div class="st-c">1</div><span class="st-l">Tipo</span>
+        <!-- STEPPER LINEAL CONECTADO (REFERENCIA VISUAL CON COLORES TDF) -->
+        <nav class="line-stepper" id="stepper" aria-label="Pasos de la solicitud">
+            <div class="ls-item act" data-step="1" onclick="if(1 < S.cur) goD(1)">
+                <div class="ls-circle">
+                    <span class="ls-num">01</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Tipo</span>
+                    <span class="ls-sub">Tipo y motivo</span>
+                </div>
             </div>
-            <div class="st-ln" data-line="1"></div>
-            <div class="st-i" data-step="2">
-                <div class="st-c">2</div><span class="st-l">Personal</span>
+            <div class="ls-line" data-line="1"></div>
+
+            <div class="ls-item" data-step="2" onclick="if(2 < S.cur) goD(2)">
+                <div class="ls-circle">
+                    <span class="ls-num">02</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Personal</span>
+                    <span class="ls-sub">Datos de legajo</span>
+                </div>
             </div>
-            <div class="st-ln hid" data-line="2" id="lnTer"></div>
-            <div class="st-i hid" data-step="3" id="sTer">
-                <div class="st-c">3</div><span class="st-l">Tercero</span>
+            <div class="ls-line hid" data-line="2" id="lnTer"></div>
+
+            <div class="ls-item hid" data-step="3" id="sTer" onclick="if(3 < S.cur) goD(3)">
+                <div class="ls-circle">
+                    <span class="ls-num">03</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Tercero</span>
+                    <span class="ls-sub">Atención familiar</span>
+                </div>
             </div>
-            <div class="st-ln" data-line="3"></div>
-            <div class="st-i" data-step="4">
-                <div class="st-c">4</div><span class="st-l">Detalle</span>
+            <div class="ls-line" data-line="3"></div>
+
+            <div class="ls-item" data-step="4" onclick="if(4 < S.cur) goD(4)">
+                <div class="ls-circle">
+                    <span class="ls-num">04</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Detalle</span>
+                    <span class="ls-sub">Período y CIE-10</span>
+                </div>
             </div>
-            <div class="st-ln" data-line="4"></div>
-            <div class="st-i" data-step="5">
-                <div class="st-c">5</div><span class="st-l">Docs</span>
+            <div class="ls-line" data-line="4"></div>
+
+            <div class="ls-item" data-step="5" onclick="if(5 < S.cur) goD(5)">
+                <div class="ls-circle">
+                    <span class="ls-num">05</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Docs</span>
+                    <span class="ls-sub">Documentación</span>
+                </div>
             </div>
-            <div class="st-ln" data-line="5"></div>
-            <div class="st-i" data-step="6">
-                <div class="st-c">6</div><span class="st-l">Resumen</span>
+            <div class="ls-line" data-line="5"></div>
+
+            <div class="ls-item" data-step="6" onclick="if(6 < S.cur) goD(6)">
+                <div class="ls-circle">
+                    <span class="ls-num">06</span>
+                </div>
+                <div class="ls-info">
+                    <span class="ls-title">Resumen</span>
+                    <span class="ls-sub">Verificación</span>
+                </div>
             </div>
         </nav>
 
@@ -341,9 +382,28 @@
                     <label><i class="fas fa-building-shield"
                             style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span
                             class="rq">*</span></label>
-                    <select id="sDep" onchange="onDep()">
-                        <option value="">Seleccionar dependencia</option>
-                    </select>
+                    
+                    <!-- Searchable Custom Select Container -->
+                    <div class="custom-search-select" id="depSelectContainer">
+                        <input type="hidden" id="sDep" name="dependenciaId" value="">
+                        
+                        <!-- Search Box / Trigger -->
+                        <div class="search-select-box" id="depSearchBox">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="depSearchInput" placeholder="Buscar dependencia (ej: Comisaría, Ushuaia)..." autocomplete="off" onfocus="openDepDropdown()" oninput="filterDependencias(this.value)">
+                            <button type="button" class="search-clear-btn" id="depClearBtn" onclick="clearDepSelection()" style="display:none;" title="Cambiar dependencia">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Dropdown List -->
+                        <div class="search-select-dropdown" id="depDropdown" style="display:none;">
+                            <div class="search-select-list" id="depSelectList">
+                                <!-- Dynamic options rendered via JS -->
+                            </div>
+                        </div>
+                    </div>
+
                     <span class="em" id="eDep"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     <div class="jefe-box" id="jBox" style="display:none">
                         <div class="jb-i"><i class="fas fa-user-tie"></i></div>
@@ -432,8 +492,29 @@
                         <span class="em" id="eHas"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg full">
-                        <label>Diagnóstico <span class="rq">*</span></label>
-                        <input type="text" id="lCie" placeholder="Ej: J06.9 - Infección aguda vías respiratorias">
+                        <label>Diagnóstico (CIE-10) <span class="rq">*</span></label>
+                        
+                        <!-- Searchable Custom Select Container for CIE-10 -->
+                        <div class="custom-search-select" id="cieSelectContainer">
+                            <input type="hidden" id="lCie" name="diagnosticoCie" value="">
+                            
+                            <!-- Search Box / Trigger -->
+                            <div class="search-select-box" id="cieSearchBox">
+                                <i class="fas fa-notes-medical search-icon"></i>
+                                <input type="text" id="cieSearchInput" placeholder="Buscar por código (ej: J06, M54) o patología (ej: resfrío, lumbalgia)..." autocomplete="off" onfocus="openCieDropdown()" oninput="filterCieCodes(this.value)">
+                                <button type="button" class="search-clear-btn" id="cieClearBtn" onclick="clearCieSelection()" style="display:none;" title="Cambiar diagnóstico">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- Dropdown List -->
+                            <div class="search-select-dropdown" id="cieDropdown" style="display:none;">
+                                <div class="search-select-list" id="cieSelectList">
+                                    <!-- Dynamic options rendered via JS -->
+                                </div>
+                            </div>
+                        </div>
+
                         <span class="em" id="eCie"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                 </div>
@@ -541,6 +622,7 @@
         let MOTIVOS = [];
         let JERARQUIAS = [];
         let ESPECIALIDADES = [];
+        let CIE10 = [];
         let LICENCIAS_VIGENTES = [
             { nro: "LM-2025-00123", motivo: "Enfermedad común", desde: "01/03/2025", hasta: "15/03/2025" },
             { nro: "LM-2025-00088", motivo: "Accidente de trabajo", desde: "20/02/2025", hasta: "10/03/2025" },
@@ -626,6 +708,11 @@
                 if (resEsp.ok) ESPECIALIDADES = await resEsp.json();
             } catch (err) { console.warn('Error cargando especialidades.json:', err); }
 
+            try {
+                const resCie = await fetch('code-cie-10.json');
+                if (resCie.ok) CIE10 = await resCie.json();
+            } catch (err) { console.warn('Error cargando code-cie-10.json:', err); }
+
             renderSelect(sDep, DEPS, 'Seleccionar dependencia', 'id', 'nombre');
             renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', 'nombre');
             renderSelect(sGra, JERARQUIAS, 'Seleccionar', 'nombre', 'nombre');
@@ -673,6 +760,8 @@
         function closeLoginModal() {
             document.getElementById('modLogin').classList.remove('vis');
         }
+
+
 
         function doLogin(e) {
             e.preventDefault();
@@ -762,11 +851,7 @@
             setVal('sDir', CURRENT_USER.domicilio);
             setVal('sUsu', CURRENT_USER.usufructo);
             if (CURRENT_USER.dependenciaId) {
-                const sDep = document.getElementById('sDep');
-                if (sDep) {
-                    sDep.value = CURRENT_USER.dependenciaId;
-                    onDep();
-                }
+                selectDependencia(CURRENT_USER.dependenciaId);
             }
         }
 
@@ -906,6 +991,165 @@
             updProg();
         }
 
+        /* ═══ DESPLEGABLE BUSCADOR DE DEPENDENCIAS ═══ */
+        function openDepDropdown() {
+            const drop = document.getElementById('depDropdown');
+            if (drop) {
+                drop.style.display = 'block';
+                const currentVal = document.getElementById('depSearchInput').value;
+                filterDependencias(currentVal);
+            }
+        }
+
+        function filterDependencias(query) {
+            const listEl = document.getElementById('depSelectList');
+            if (!listEl) return;
+            const q = (query || '').toLowerCase().trim();
+            const filtered = DEPS.filter(d => 
+                d.nombre.toLowerCase().includes(q) || 
+                (d.jefe && d.jefe.toLowerCase().includes(q)) ||
+                (d.email && d.email.toLowerCase().includes(q))
+            );
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div class="search-select-no-results"><i class="fas fa-search-minus"></i> No se encontraron dependencias</div>`;
+                return;
+            }
+
+            const currentSelectedId = parseInt(document.getElementById('sDep').value) || 0;
+            listEl.innerHTML = filtered.map(d => {
+                const isSelected = d.id === currentSelectedId;
+                return `
+                    <div class="search-select-item ${isSelected ? 'selected' : ''}" onclick="selectDependencia(${d.id})">
+                        <div class="ss-item-main">
+                            <i class="fas fa-building-shield ss-item-icon"></i>
+                            <div class="ss-item-info">
+                                <div class="ss-item-title">${escapeHtml(d.nombre)}</div>
+                                <div class="ss-item-sub"><i class="fas fa-user-tie"></i> ${escapeHtml(d.jefe)}</div>
+                            </div>
+                        </div>
+                        ${isSelected ? '<i class="fas fa-check ss-item-check"></i>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectDependencia(id) {
+            const d = DEPS.find(x => x.id === id);
+            if (!d) return;
+            document.getElementById('sDep').value = d.id;
+            const input = document.getElementById('depSearchInput');
+            input.value = d.nombre;
+            input.classList.add('has-selection');
+            document.getElementById('depClearBtn').style.display = 'flex';
+            document.getElementById('depDropdown').style.display = 'none';
+            document.getElementById('eDep').classList.remove('vis');
+            onDep();
+        }
+
+        function clearDepSelection() {
+            document.getElementById('sDep').value = '';
+            const input = document.getElementById('depSearchInput');
+            input.value = '';
+            input.classList.remove('has-selection');
+            document.getElementById('depClearBtn').style.display = 'none';
+            document.getElementById('depDropdown').style.display = 'none';
+            onDep();
+            input.focus();
+        }
+
+        /* ═══ DESPLEGABLE BUSCADOR DE DIAGNÓSTICOS CIE-10 ═══ */
+        function openCieDropdown() {
+            const drop = document.getElementById('cieDropdown');
+            if (drop) {
+                drop.style.display = 'block';
+                const currentVal = document.getElementById('cieSearchInput').value;
+                filterCieCodes(currentVal);
+            }
+        }
+
+        function filterCieCodes(query) {
+            const listEl = document.getElementById('cieSelectList');
+            if (!listEl) return;
+            const q = (query || '').toLowerCase().trim();
+
+            let filtered = [];
+            if (!q) {
+                // Si el buscador está vacío, mostramos diagnósticos específicos (Level 3 / 2) representativos
+                filtered = CIE10.filter(c => c.code && c.description && (c.level === 3 || c.level === 2 || !c.level)).slice(0, 40);
+            } else {
+                filtered = CIE10.filter(c => {
+                    if (!c.code || !c.description) return false;
+                    const codeMatch = c.code.toLowerCase().includes(q);
+                    const descMatch = c.description.toLowerCase().includes(q);
+                    return codeMatch || descMatch;
+                }).slice(0, 60); // Retorna hasta 60 coincidencias instantáneas
+            }
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div class="search-select-no-results"><i class="fas fa-search-minus"></i> No se encontraron diagnósticos CIE-10 para "${escapeHtml(query)}"</div>`;
+                return;
+            }
+
+            const currentSelectedVal = document.getElementById('lCie').value;
+            listEl.innerHTML = filtered.map(c => {
+                const fullString = `${c.code} - ${c.description}`;
+                const isSelected = currentSelectedVal === fullString;
+                return `
+                    <div class="search-select-item ${isSelected ? 'selected' : ''}" onclick="selectCieCode('${escapeHtml(c.code)}', '${escapeHtml(c.description)}')">
+                        <div class="ss-item-main">
+                            <i class="fas fa-microscope ss-item-icon" style="color:var(--danger)"></i>
+                            <div class="ss-item-info">
+                                <div class="ss-item-title"><strong style="color:var(--blue);margin-right:6px;font-family:monospace;font-size:0.88rem">${escapeHtml(c.code)}</strong> ${escapeHtml(c.description)}</div>
+                                ${c.code_0 ? `<div class="ss-item-sub">Grupo CIE: ${escapeHtml(c.code_0)}</div>` : ''}
+                            </div>
+                        </div>
+                        ${isSelected ? '<i class="fas fa-check ss-item-check"></i>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectCieCode(code, description) {
+            const fullVal = `${code} - ${description}`;
+            document.getElementById('lCie').value = fullVal;
+            const input = document.getElementById('cieSearchInput');
+            input.value = fullVal;
+            input.classList.add('has-selection');
+            document.getElementById('cieClearBtn').style.display = 'flex';
+            document.getElementById('cieDropdown').style.display = 'none';
+            document.getElementById('eCie').classList.remove('vis');
+        }
+
+        function clearCieSelection() {
+            document.getElementById('lCie').value = '';
+            const input = document.getElementById('cieSearchInput');
+            input.value = '';
+            input.classList.remove('has-selection');
+            document.getElementById('cieClearBtn').style.display = 'none';
+            document.getElementById('cieDropdown').style.display = 'none';
+            input.focus();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            const depContainer = document.getElementById('depSelectContainer');
+            if (depContainer && !depContainer.contains(e.target)) {
+                const drop = document.getElementById('depDropdown');
+                if (drop) drop.style.display = 'none';
+            }
+            const cieContainer = document.getElementById('cieSelectContainer');
+            if (cieContainer && !cieContainer.contains(e.target)) {
+                const drop = document.getElementById('cieDropdown');
+                if (drop) drop.style.display = 'none';
+            }
+        });
+
         function onDep() {
             const id = parseInt(document.getElementById('sDep').value);
             const b = document.getElementById('jBox');
@@ -962,30 +1206,45 @@
         function gRN(s) {
             let n = 0;
             for (let i = 1; i <= s; i++) {
-                const e = document.querySelector(`.st-i[data-step="${i}"]`);
+                const e = document.querySelector(`.ls-item[data-step="${i}"], .st-i[data-step="${i}"]`);
                 if (e && !e.classList.contains('hid')) n++;
             }
             return n;
         }
 
         function updStep() {
-            document.querySelectorAll('.st-i').forEach(e => {
+            document.querySelectorAll('.ls-item, .st-i').forEach(e => {
                 const s = +e.dataset.step;
                 e.classList.remove('act', 'done');
                 if (e.classList.contains('hid')) return;
 
+                const circle = e.querySelector('.ls-circle, .st-c');
+                const isLs = e.classList.contains('ls-item');
+
                 if (s === S.cur) {
                     e.classList.add('act');
-                    e.querySelector('.st-c').textContent = gRN(s);
+                    if (circle) {
+                        if (isLs) {
+                            circle.innerHTML = `<span class="ls-num">${String(gRN(s)).padStart(2, '0')}</span>`;
+                        } else {
+                            circle.textContent = gRN(s);
+                        }
+                    }
                 } else if (s < S.cur) {
                     e.classList.add('done');
-                    e.querySelector('.st-c').innerHTML = '<i class="fas fa-check"></i>';
+                    if (circle) circle.innerHTML = '<i class="fas fa-check"></i>';
                 } else {
-                    e.querySelector('.st-c').textContent = gRN(s);
+                    if (circle) {
+                        if (isLs) {
+                            circle.innerHTML = `<span class="ls-num">${String(gRN(s)).padStart(2, '0')}</span>`;
+                        } else {
+                            circle.textContent = gRN(s);
+                        }
+                    }
                 }
             });
 
-            document.querySelectorAll('.st-ln').forEach(l => {
+            document.querySelectorAll('.ls-line, .st-ln').forEach(l => {
                 const n = +l.dataset.line;
                 l.classList.remove('done');
                 if (l.classList.contains('hid')) return;
