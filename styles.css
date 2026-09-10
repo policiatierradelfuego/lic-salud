@@ -2417,7 +2417,7 @@ body {
    STEPPER LINEAL CONECTADO CON CÍRCULOS (REFERENCIA USUARIO TDF)
    ═══════════════════════════════════════════════════════════════ */
 .line-stepper {
-    display: none;
+    display: none !important;
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
@@ -2434,12 +2434,18 @@ body {
     user-select: none;
 }
 
+@media(max-width: 767px) {
+    .line-stepper {
+        display: none !important;
+    }
+}
+
 @media(min-width: 768px) {
     .prog-bar {
-        display: none;
+        display: none !important;
     }
     .line-stepper {
-        display: flex;
+        display: flex !important;
     }
     .app {
         padding-bottom: 40px;
