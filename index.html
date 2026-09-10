@@ -388,10 +388,10 @@
                         <input type="hidden" id="sDep" name="dependenciaId" value="">
                         
                         <!-- Search Box / Trigger -->
-                        <div class="search-select-box" id="depSearchBox">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="depSearchInput" placeholder="Buscar dependencia (ej: Comisaría, Ushuaia)..." autocomplete="off" onfocus="openDepDropdown()" oninput="filterDependencias(this.value)">
-                            <button type="button" class="search-clear-btn" id="depClearBtn" onclick="clearDepSelection()" style="display:none;" title="Cambiar dependencia">
+                        <div class="search-select-box" id="depSearchBox" onclick="focusAndOpenDep(event)">
+                            <i class="fas fa-search search-icon" onclick="focusAndOpenDep(event)" title="Buscar dependencia"></i>
+                            <input type="text" id="depSearchInput" placeholder="Buscar dependencia (ej: Comisaría, Ushuaia)..." autocomplete="off" onfocus="openDepDropdown()" onclick="openDepDropdown()" oninput="filterDependencias(this.value)">
+                            <button type="button" class="search-clear-btn" id="depClearBtn" onclick="clearDepSelection(event)" style="display:none;" title="Cambiar dependencia">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -499,10 +499,10 @@
                             <input type="hidden" id="lCie" name="diagnosticoCie" value="">
                             
                             <!-- Search Box / Trigger -->
-                            <div class="search-select-box" id="cieSearchBox">
-                                <i class="fas fa-notes-medical search-icon"></i>
-                                <input type="text" id="cieSearchInput" placeholder="Buscar por código (ej: J06, M54) o patología (ej: resfrío, lumbalgia)..." autocomplete="off" onfocus="openCieDropdown()" oninput="filterCieCodes(this.value)">
-                                <button type="button" class="search-clear-btn" id="cieClearBtn" onclick="clearCieSelection()" style="display:none;" title="Cambiar diagnóstico">
+                            <div class="search-select-box" id="cieSearchBox" onclick="focusAndOpenCie(event)">
+                                <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenCie(event)" title="Buscar patología"></i>
+                                <input type="text" id="cieSearchInput" placeholder="Buscar por código (ej: J06, M54) o patología (ej: resfrío, lumbalgia)..." autocomplete="off" onfocus="openCieDropdown()" onclick="openCieDropdown()" oninput="filterCieCodes(this.value)">
+                                <button type="button" class="search-clear-btn" id="cieClearBtn" onclick="clearCieSelection(event)" style="display:none;" title="Cambiar diagnóstico">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -606,14 +606,7 @@
         </section>
     </div>
 
-    <!-- BOTTOM BAR MOBILE -->
-    <div class="bot-bar" id="botBar">
-        <button class="btn-s" id="bPrev" onclick="prev(S.cur)" style="display:none"><i class="fas fa-arrow-left"></i>
-            Anterior</button>
-        <button class="btn-p" id="bNext" onclick="next(S.cur)">Siguiente <i class="fas fa-arrow-right"></i></button>
-        <button class="btn-p" id="bSub" onclick="doSubmit()" style="display:none"><i class="fas fa-paper-plane"></i>
-            Confirmar</button>
-    </div>
+
 
     <!-- ═══ SCRIPTS Y LÓGICA DE APLICACIÓN ═══ -->
     <script>
@@ -991,7 +984,25 @@
             updProg();
         }
 
-        /* ═══ DESPLEGABLE BUSCADOR DE DEPENDENCIAS ═══ */
+        /* ═══ UTILIDADES Y DESPLEGABLE BUSCADOR DE DEPENDENCIAS ═══ */
+        function normalizeText(text) {
+            if (!text) return '';
+            return text
+                .toString()
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function focusAndOpenDep(e) {
+            if (e && e.target && e.target.closest('.search-clear-btn')) return;
+            const input = document.getElementById('depSearchInput');
+            if (input) {
+                input.focus();
+                openDepDropdown();
+            }
+        }
+
         function openDepDropdown() {
             const drop = document.getElementById('depDropdown');
             if (drop) {
@@ -1004,12 +1015,17 @@
         function filterDependencias(query) {
             const listEl = document.getElementById('depSelectList');
             if (!listEl) return;
-            const q = (query || '').toLowerCase().trim();
-            const filtered = DEPS.filter(d => 
-                d.nombre.toLowerCase().includes(q) || 
-                (d.jefe && d.jefe.toLowerCase().includes(q)) ||
-                (d.email && d.email.toLowerCase().includes(q))
-            );
+            const qNorm = normalizeText(query).trim();
+            const tokens = qNorm.split(/\s+/).filter(Boolean);
+
+            const filtered = DEPS.filter(d => {
+                if (!tokens.length) return true;
+                const normNombre = normalizeText(d.nombre);
+                const normJefe = normalizeText(d.jefe);
+                const normEmail = normalizeText(d.email);
+                const combined = `${normNombre} ${normJefe} ${normEmail}`;
+                return tokens.every(token => combined.includes(token));
+            });
 
             if (filtered.length === 0) {
                 listEl.innerHTML = `<div class="search-select-no-results"><i class="fas fa-search-minus"></i> No se encontraron dependencias</div>`;
@@ -1047,7 +1063,8 @@
             onDep();
         }
 
-        function clearDepSelection() {
+        function clearDepSelection(e) {
+            if (e) e.stopPropagation();
             document.getElementById('sDep').value = '';
             const input = document.getElementById('depSearchInput');
             input.value = '';
@@ -1058,7 +1075,16 @@
             input.focus();
         }
 
-        /* ═══ DESPLEGABLE BUSCADOR DE DIAGNÓSTICOS CIE-10 ═══ */
+        /* ═══ DESPLEGABLE BUSCADOR DE DIAGNÓSTICOS CIE-10 (PATOLOGÍAS) ═══ */
+        function focusAndOpenCie(e) {
+            if (e && e.target && e.target.closest('.search-clear-btn')) return;
+            const input = document.getElementById('cieSearchInput');
+            if (input) {
+                input.focus();
+                openCieDropdown();
+            }
+        }
+
         function openCieDropdown() {
             const drop = document.getElementById('cieDropdown');
             if (drop) {
@@ -1071,18 +1097,21 @@
         function filterCieCodes(query) {
             const listEl = document.getElementById('cieSelectList');
             if (!listEl) return;
-            const q = (query || '').toLowerCase().trim();
+            const qNorm = normalizeText(query).trim();
+            const tokens = qNorm.split(/\s+/).filter(Boolean);
 
             let filtered = [];
-            if (!q) {
+            if (!tokens.length) {
                 // Si el buscador está vacío, mostramos diagnósticos específicos (Level 3 / 2) representativos
                 filtered = CIE10.filter(c => c.code && c.description && (c.level === 3 || c.level === 2 || !c.level)).slice(0, 40);
             } else {
                 filtered = CIE10.filter(c => {
                     if (!c.code || !c.description) return false;
-                    const codeMatch = c.code.toLowerCase().includes(q);
-                    const descMatch = c.description.toLowerCase().includes(q);
-                    return codeMatch || descMatch;
+                    const normCode = normalizeText(c.code);
+                    const normDesc = normalizeText(c.description);
+                    const normGroup = c.code_0 ? normalizeText(c.code_0) : '';
+                    const combined = `${normCode} ${normDesc} ${normGroup}`;
+                    return tokens.every(token => combined.includes(token));
                 }).slice(0, 60); // Retorna hasta 60 coincidencias instantáneas
             }
 
@@ -1121,7 +1150,8 @@
             document.getElementById('eCie').classList.remove('vis');
         }
 
-        function clearCieSelection() {
+        function clearCieSelection(e) {
+            if (e) e.stopPropagation();
             document.getElementById('lCie').value = '';
             const input = document.getElementById('cieSearchInput');
             input.value = '';
@@ -1256,6 +1286,7 @@
             const bp = document.getElementById('bPrev');
             const bn = document.getElementById('bNext');
             const bs = document.getElementById('bSub');
+            if (!bp || !bn || !bs) return;
 
             bp.style.display = S.cur > 1 ? 'flex' : 'none';
             if (S.cur === 6) {
@@ -1545,6 +1576,8 @@
             if (document.getElementById('helpMotivo')) document.getElementById('helpMotivo').style.display = 'none';
 
             document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = '');
+            clearDepSelection();
+            clearCieSelection();
             rF('cert');
             rF('est');
             rF('rec');
