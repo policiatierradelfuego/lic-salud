@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Perfil de Usuario y Autorizaciones - Policía de Tierra del Fuego</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="bg-atm"></div>
+    <div class="toast-c" id="toastC"></div>
+
+    <div class="app">
+        <!-- HEADER PRINCIPAL -->
+        <header class="hdr">
+            <div class="hdr-left">
+                <a href="index.html" class="btn-s" style="text-decoration:none;gap:6px;padding:8px 14px;font-size:0.8rem" title="Volver al inicio">
+                    <i class="fas fa-arrow-left"></i> Volver a Licencias
+                </a>
+            </div>
+
+            <div class="hdr-center">
+                <h1 class="hdr-title">Perfil de Usuario</h1>
+            </div>
+
+            <div class="hdr-right">
+                <div class="hdr-shield">
+                    <img src="img/escudo_oro.png" alt="Policía de Tierra del Fuego" class="shield-img">
+                </div>
+            </div>
+        </header>
+
+        <!-- CARDA HERO: FICHA PRINCIPAL DEL TITULAR -->
+        <div class="profile-hero-card">
+            <div class="profile-header-top">
+                <div class="profile-avatar-group">
+                    <div class="profile-avatar-lg">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="profile-title-group">
+                        <h2 id="profNombre">Pérez, Juan Carlos</h2>
+                        <div class="profile-subhead">
+                            <span class="badge gn" id="profGradoLegajo"><i class="fas fa-id-badge"></i> Principal — Legajo 12345</span>
+                            <span class="badge bl"><i class="fas fa-shield-alt"></i> Personal Activo</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-s" onclick="openEditContactModal()" style="font-size:0.8rem">
+                    <i class="fas fa-pen" style="color:var(--blue)"></i> Editar Contacto
+                </button>
+            </div>
+
+            <!-- FICHA DETALLADA DE DATOS -->
+            <div class="ss-g">
+                <div class="sf"><span class="sl">Número de Legajo</span><span class="sv" id="dLegajo">12345</span></div>
+                <div class="sf"><span class="sl">Jerarquía / Grado</span><span class="sv" id="dGrado">Principal</span></div>
+                <div class="sf"><span class="sl">DNI</span><span class="sv" id="dDni">35.123.456</span></div>
+                <div class="sf"><span class="sl">CUIL</span><span class="sv" id="dCuil">20-35123456-8</span></div>
+                <div class="sf"><span class="sl">Fecha de Nacimiento</span><span class="sv" id="dFechaNac">14/05/1988</span></div>
+                <div class="sf"><span class="sl">Teléfono de Contacto</span><span class="sv" id="dTelefono">2901 555-4321</span></div>
+                <div class="sf fu"><span class="sl">Correo Electrónico</span><span class="sv" id="dEmail">jcperez@policiatdf.gob.ar</span></div>
+                <div class="sf fu"><span class="sl">Domicilio Real Registrado</span><span class="sv" id="dDomicilio">Av. San Martín 450, Ushuaia</span></div>
+                <div class="sf fu"><span class="sl">Lugar de Usufructo de Licencia</span><span class="sv" id="dUsufructo">Av. San Martín 450, Ushuaia</span></div>
+                <div class="sf"><span class="sl">Obra Social</span><span class="sv" id="dObraSocial">OSPF</span></div>
+                <div class="sf"><span class="sl">N° Afiliado Obra Social</span><span class="sv" id="dNroAfiliado">8845120</span></div>
+                <div class="sf fu"><span class="sl">Dependencia Policial Asignada</span><span class="sv" id="dDependencia">Jefatura de Policía — Ushuaia</span></div>
+                <div class="sf fu"><span class="sl">Jefe Directo a Notificar</span><span class="sv" id="dJefe" style="color:var(--blue)">Com. Gral. Mgtr. Jacinto Rolón</span></div>
+            </div>
+        </div>
+
+        <!-- ═══ SECCIÓN 2: TERCEROS DECLARADOS (GRUPO FAMILIAR) ═══ -->
+        <div class="card" style="margin-bottom:24px">
+            <div class="section-title-flex">
+                <div>
+                    <h3 class="card-t"><i class="fas fa-users" style="color:var(--accent);margin-right:6px"></i> Terceros Declarados</h3>
+                    <p class="card-s" style="margin-bottom:0">Grupo familiar directo registrado para licencias por atención médica familiar.</p>
+                </div>
+                <button class="btn-s" onclick="openAddThirdModal()" style="font-size:0.8rem">
+                    <i class="fas fa-user-plus" style="color:var(--accent)"></i> Declarar Tercero
+                </button>
+            </div>
+
+            <div id="thirdPartyContainer" class="fgrid" style="gap:14px;margin-top:16px">
+                <!-- Se renderizan dinámicamente -->
+            </div>
+        </div>
+
+        <!-- ═══ SECCIÓN 3: PERSONAS AUTORIZADAS (MÁXIMO 2) ═══ -->
+        <div class="card">
+            <div class="section-title-flex">
+                <div>
+                    <h3 class="card-t"><i class="fas fa-user-check" style="color:var(--gold);margin-right:6px"></i> Personas Autorizadas a Operar el Sistema</h3>
+                    <p class="card-s" style="margin-bottom:0">Gestión de terceros autorizados para solicitar licencias médicas ante imposibilidad del titular.</p>
+                </div>
+                <span class="chip-counter" id="authCounterChip">
+                    <i class="fas fa-user-shield"></i> <span id="authCountText">0 / 2</span> personas autorizadas
+                </span>
+            </div>
+
+            <!-- Banner Explicativo -->
+            <div class="info-banner">
+                <i class="fas fa-shield-alt"></i>
+                <p>
+                    <strong>Aviso Institucional:</strong> Se autoriza a registrar un <strong>máximo de 2 personas</strong> facultadas para ingresar solicitudes de licencia médica en su nombre. Esta opción debe ser utilizada en casos de fuerza mayor, accidentes o imposibilidad física de operar el sistema por sus propios medios.
+                </p>
+            </div>
+
+            <!-- Grid de Personas Autorizadas -->
+            <div class="auth-grid" id="authGridContainer">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL EDITAR DATOS DE CONTACTO ═══ -->
+    <div class="mod-ov" id="modEditContact">
+        <div class="mod-bx">
+            <div class="mod-head">
+                <h3><i class="fas fa-pen" style="color:var(--gold)"></i> Editar Datos de Contacto</h3>
+                <button class="mod-close" onclick="closeEditContactModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="saveContactData(event)" style="display:flex;flex-direction:column;gap:12px;text-align:left">
+                <div class="fg">
+                    <label>Teléfono de Contacto <span class="rq">*</span></label>
+                    <input type="tel" id="mTel" required placeholder="Ej: 2901 555-4321">
+                </div>
+                <div class="fg">
+                    <label>Correo Electrónico <span class="rq">*</span></label>
+                    <input type="email" id="mEma" required placeholder="ejemplo@policiatdf.gob.ar">
+                </div>
+                <div class="fg">
+                    <label>Domicilio Real <span class="rq">*</span></label>
+                    <input type="text" id="mDir" required placeholder="Calle y altura">
+                </div>
+                <div class="fg">
+                    <label>Lugar de Usufructo de Licencia <span class="rq">*</span></label>
+                    <input type="text" id="mUsu" required placeholder="Domicilio durante licencia">
+                </div>
+                <div class="fg">
+                    <label>Obra Social <span class="rq">*</span></label>
+                    <input type="text" id="mOS" required placeholder="Ej: OSPF">
+                </div>
+                <div class="fg">
+                    <label>N° Afiliado <span class="rq">*</span></label>
+                    <input type="text" id="mNAf" required placeholder="Número de carnet">
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+                    <button type="button" class="btn-s" onclick="closeEditContactModal()">Cancelar</button>
+                    <button type="submit" class="btn-p"><i class="fas fa-save"></i> Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL AGREGAR / EDITAR TERCERO DECLARADO ═══ -->
+    <div class="mod-ov" id="modThirdParty">
+        <div class="mod-bx">
+            <div class="mod-head">
+                <h3 id="modThirdTitle"><i class="fas fa-user-plus" style="color:var(--accent)"></i> Declarar Tercero a Cargo</h3>
+                <button class="mod-close" onclick="closeThirdPartyModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="saveThirdParty(event)" style="display:flex;flex-direction:column;gap:12px;text-align:left">
+                <input type="hidden" id="thirdIndex" value="-1">
+                <div class="fg">
+                    <label>Vínculo / Parentesco <span class="rq">*</span></label>
+                    <select id="tpVin" required>
+                        <option value="">Seleccionar vínculo</option>
+                        <option value="Hijo/a">Hijo/a</option>
+                        <option value="Cónyuge">Cónyuge / Conviviente</option>
+                        <option value="Padre / Madre">Padre / Madre</option>
+                        <option value="Familiar a cargo">Familiar a cargo</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>Apellido y Nombre Completo <span class="rq">*</span></label>
+                    <input type="text" id="tpNom" required placeholder="Ej: Pérez Fernández, Mateo">
+                </div>
+                <div class="fg">
+                    <label>DNI / Documento <span class="rq">*</span></label>
+                    <input type="text" id="tpDni" required placeholder="Ej: 48.123.456">
+                </div>
+                <div class="fg">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" id="tpFN">
+                </div>
+                <div class="fg">
+                    <label>Obra Social</label>
+                    <input type="text" id="tpOS" placeholder="Ej: OSPF">
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+                    <button type="button" class="btn-s" onclick="closeThirdPartyModal()">Cancelar</button>
+                    <button type="submit" class="btn-p"><i class="fas fa-check"></i> Guardar Tercero</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL AGREGAR / EDITAR PERSONA AUTORIZADA ═══ -->
+    <div class="mod-ov" id="modAuthPerson">
+        <div class="mod-bx">
+            <div class="mod-head">
+                <h3 id="modAuthTitle"><i class="fas fa-user-shield" style="color:var(--gold)"></i> Registrar Persona Autorizada</h3>
+                <button class="mod-close" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <p style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:12px">
+                Esta persona quedará acreditada para presentar licencias médicas a su nombre en caso de indisposición.
+            </p>
+            <form onsubmit="saveAuthPerson(event)" style="display:flex;flex-direction:column;gap:12px;text-align:left">
+                <input type="hidden" id="authIndex" value="-1">
+                <div class="fg">
+                    <label>Apellido y Nombre Completo <span class="rq">*</span></label>
+                    <input type="text" id="apNom" required placeholder="Ej: González, María Elena">
+                </div>
+                <div class="fg">
+                    <label>DNI / Documento <span class="rq">*</span></label>
+                    <input type="text" id="apDni" required placeholder="Ej: 32.890.123">
+                </div>
+                <div class="fg">
+                    <label>Teléfono de Contacto <span class="rq">*</span></label>
+                    <input type="tel" id="apTel" required placeholder="Ej: 2901 555-9876">
+                </div>
+                <div class="fg">
+                    <label>Correo Electrónico (Acceso al Sistema) <span class="rq">*</span></label>
+                    <input type="email" id="apEmail" required placeholder="ejemplo@correo.com">
+                </div>
+                <div class="fg">
+                    <label>Contraseña Asignada <span class="rq">*</span></label>
+                    <input type="password" id="apPass" required placeholder="••••••••" minlength="6">
+                </div>
+                <div class="fg">
+                    <label>Relación / Parentesco <span class="rq">*</span></label>
+                    <select id="apRel" required>
+                        <option value="">Seleccionar vínculo</option>
+                        <option value="Cónyuge / Conviviente">Cónyuge / Conviviente</option>
+                        <option value="Padre / Madre">Padre / Madre</option>
+                        <option value="Hermano/a">Hermano/a</option>
+                        <option value="Hijo/a (Mayor de edad)">Hijo/a (Mayor de edad)</option>
+                        <option value="Familiar Directo">Familiar Directo</option>
+                        <option value="Compañero/a de Fuerza">Compañero/a de Fuerza</option>
+                    </select>
+                </div>
+                <div class="fg">
+                    <label>Observaciones / Nota adicional</label>
+                    <input type="text" id="apObs" placeholder="Ej: Contacto de emergencia principal">
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+                    <button type="button" class="btn-s" onclick="closeAuthModal()">Cancelar</button>
+                    <button type="submit" class="btn-p"><i class="fas fa-check-circle"></i> Confirmar Autorización</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE LOGICA Y PERSISTENCIA -->
+    <script>
+        /* Datos iniciales del usuario Titular */
+        let USER_DATA = {
+            legajo: "12345",
+            grado: "Principal",
+            nombre: "Pérez, Juan Carlos",
+            dni: "35.123.456",
+            cuil: "20-35123456-8",
+            fechaNac: "1988-05-14",
+            telefono: "2901 555-4321",
+            email: "jcperez@policiatdf.gob.ar",
+            domicilio: "Av. San Martín 450, Ushuaia",
+            usufructo: "Av. San Martín 450, Ushuaia",
+            obraSocial: "OSPF",
+            nroAfiliado: "8845120",
+            dependencia: "Jefatura de Policía — Ushuaia",
+            jefe: "Com. Gral. Mgtr. Jacinto Rolón"
+        };
+
+        /* Terceros declarados iniciales */
+        let THIRD_PARTIES = [
+            { vinculo: "Cónyuge", nombre: "Fernández, María Laura", dni: "36.456.789", fechaNac: "1989-08-22", obraSocial: "OSPF" },
+            { vinculo: "Hijo/a", nombre: "Pérez Fernández, Mateo", dni: "52.123.999", fechaNac: "2018-03-10", obraSocial: "OSPF" }
+        ];
+
+        /* Personas Autorizadas iniciales (Máximo 2) */
+        let AUTHORIZED_PERSONS = [
+            {
+                nombre: "Fernández, María Laura",
+                dni: "36.456.789",
+                telefono: "2901 555-8899",
+                email: "mlfernandez@gmail.com",
+                password: "Clave123456*",
+                relacion: "Cónyuge / Conviviente",
+                observaciones: "Autorizada principal"
+            }
+        ];
+
+        /* Carga desde localStorage */
+        function loadStorage() {
+            try {
+                const u = localStorage.getItem('USER_PROFILE_DATA');
+                if (u) USER_DATA = { ...USER_DATA, ...JSON.parse(u) };
+                
+                const t = localStorage.getItem('DECLARED_THIRDPARTIES');
+                if (t) THIRD_PARTIES = JSON.parse(t);
+
+                const a = localStorage.getItem('AUTHORIZED_PERSONS');
+                if (a) AUTHORIZED_PERSONS = JSON.parse(a);
+            } catch(e) {
+                console.warn('Error cargando localStorage:', e);
+            }
+        }
+
+        function saveStorage() {
+            try {
+                localStorage.setItem('USER_PROFILE_DATA', JSON.stringify(USER_DATA));
+                localStorage.setItem('DECLARED_THIRDPARTIES', JSON.stringify(THIRD_PARTIES));
+                localStorage.setItem('AUTHORIZED_PERSONS', JSON.stringify(AUTHORIZED_PERSONS));
+            } catch(e) {
+                console.warn('Error guardando en localStorage:', e);
+            }
+        }
+
+        /* Renderizar Ficha de Usuario */
+        function renderUserProfile() {
+            document.getElementById('profNombre').textContent = USER_DATA.nombre;
+            document.getElementById('profGradoLegajo').innerHTML = `<i class="fas fa-id-badge"></i> ${USER_DATA.grado} — Legajo ${USER_DATA.legajo}`;
+            
+            document.getElementById('dLegajo').textContent = USER_DATA.legajo;
+            document.getElementById('dGrado').textContent = USER_DATA.grado;
+            document.getElementById('dDni').textContent = USER_DATA.dni;
+            document.getElementById('dCuil').textContent = USER_DATA.cuil;
+            document.getElementById('dFechaNac').textContent = formatDate(USER_DATA.fechaNac);
+            document.getElementById('dTelefono').textContent = USER_DATA.telefono;
+            document.getElementById('dEmail').textContent = USER_DATA.email;
+            document.getElementById('dDomicilio').textContent = USER_DATA.domicilio;
+            document.getElementById('dUsufructo').textContent = USER_DATA.usufructo;
+            document.getElementById('dObraSocial').textContent = USER_DATA.obraSocial;
+            document.getElementById('dNroAfiliado').textContent = USER_DATA.nroAfiliado;
+            document.getElementById('dDependencia').textContent = USER_DATA.dependencia;
+            document.getElementById('dJefe').textContent = USER_DATA.jefe;
+        }
+
+        /* Renderizar Terceros Declarados */
+        function renderThirdParties() {
+            const c = document.getElementById('thirdPartyContainer');
+            c.innerHTML = '';
+
+            if (THIRD_PARTIES.length === 0) {
+                c.innerHTML = `<div class="full" style="text-align:center;color:var(--fg-muted);padding:20px">No tenés terceros declarados registrados.</div>`;
+                return;
+            }
+
+            THIRD_PARTIES.forEach((tp, i) => {
+                const card = document.createElement('div');
+                card.className = 'tr-i';
+                card.style.background = 'rgba(255, 255, 255, 0.72)';
+                card.style.border = '1px solid var(--border)';
+                card.style.borderRadius = 'var(--radius)';
+                card.style.padding = '14px';
+                card.style.justifyContent = 'space-between';
+                card.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div class="tr-ic g"><i class="fas fa-user-friends"></i></div>
+                        <div>
+                            <h4 style="font-size:0.9rem;font-weight:700;color:var(--fg)">${esc(tp.nombre)}</h4>
+                            <p style="font-size:0.78rem;color:var(--fg-muted)">
+                                <strong style="color:var(--blue)">${esc(tp.vinculo)}</strong> • DNI: ${esc(tp.dni)} ${tp.fechaNac ? '• Nac: ' + formatDate(tp.fechaNac) : ''}
+                            </p>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:6px">
+                        <button class="fi-rm" onclick="openEditThirdModal(${i})" title="Editar" style="color:var(--blue)"><i class="fas fa-pen"></i></button>
+                        <button class="fi-rm" onclick="removeThirdParty(${i})" title="Eliminar" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                c.appendChild(card);
+            });
+        }
+
+        /* Renderizar Personas Autorizadas */
+        function renderAuthorizedPersons() {
+            const container = document.getElementById('authGridContainer');
+            const chip = document.getElementById('authCounterChip');
+            const text = document.getElementById('authCountText');
+
+            const count = AUTHORIZED_PERSONS.length;
+            text.textContent = `${count} / 2`;
+
+            if (count >= 2) {
+                chip.classList.add('full');
+            } else {
+                chip.classList.remove('full');
+            }
+
+            container.innerHTML = '';
+
+            // Render tarjetas existentes
+            AUTHORIZED_PERSONS.forEach((ap, idx) => {
+                const card = document.createElement('div');
+                card.className = 'auth-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="auth-card-head">
+                            <div style="display:flex;align-items:center;gap:12px">
+                                <div class="auth-avatar"><i class="fas fa-user-shield"></i></div>
+                                <div>
+                                    <div class="auth-name">${esc(ap.nombre)}</div>
+                                    <div class="auth-rel"><i class="fas fa-link"></i> ${esc(ap.relacion)}</div>
+                                </div>
+                            </div>
+                            <span class="badge gn" style="font-size:0.68rem"><i class="fas fa-check-circle"></i> Habilitado</span>
+                        </div>
+                        <div class="auth-card-body">
+                            <div><i class="fas fa-id-card" style="color:var(--blue);width:16px"></i> DNI: ${esc(ap.dni)}</div>
+                            <div><i class="fas fa-phone" style="color:var(--blue);width:16px"></i> Tel: ${esc(ap.telefono)}</div>
+                            <div><i class="fas fa-envelope" style="color:var(--blue);width:16px"></i> Email: ${esc(ap.email || 'No informado')}</div>
+                            <div style="align-items:center"><i class="fas fa-key" style="color:var(--blue);width:16px"></i> Clave: <span id="passMask_${idx}" style="font-family:monospace;font-weight:700">••••••••</span> 
+                                <button type="button" class="eb" onclick="togglePassVisibility(${idx})" style="padding:2px 6px;font-size:0.72rem;margin-left:4px" title="Ver / Ocultar Contraseña">
+                                    <i class="fas fa-eye" id="passEye_${idx}"></i>
+                                </button>
+                            </div>
+                            ${ap.observaciones ? `<div><i class="fas fa-info-circle" style="color:var(--blue);width:16px"></i> ${esc(ap.observaciones)}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="auth-card-actions">
+                        <button class="btn-s" onclick="openEditAuthModal(${idx})" style="padding:6px 12px;font-size:0.75rem;color:var(--blue)">
+                            <i class="fas fa-pen"></i> Editar
+                        </button>
+                        <button class="btn-s" onclick="removeAuthPerson(${idx})" style="padding:6px 12px;font-size:0.75rem;color:var(--danger)">
+                            <i class="fas fa-user-slash"></i> Revocar
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Si hay menos de 2, mostrar slot disponible
+            if (count < 2) {
+                const emptySlot = document.createElement('div');
+                emptySlot.className = 'auth-empty-slot';
+                emptySlot.onclick = openAddAuthModal;
+                emptySlot.style.cursor = 'pointer';
+                emptySlot.innerHTML = `
+                    <i class="fas fa-user-plus"></i>
+                    <h4>Agregar Persona Autorizada (${count + 1} de 2)</h4>
+                    <p>Hacé clic para delegar la facultad de gestionar licencias médicas</p>
+                    <button class="btn-p" style="padding:8px 16px;font-size:0.8rem">
+                        <i class="fas fa-plus"></i> Registrar Autorizado
+                    </button>
+                `;
+                container.appendChild(emptySlot);
+            }
+        }
+
+        /* Toggle visualización contraseña autorizados */
+        function togglePassVisibility(idx) {
+            const ap = AUTHORIZED_PERSONS[idx];
+            if (!ap) return;
+            const mask = document.getElementById(`passMask_${idx}`);
+            const eye = document.getElementById(`passEye_${idx}`);
+            if (!mask || !eye) return;
+
+            if (mask.textContent === '••••••••') {
+                mask.textContent = ap.password || '(Sin clave)';
+                eye.className = 'fas fa-eye-slash';
+            } else {
+                mask.textContent = '••••••••';
+                eye.className = 'fas fa-eye';
+            }
+        }
+
+        /* ═══ HANDLERS EDICIÓN DE CONTACTO ═══ */
+        function openEditContactModal() {
+            document.getElementById('mTel').value = USER_DATA.telefono;
+            document.getElementById('mEma').value = USER_DATA.email;
+            document.getElementById('mDir').value = USER_DATA.domicilio;
+            document.getElementById('mUsu').value = USER_DATA.usufructo;
+            document.getElementById('mOS').value = USER_DATA.obraSocial;
+            document.getElementById('mNAf').value = USER_DATA.nroAfiliado;
+            document.getElementById('modEditContact').classList.add('vis');
+        }
+
+        function closeEditContactModal() {
+            document.getElementById('modEditContact').classList.remove('vis');
+        }
+
+        function saveContactData(e) {
+            e.preventDefault();
+            USER_DATA.telefono = document.getElementById('mTel').value.trim();
+            USER_DATA.email = document.getElementById('mEma').value.trim();
+            USER_DATA.domicilio = document.getElementById('mDir').value.trim();
+            USER_DATA.usufructo = document.getElementById('mUsu').value.trim();
+            USER_DATA.obraSocial = document.getElementById('mOS').value.trim();
+            USER_DATA.nroAfiliado = document.getElementById('mNAf').value.trim();
+            
+            saveStorage();
+            renderUserProfile();
+            closeEditContactModal();
+            toast('Datos de contacto actualizados correctamente', 'ok');
+        }
+
+        /* ═══ HANDLERS TERCEROS DECLARADOS ═══ */
+        function openAddThirdModal() {
+            document.getElementById('modThirdTitle').innerHTML = `<i class="fas fa-user-plus" style="color:var(--accent)"></i> Declarar Tercero a Cargo`;
+            document.getElementById('thirdIndex').value = "-1";
+            document.getElementById('tpVin').value = "";
+            document.getElementById('tpNom').value = "";
+            document.getElementById('tpDni').value = "";
+            document.getElementById('tpFN').value = "";
+            document.getElementById('tpOS').value = USER_DATA.obraSocial || "OSPF";
+            document.getElementById('modThirdParty').classList.add('vis');
+        }
+
+        function openEditThirdModal(idx) {
+            const tp = THIRD_PARTIES[idx];
+            if (!tp) return;
+            document.getElementById('modThirdTitle').innerHTML = `<i class="fas fa-pen" style="color:var(--accent)"></i> Editar Tercero Declarado`;
+            document.getElementById('thirdIndex').value = idx;
+            document.getElementById('tpVin').value = tp.vinculo;
+            document.getElementById('tpNom').value = tp.nombre;
+            document.getElementById('tpDni').value = tp.dni;
+            document.getElementById('tpFN').value = tp.fechaNac || "";
+            document.getElementById('tpOS').value = tp.obraSocial || "";
+            document.getElementById('modThirdParty').classList.add('vis');
+        }
+
+        function closeThirdPartyModal() {
+            document.getElementById('modThirdParty').classList.remove('vis');
+        }
+
+        function saveThirdParty(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('thirdIndex').value);
+            const data = {
+                vinculo: document.getElementById('tpVin').value,
+                nombre: document.getElementById('tpNom').value.trim(),
+                dni: document.getElementById('tpDni').value.trim(),
+                fechaNac: document.getElementById('tpFN').value,
+                obraSocial: document.getElementById('tpOS').value.trim()
+            };
+
+            if (idx === -1) {
+                THIRD_PARTIES.push(data);
+                toast('Tercero declarado agregado con éxito', 'ok');
+            } else {
+                THIRD_PARTIES[idx] = data;
+                toast('Tercero declarado actualizado', 'ok');
+            }
+
+            saveStorage();
+            renderThirdParties();
+            closeThirdPartyModal();
+        }
+
+        function removeThirdParty(idx) {
+            if (confirm('¿Confirmás eliminar este tercero declarado?')) {
+                THIRD_PARTIES.splice(idx, 1);
+                saveStorage();
+                renderThirdParties();
+                toast('Tercero eliminado', 'in');
+            }
+        }
+
+        /* ═══ HANDLERS PERSONAS AUTORIZADAS (RESTRICCIÓN MÁXIMO 2) ═══ */
+        function openAddAuthModal() {
+            // Validar límite estricto de 2
+            if (AUTHORIZED_PERSONS.length >= 2) {
+                toast('Límite alcanzado: Únicamente podés registrar hasta 2 personas autorizadas', 'er');
+                return;
+            }
+            document.getElementById('modAuthTitle').innerHTML = `<i class="fas fa-user-shield" style="color:var(--blue)"></i> Registrar Persona Autorizada`;
+            document.getElementById('authIndex').value = "-1";
+            document.getElementById('apNom').value = "";
+            document.getElementById('apDni').value = "";
+            document.getElementById('apTel').value = "";
+            document.getElementById('apEmail').value = "";
+            document.getElementById('apPass').value = "";
+            document.getElementById('apRel').value = "";
+            document.getElementById('apObs').value = "";
+            document.getElementById('modAuthPerson').classList.add('vis');
+        }
+
+        function openEditAuthModal(idx) {
+            const ap = AUTHORIZED_PERSONS[idx];
+            if (!ap) return;
+            document.getElementById('modAuthTitle').innerHTML = `<i class="fas fa-pen" style="color:var(--blue)"></i> Editar Persona Autorizada`;
+            document.getElementById('authIndex').value = idx;
+            document.getElementById('apNom').value = ap.nombre;
+            document.getElementById('apDni').value = ap.dni;
+            document.getElementById('apTel').value = ap.telefono;
+            document.getElementById('apEmail').value = ap.email || "";
+            document.getElementById('apPass').value = ap.password || "";
+            document.getElementById('apRel').value = ap.relacion;
+            document.getElementById('apObs').value = ap.observaciones || "";
+            document.getElementById('modAuthPerson').classList.add('vis');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('modAuthPerson').classList.remove('vis');
+        }
+
+        function saveAuthPerson(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('authIndex').value);
+            
+            // Si es un alta nueva y ya se llegó al límite
+            if (idx === -1 && AUTHORIZED_PERSONS.length >= 2) {
+                toast('No podés agregar más de 2 personas autorizadas', 'er');
+                closeAuthModal();
+                return;
+            }
+
+            const data = {
+                nombre: document.getElementById('apNom').value.trim(),
+                dni: document.getElementById('apDni').value.trim(),
+                telefono: document.getElementById('apTel').value.trim(),
+                email: document.getElementById('apEmail').value.trim(),
+                password: document.getElementById('apPass').value,
+                relacion: document.getElementById('apRel').value,
+                observaciones: document.getElementById('apObs').value.trim()
+            };
+
+            if (idx === -1) {
+                AUTHORIZED_PERSONS.push(data);
+                toast('Persona autorizada registrada con credenciales de acceso', 'ok');
+            } else {
+                AUTHORIZED_PERSONS[idx] = data;
+                toast('Datos y credenciales de persona autorizada actualizados', 'ok');
+            }
+
+            saveStorage();
+            renderAuthorizedPersons();
+            closeAuthModal();
+        }
+
+        function removeAuthPerson(idx) {
+            if (confirm('¿Confirmás revocar la autorización para esta persona?')) {
+                AUTHORIZED_PERSONS.splice(idx, 1);
+                saveStorage();
+                renderAuthorizedPersons();
+                toast('Autorización revocada correctamente', 'in');
+            }
+        }
+
+        /* Utilidades */
+        function formatDate(str) {
+            if (!str) return 'No informada';
+            const parts = str.split('-');
+            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            return str;
+        }
+
+        function esc(s) {
+            if (!s) return '';
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function toast(msg, type) {
+            const c = document.getElementById('toastC');
+            const ic = { ok: 'fa-check-circle', er: 'fa-exclamation-triangle', in: 'fa-info-circle' };
+            const t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = '<i class="fas ' + (ic[type] || ic.in) + '"></i> ' + msg;
+            c.appendChild(t);
+            setTimeout(() => {
+                t.style.animation = 'tO .3s ease forwards';
+                setTimeout(() => t.remove(), 300);
+            }, 3500);
+        }
+
+        /* Inicializar */
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStorage();
+            renderUserProfile();
+            renderThirdParties();
+            renderAuthorizedPersons();
+        });
+    </script>
+</body>
+
+</html>
