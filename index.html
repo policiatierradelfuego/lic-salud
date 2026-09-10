@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Policía de Tierra del Fuego - Licencia Médica</title>
-    
+
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -62,7 +64,8 @@
             <button class="btn-s" onclick="demoLogin()" style="width:100%;justify-content:center;font-size:0.8rem">
                 <i class="fas fa-bolt" style="color:var(--gold)"></i> Acceso Rápido Demo (Legajo 12345)
             </button>
-            <button onclick="closeLoginModal()" style="background:transparent;border:none;color:var(--fg-muted);font-size:0.75rem;margin-top:12px;cursor:pointer">
+            <button onclick="closeLoginModal()"
+                style="background:transparent;border:none;color:var(--fg-muted);font-size:0.75rem;margin-top:12px;cursor:pointer">
                 Continuar sin iniciar sesión
             </button>
         </div>
@@ -128,7 +131,8 @@
 
             <div class="hdr-right">
                 <div class="user-top-bar">
-                    <button class="user-btn" id="btnUserMenu" onclick="toggleUserDropdown()" aria-label="Menú de Usuario">
+                    <button class="user-btn" id="btnUserMenu" onclick="toggleUserDropdown()"
+                        aria-label="Menú de Usuario">
                         <div class="user-avatar" id="hdrUserAvatar"><i class="fas fa-user"></i></div>
                         <div class="user-info-text">
                             <span class="user-name" id="hdrUserName">Iniciar Sesión</span>
@@ -142,14 +146,19 @@
                             <div class="ud-leg" id="udLeg">Ingresá tu legajo</div>
                         </div>
                         <div id="udMenuLogged" style="display:none">
-                            <a href="perfil.html" class="ud-item" style="text-decoration:none"><i class="fas fa-id-card"></i> Mi Perfil y Autorizaciones</a>
-                            <button class="ud-item" onclick="openPasswordModal()"><i class="fas fa-key"></i> Cambiar Contraseña</button>
-                            <button class="ud-item" onclick="openMyRequestsModal()"><i class="fas fa-folder-open"></i> Mis Solicitudes</button>
+                            <a href="perfil.html" class="ud-item" style="text-decoration:none"><i
+                                    class="fas fa-id-card"></i> Mi Perfil y Autorizaciones</a>
+                            <button class="ud-item" onclick="openPasswordModal()"><i class="fas fa-key"></i> Cambiar
+                                Contraseña</button>
+                            <button class="ud-item" onclick="openMyRequestsModal()"><i class="fas fa-folder-open"></i>
+                                Mis Solicitudes</button>
                             <div class="ud-divider"></div>
-                            <button class="ud-item logout" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Cerrar Sesión</button>
+                            <button class="ud-item logout" onclick="doLogout()"><i
+                                    class="fas fa-right-from-bracket"></i> Cerrar Sesión</button>
                         </div>
                         <div id="udMenuGuest">
-                            <button class="ud-item" onclick="openLoginModal()"><i class="fas fa-right-to-bracket"></i> Iniciar Sesión</button>
+                            <button class="ud-item" onclick="openLoginModal()"><i class="fas fa-right-to-bracket"></i>
+                                Iniciar Sesión</button>
                         </div>
                     </div>
                 </div>
@@ -205,19 +214,22 @@
                         <option value="">Seleccionar motivo</option>
                     </select>
                     <span class="em" id="eMotivo"><i class="fas fa-exclamation-circle"></i> Seleccioná un motivo</span>
-                    <div id="helpMotivo" style="display:none;font-size:0.8rem;color:var(--gold);margin-top:6px;align-items:center;gap:6px">
+                    <div id="helpMotivo"
+                        style="display:none;font-size:0.8rem;color:var(--gold);margin-top:6px;align-items:center;gap:6px">
                         <i class="fas fa-info-circle"></i> <span></span>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="sec-lbl">Naturaleza</div>
                 <div class="rc-g">
-                    <div class="rc sel" id="rcN" onclick="setNat('nueva')" tabindex="0" role="radio" aria-checked="true">
+                    <div class="rc sel" id="rcN" onclick="setNat('nueva')" tabindex="0" role="radio"
+                        aria-checked="true">
                         <div class="rc-i"><i class="fas fa-file-medical"></i></div>
                         <h4>Nueva</h4>
                         <p>Primera del episodio</p>
                     </div>
-                    <div class="rc" id="rcP" onclick="setNat('extension')" tabindex="0" role="radio" aria-checked="false">
+                    <div class="rc" id="rcP" onclick="setNat('extension')" tabindex="0" role="radio"
+                        aria-checked="false">
                         <div class="rc-i"><i class="fas fa-file-circle-plus"></i></div>
                         <h4>Extensión</h4>
                         <p>Extensión vigente</p>
@@ -229,7 +241,8 @@
                         <select id="nroLicAnt" onchange="onLicAntChange()">
                             <option value="">Seleccionar licencia vigente...</option>
                         </select>
-                        <span class="em" id="eNroL"><i class="fas fa-exclamation-circle"></i> Seleccioná una licencia vigente</span>
+                        <span class="em" id="eNroL"><i class="fas fa-exclamation-circle"></i> Seleccioná una licencia
+                            vigente</span>
                     </div>
                 </div>
             </div>
@@ -253,45 +266,65 @@
                         </div>
                     </div>
                     <div class="fg">
-                        <label>Legajo <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="text" id="sLeg" placeholder="Ej: 12345" maxlength="8" inputmode="numeric" readonly tabindex="-1">
+                        <label>Legajo <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="text" id="sLeg" placeholder="Ej: 12345" maxlength="8" inputmode="numeric" readonly
+                            tabindex="-1">
                         <span class="em" id="eLeg"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg">
-                        <label>Jerarquía <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <label>Jerarquía <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
                         <select id="sGra" disabled>
                             <option value="">Seleccionar</option>
                         </select>
                         <span class="em" id="eGra"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg">
-                        <label>DNI <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="text" id="sDni" placeholder="Ej: 35123456" maxlength="10" inputmode="numeric" readonly tabindex="-1">
+                        <label>DNI <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="text" id="sDni" placeholder="Ej: 35123456" maxlength="10" inputmode="numeric"
+                            readonly tabindex="-1">
                         <span class="em" id="eDni"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg full">
-                        <label>Apellido y Nombres <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="text" id="sNom" placeholder="Apellido, Nombres" autocomplete="name" readonly tabindex="-1">
+                        <label>Apellido y Nombres <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="text" id="sNom" placeholder="Apellido, Nombres" autocomplete="name" readonly
+                            tabindex="-1">
                         <span class="em" id="eNom"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg">
-                        <label>Teléfono <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="tel" id="sTel" placeholder="Ej: 2901 555-1234" inputmode="tel" autocomplete="tel" readonly tabindex="-1">
+                        <label>Teléfono <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="tel" id="sTel" placeholder="Ej: 2901 555-1234" inputmode="tel" autocomplete="tel"
+                            readonly tabindex="-1">
                         <span class="em" id="eTel"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg">
-                        <label>Email <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="email" id="sEma" placeholder="correo@ejemplo.com" inputmode="email" autocomplete="email" readonly tabindex="-1">
+                        <label>Email <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="email" id="sEma" placeholder="correo@ejemplo.com" inputmode="email"
+                            autocomplete="email" readonly tabindex="-1">
                         <span class="em" id="eEma"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg full">
-                        <label>Domicilio Real Constituido <i class="fas fa-lock" style="color:var(--blue);font-size:0.7rem;margin-left:4px" title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
-                        <input type="text" id="sDir" placeholder="Calle, número, piso, depto" autocomplete="street-address" readonly tabindex="-1">
+                        <label>Domicilio Real Constituido <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label>
+                        <input type="text" id="sDir" placeholder="Calle, número, piso, depto"
+                            autocomplete="street-address" readonly tabindex="-1">
                         <span class="em" id="eDir"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg full">
-                        <label>Lugar de Usufructo <span class="rq">*</span> <span class="rq" style="font-weight:normal;font-size:0.75rem;color:var(--txt-s)">(Dirección constituida para la licencia)</span></label>
-                        <input type="text" id="sUsu" placeholder="Calle, número, piso, depto donde cumplirá la licencia">
+                        <label>Lugar de Usufructo <span class="rq">*</span> <span class="rq"
+                                style="font-weight:normal;font-size:0.75rem;color:var(--txt-s)">(Dirección constituida
+                                para la licencia)</span></label>
+                        <input type="text" id="sUsu"
+                            placeholder="Calle, número, piso, depto donde cumplirá la licencia">
                         <span class="em" id="eUsu"><i class="fas fa-exclamation-circle"></i> Requerido</span>
                     </div>
                     <div class="fg">
@@ -305,7 +338,9 @@
                 </div>
                 <div class="divider"></div>
                 <div class="fg" style="margin-bottom:0">
-                    <label><i class="fas fa-building-shield" style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span class="rq">*</span></label>
+                    <label><i class="fas fa-building-shield"
+                            style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span
+                            class="rq">*</span></label>
                     <select id="sDep" onchange="onDep()">
                         <option value="">Seleccionar dependencia</option>
                     </select>
@@ -332,11 +367,14 @@
                 <h2 class="card-t">Datos del Tercero</h2>
                 <p class="card-s">Persona a quien asistís (Atención Familiar)</p>
 
-                <div class="alert warn" style="margin-bottom:20px; display:flex; align-items:flex-start; gap:12px; background:rgba(217,119,6,0.12); border:1px solid rgba(217,119,6,0.3); padding:14px 16px; border-radius:10px;">
+                <div class="alert warn"
+                    style="margin-bottom:20px; display:flex; align-items:flex-start; gap:12px; background:rgba(217,119,6,0.12); border:1px solid rgba(217,119,6,0.3); padding:14px 16px; border-radius:10px;">
                     <i class="fas fa-exclamation-triangle" style="color:#d97706; font-size:1.2rem; margin-top:2px;"></i>
                     <div style="font-size:0.85rem; color:var(--txt-p, #1e293b); line-height:1.4;">
-                        <strong style="color:#b45309; display:block; margin-bottom:2px; font-weight:700;">IMPORTANTE:</strong>
-                        Solo se contemplarán para la licencia por Atención Familiar aquellas personas previamente consignadas y declaradas.
+                        <strong
+                            style="color:#b45309; display:block; margin-bottom:2px; font-weight:700;">IMPORTANTE:</strong>
+                        Solo se contemplarán para la licencia por Atención Familiar aquellas personas previamente
+                        consignadas y declaradas.
                     </div>
                 </div>
 
@@ -402,12 +440,14 @@
                 <div class="divider"></div>
                 <div class="chk" id="chkI" onclick="togI()" tabindex="0" role="checkbox" aria-checked="false">
                     <div class="ck-b"><i class="fas fa-check"></i></div>
-                    <span><i class="fas fa-hospital" style="color:var(--danger);margin-right:3px;font-size:.8rem"></i> Requiere internación</span>
+                    <span><i class="fas fa-hospital" style="color:var(--danger);margin-right:3px;font-size:.8rem"></i>
+                        Requiere internación</span>
                 </div>
                 <div class="cond" id="cInt">
                     <div class="fgrid">
                         <div class="fg"><label>Fecha Ingreso</label><input type="date" id="lFI"></div>
-                        <div class="fg"><label>Sala / Piso</label><input type="text" id="lSal" placeholder="Ej: Piso 3, Sala 12"></div>
+                        <div class="fg"><label>Sala / Piso</label><input type="text" id="lSal"
+                                placeholder="Ej: Piso 3, Sala 12"></div>
                     </div>
                 </div>
             </div>
@@ -425,8 +465,10 @@
                 <div class="um">
                     <div>
                         <div class="us-t"><i class="fas fa-file-medical-alt"></i> Certificado Médico</div>
-                        <div class="uz" id="zC" onclick="document.getElementById('fC').click()" ondragover="dO(event,'zC')" ondragleave="dL(event,'zC')" ondrop="dD(event,'cert')">
-                            <input type="file" id="fC" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'cert')" multiple>
+                        <div class="uz" id="zC" onclick="document.getElementById('fC').click()"
+                            ondragover="dO(event,'zC')" ondragleave="dL(event,'zC')" ondrop="dD(event,'cert')">
+                            <input type="file" id="fC" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'cert')"
+                                multiple>
                             <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
                             <h4>Tocá para seleccionar</h4>
                             <p>PDF, JPG o PNG. Máx 10MB.</p>
@@ -435,9 +477,14 @@
                     </div>
                     <div class="divider" style="margin:16px 0"></div>
                     <div class="fg full" style="margin-bottom:0">
-                        <label><i class="fas fa-link" style="color:var(--gold);margin-right:4px"></i> URL del Certificado Online <span class="rq">*</span> <span class="rq" style="font-weight:normal;font-size:0.75rem;color:var(--txt-s)">(Requerido si no se adjunta archivo)</span></label>
-                        <input type="url" id="certUrl" placeholder="Ej: https://misalud.gob.ar/certificado/123456" autocomplete="off">
-                        <span class="em" id="eCertUrl"><i class="fas fa-exclamation-circle"></i> Adjuntá el certificado o ingresá una URL válida</span>
+                        <label><i class="fas fa-link" style="color:var(--gold);margin-right:4px"></i> URL del
+                            Certificado Online <span class="rq">*</span> <span class="rq"
+                                style="font-weight:normal;font-size:0.75rem;color:var(--txt-s)">(Requerido si no se
+                                adjunta archivo)</span></label>
+                        <input type="url" id="certUrl" placeholder="Ej: https://misalud.gob.ar/certificado/123456"
+                            autocomplete="off">
+                        <span class="em" id="eCertUrl"><i class="fas fa-exclamation-circle"></i> Adjuntá el certificado
+                            o ingresá una URL válida</span>
                     </div>
                 </div>
             </div>
@@ -450,22 +497,41 @@
         <!-- ═══ PASO 6: RESUMEN Y CONFIRMACIÓN ═══ -->
         <section class="panel" id="p6">
             <div class="card">
-                <h2 class="card-t">Resumen</h2>
-                <p class="card-s">Verificá antes de confirmar</p>
+                <h2 class="card-t">Resumen de la Solicitud</h2>
+
+                <!-- Aviso Destacado de Atención -->
+                <div class="info-banner"
+                    style="margin-top:12px;margin-bottom:20px;border-color:rgba(214, 69, 69, 0.3);background:linear-gradient(135deg, rgba(214, 69, 69, 0.08), rgba(245, 158, 11, 0.08))">
+                    <i class="fas fa-exclamation-triangle"
+                        style="color:var(--danger);font-size:1.3rem;margin-top:2px"></i>
+                    <div>
+                        <strong style="color:var(--danger);font-size:0.9rem;display:block;margin-bottom:2px">
+                            ¡ATENCIÓN! Verificá los datos antes de confirmar
+                        </strong>
+                        <p style="margin:0;font-size:0.82rem;color:var(--fg);line-height:1.45">
+                            Revisá atentamente toda la información del informe (datos personales, período de licencia,
+                            diagnóstico y archivos adjuntos) antes de realizar el envío formal.
+                        </p>
+                    </div>
+                </div>
+
                 <div id="sumC"></div>
             </div>
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(6)"><i class="fas fa-arrow-left"></i> Anterior</button>
-                <button class="btn-p" onclick="doSubmit()"><i class="fas fa-paper-plane"></i> Confirmar y Enviar</button>
+                <button class="btn-p" onclick="doSubmit()"><i class="fas fa-paper-plane"></i> Confirmar y
+                    Enviar</button>
             </div>
         </section>
     </div>
 
     <!-- BOTTOM BAR MOBILE -->
     <div class="bot-bar" id="botBar">
-        <button class="btn-s" id="bPrev" onclick="prev(S.cur)" style="display:none"><i class="fas fa-arrow-left"></i> Anterior</button>
+        <button class="btn-s" id="bPrev" onclick="prev(S.cur)" style="display:none"><i class="fas fa-arrow-left"></i>
+            Anterior</button>
         <button class="btn-p" id="bNext" onclick="next(S.cur)">Siguiente <i class="fas fa-arrow-right"></i></button>
-        <button class="btn-p" id="bSub" onclick="doSubmit()" style="display:none"><i class="fas fa-paper-plane"></i> Confirmar</button>
+        <button class="btn-p" id="bSub" onclick="doSubmit()" style="display:none"><i class="fas fa-paper-plane"></i>
+            Confirmar</button>
     </div>
 
     <!-- ═══ SCRIPTS Y LÓGICA DE APLICACIÓN ═══ -->
@@ -564,7 +630,7 @@
             renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', 'nombre');
             renderSelect(sGra, JERARQUIAS, 'Seleccionar', 'nombre', 'nombre');
             if (sEsp) renderSelect(sEsp, ESPECIALIDADES, 'Seleccionar', 'nombre', 'nombre');
-            
+
             renderLicenciasVigentes();
             updateUserHeaderUI();
             updVis();
@@ -725,7 +791,7 @@
 
             if (pNew.length < 6) return toast('La contraseña debe tener al menos 6 caracteres', 'er');
             if (pNew !== pConf) return toast('Las contraseñas no coinciden', 'er');
-            
+
             closePasswordModal();
             toast('Contraseña modificada correctamente', 'ok');
         }
@@ -859,7 +925,7 @@
 
         /* ═══ NAVEGACIÓN Y FLUJO ═══ */
         function isAtt() { return S.tipo === 'atendible'; }
-        
+
         function next(f) {
             if (!val(f)) return;
             let n = f + 1;
@@ -907,7 +973,7 @@
                 const s = +e.dataset.step;
                 e.classList.remove('act', 'done');
                 if (e.classList.contains('hid')) return;
-                
+
                 if (s === S.cur) {
                     e.classList.add('act');
                     e.querySelector('.st-c').textContent = gRN(s);
@@ -931,7 +997,7 @@
             const bp = document.getElementById('bPrev');
             const bn = document.getElementById('bNext');
             const bs = document.getElementById('bSub');
-            
+
             bp.style.display = S.cur > 1 ? 'flex' : 'none';
             if (S.cur === 6) {
                 bn.style.display = 'none';
@@ -1180,7 +1246,7 @@
             const depEmail = dep ? dep.email : 'dependencia@policiatdf.gob.ar';
 
             document.getElementById('trNum').textContent = `LM-${y}-${r}`;
-            
+
             const modBx = document.querySelector('#modOk .mod-bx');
             if (modBx) {
                 let infoExtra = document.getElementById('modOkEmails');
@@ -1210,7 +1276,7 @@
             S.intern = false;
             S.jefe = null;
             S.arch = { cert: [], est: [], rec: [] };
-            
+
             setNat('nueva');
             document.getElementById('chkI').classList.remove('ck');
             document.getElementById('cProl').classList.remove('vis');
@@ -1218,13 +1284,13 @@
             document.getElementById('jBox').style.display = 'none';
             if (document.getElementById('sMotivo')) document.getElementById('sMotivo').disabled = false;
             if (document.getElementById('helpMotivo')) document.getElementById('helpMotivo').style.display = 'none';
-            
+
             document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = '');
             rF('cert');
             rF('est');
             rF('rec');
             clrE();
-            
+
             document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
             document.getElementById('p1').classList.add('act');
             updVis();
