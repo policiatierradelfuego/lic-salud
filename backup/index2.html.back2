@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Policia de Tierra del Fuego - Licencia Medica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="bg-atm"></div>
+    <div class="toast-c" id="toastC"></div>
+
+    <div class="mod-ov" id="modOk">
+        <div class="mod-bx">
+            <div class="si"><i class="fas fa-check"></i></div>
+            <h2>Solicitud Registrada</h2>
+            <p>La licencia fue ingresada al sistema.</p>
+            <div class="tr-num" id="trNum">LM-2025-00001</div>
+            <p style="font-size:.75rem;margin-top:4px">Se notificará automáticamente al jefe de dependencia.</p>
+            <button class="btn-p" onclick="resetApp()" style="width:100%;justify-content:center;margin-top:16px"><i
+                    class="fas fa-plus"></i> Nueva Solicitud</button>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL LOGIN ═══ -->
+    <div class="login-ov" id="modLogin">
+        <div class="login-card">
+            <div class="login-badge">
+                <img src="img/escudo_oro.png" alt="Escudo Policía TDF">
+            </div>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:4px">Acceso al Sistema</h2>
+            <p style="font-size:0.8rem;color:var(--fg-muted);margin-bottom:20px">Policía de Tierra del Fuego</p>
+
+            <form onsubmit="doLogin(event)" style="display:flex;flex-direction:column;gap:14px">
+                <div class="fg" style="text-align:left">
+                    <label>Número de Legajo <span class="rq">*</span></label>
+                    <input type="text" id="loginLeg" placeholder="Ej: 12345" maxlength="8" inputmode="numeric" required>
+                </div>
+                <div class="fg" style="text-align:left">
+                    <label>Contraseña <span class="rq">*</span></label>
+                    <input type="password" id="loginPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-p" style="width:100%;justify-content:center;margin-top:6px">
+                    <i class="fas fa-right-to-bracket"></i> Iniciar Sesión
+                </button>
+            </form>
+
+            <div class="divider" style="margin:18px 0 14px"></div>
+
+            <button class="btn-s" onclick="demoLogin()" style="width:100%;justify-content:center;font-size:0.8rem">
+                <i class="fas fa-bolt" style="color:var(--gold)"></i> Acceso Rápido Demo (Legajo 12345)
+            </button>
+            <button onclick="closeLoginModal()"
+                style="background:transparent;border:none;color:var(--fg-muted);font-size:0.75rem;margin-top:12px;cursor:pointer">
+                Continuar sin iniciar sesión
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL CAMBIAR CONTRASEÑA ═══ -->
+    <div class="mod-ov" id="modPassword">
+        <div class="mod-bx">
+            <div class="mod-head">
+                <h3><i class="fas fa-key" style="color:var(--gold)"></i> Cambiar Contraseña</h3>
+                <button class="mod-close" onclick="closePasswordModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="savePassword(event)" style="display:flex;flex-direction:column;gap:12px;text-align:left">
+                <div class="fg">
+                    <label>Contraseña Actual <span class="rq">*</span></label>
+                    <input type="password" id="pwCurr" required placeholder="••••••••">
+                </div>
+                <div class="fg">
+                    <label>Nueva Contraseña <span class="rq">*</span></label>
+                    <input type="password" id="pwNew" required placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="fg">
+                    <label>Confirmar Nueva Contraseña <span class="rq">*</span></label>
+                    <input type="password" id="pwConf" required placeholder="Repetir contraseña">
+                </div>
+                <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
+                    <button type="button" class="btn-s" onclick="closePasswordModal()">Cancelar</button>
+                    <button type="submit" class="btn-p"><i class="fas fa-check"></i> Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══ MODAL MIS SOLICITUDES ═══ -->
+    <div class="mod-ov" id="modRequests">
+        <div class="mod-bx mod-lg">
+            <div class="mod-head">
+                <h3><i class="fas fa-folder-open" style="color:var(--gold)"></i> Mis Solicitudes de Licencia</h3>
+                <button class="mod-close" onclick="closeMyRequestsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <p style="font-size:0.8rem;color:var(--fg-muted)">Historial de licencias tramitadas por tu legajo.</p>
+            <div class="req-list" id="reqListContainer">
+                <!-- Se puebla dinámicamente -->
+            </div>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+                <button class="btn-s" onclick="closeMyRequestsModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app">
+        <header class="hdr">
+            <!-- Izquierda: Escudo Policial -->
+            <div class="hdr-left">
+                <div class="hdr-shield">
+                    <img src="img/escudo_oro.png" alt="Policía de Tierra del Fuego" class="shield-img">
+                </div>
+            </div>
+
+            <!-- Centro: Título Licencia Médica -->
+            <div class="hdr-center">
+                <h1 class="hdr-title">Licencia Médica</h1>
+            </div>
+
+            <!-- Derecha: Botón de Usuario / Iniciar Sesión -->
+            <div class="hdr-right">
+                <div class="user-top-bar">
+                    <button class="user-btn" id="btnUserMenu" onclick="toggleUserDropdown()" aria-label="Menú de Usuario">
+                        <div class="user-avatar" id="hdrUserAvatar"><i class="fas fa-user"></i></div>
+                        <div class="user-info-text">
+                            <span class="user-name" id="hdrUserName">Iniciar Sesión</span>
+                            <span class="user-leg" id="hdrUserLeg">Acceso por Legajo</span>
+                        </div>
+                        <i class="fas fa-chevron-down user-arrow"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="ud-header">
+                            <div class="ud-name" id="udName">Sin sesión activa</div>
+                            <div class="ud-leg" id="udLeg">Ingresá tu legajo</div>
+                        </div>
+                        <div id="udMenuLogged" style="display:none">
+                            <button class="ud-item" onclick="openPasswordModal()"><i class="fas fa-key"></i> Cambiar
+                                Contraseña</button>
+                            <button class="ud-item" onclick="openMyRequestsModal()"><i class="fas fa-folder-open"></i> Mis
+                                Solicitudes</button>
+                            <div class="ud-divider"></div>
+                            <button class="ud-item logout" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i>
+                                Cerrar Sesión</button>
+                        </div>
+                        <div id="udMenuGuest">
+                            <button class="ud-item" onclick="openLoginModal()"><i class="fas fa-right-to-bracket"></i>
+                                Iniciar Sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Barra progreso mobile -->
+        <div class="prog-bar" id="progBar">
+            <div class="prog-top">
+                <span class="prog-step" id="pS"><i class="fas fa-clipboard-list"></i> Tipo de Solicitud</span>
+                <span class="prog-total" id="pT">1 / 6</span>
+            </div>
+            <div class="prog-track">
+                <div class="prog-fill" id="pF" style="width:16.66%"></div>
+            </div>
+        </div>
+
+        <!-- Stepper desktop -->
+        <nav class="stepper" id="stepper" aria-label="Pasos">
+            <div class="st-i act" data-step="1">
+                <div class="st-c">1</div><span class="st-l">Tipo</span>
+            </div>
+            <div class="st-ln" data-line="1"></div>
+            <div class="st-i" data-step="2">
+                <div class="st-c">2</div><span class="st-l">Personal</span>
+            </div>
+            <div class="st-ln" data-line="2" id="lnTer"></div>
+            <div class="st-i" data-step="3" id="sTer">
+                <div class="st-c">3</div><span class="st-l">Tercero</span>
+            </div>
+            <div class="st-ln" data-line="3"></div>
+            <div class="st-i" data-step="4">
+                <div class="st-c">4</div><span class="st-l">Detalle</span>
+            </div>
+            <div class="st-ln" data-line="4"></div>
+            <div class="st-i" data-step="5">
+                <div class="st-c">5</div><span class="st-l">Docs</span>
+            </div>
+            <div class="st-ln" data-line="5"></div>
+            <div class="st-i" data-step="6">
+                <div class="st-c">6</div><span class="st-l">Resumen</span>
+            </div>
+        </nav>
+
+        <!-- ═══ PASO 1 ═══ -->
+        <section class="panel act" id="p1">
+            <div class="card">
+                <h2 class="card-t">Tipo de Solicitud</h2>
+                <p class="card-s">Definí el alcance y naturaleza</p>
+                <div class="fg">
+                    <label>Motivo de la Licencia <span class="rq">*</span></label>
+                    <select id="sMotivo" onchange="onMotivoChange()">
+                        <option value="">Seleccionar motivo</option>
+                        <option value="Enfermedad comun">Enfermedad común</option>
+                        <option value="Por enfermedad o accidente de largo tratamiento, vinculado al servicio">Por
+                            enfermedad o accidente de largo tratamiento, vinculado al servicio</option>
+                        <option value="Por enfermedad o accidente de largo tratamiento, desvinculado al servicio">Por
+                            enfermedad o accidente de largo tratamiento, desvinculado al servicio</option>
+                        <option value="Atencion familiar">Atención familiar</option>
+                        <option value="Donacion de sangre">Donación de sangre</option>
+                        <option value="Maternidad">Maternidad</option>
+                        <option value="Por lactancia">Por lactancia</option>
+                        <option value="Para donar organos">Para donar órganos</option>
+                        <option value="Licencia pandemia">Licencia pandemia</option>
+                        <option value="Dto. 564/18 lic. extraordinaria">Dto. 564/18 lic. extraordinaria</option>
+                        <option value="Dto. 564/18 lic. extraordinaria ley 911-art 9">Dto. 564/18 lic. extraordinaria
+                            ley 911-art 9</option>
+                        <option value="Art">Art</option>
+                        <option value="Fallecimiento">Fallecimiento</option>
+                    </select>
+                    <span class="em" id="eMotivo"><i class="fas fa-exclamation-circle"></i> Seleccioná un motivo</span>
+                </div>
+                <div class="divider"></div>
+                <div class="sec-lbl">Naturaleza</div>
+                <div class="rc-g">
+                    <div class="rc sel" id="rcN" onclick="setNat('nueva')" tabindex="0" role="radio"
+                        aria-checked="true">
+                        <div class="rc-i"><i class="fas fa-file-medical"></i></div>
+                        <h4>Nueva</h4>
+                        <p>Primera del episodio</p>
+                    </div>
+                    <div class="rc" id="rcP" onclick="setNat('prolongacion')" tabindex="0" role="radio"
+                        aria-checked="false">
+                        <div class="rc-i"><i class="fas fa-file-circle-plus"></i></div>
+                        <h4>Prolongación</h4>
+                        <p>Extensión vigente</p>
+                    </div>
+                </div>
+                <div class="cond" id="cProl">
+                    <div class="fg"><label>Nro. Licencia Anterior <span class="rq">*</span></label><input type="text"
+                            id="nroLicAnt" placeholder="Ej: LM-2025-00123"><span class="em" id="eNroL"><i
+                                class="fas fa-exclamation-circle"></i> Ingresá el número</span></div>
+                </div>
+            </div>
+            <div class="nav-btns">
+                <div class="spacer"></div><button class="btn-p" onclick="next(1)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <!-- ═══ PASO 2 ═══ -->
+        <section class="panel" id="p2">
+            <div class="card">
+                <h2 class="card-t">Datos del Personal</h2>
+                <p class="card-s">Información del efectivo policial</p>
+                <div class="fgrid">
+                    <div class="locked-info-banner">
+                        <i class="fas fa-user-lock"></i>
+                        <div>
+                            <strong>Datos Institucionales Oficiales</strong>
+                            <p>Los datos del personal provienen del Legajo Policial y no pueden modificarse.</p>
+                        </div>
+                    </div>
+                    <div class="fg"><label>Legajo <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="text" id="sLeg" placeholder="Ej: 12345" maxlength="8" inputmode="numeric" readonly
+                            tabindex="-1"><span class="em" id="eLeg"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Jerarquía <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><select
+                            id="sGra" disabled>
+                            <option value="">Seleccionar</option>
+
+                            <option>Comisario General</option>
+                            <option>Comisario Inspector</option>
+                            <option>Comisario</option>
+                            <option>Subcomisario</option>
+                            <option>Principal</option>
+                            <option>Inspector</option>
+                            <option>Subinspector</option>
+                            <option>Ayudante</option>
+                            <option>Suboficial Mayor</option>
+                            <option>Sargento 1ro</option>
+                            <option>Sargento</option>
+                            <option>Cabo 1ro</option>
+                            <option>Cabo</option>
+                            <option>Agente</option>
+                            <option>PC Auxiliar Sup 1º</option>
+                            <option>PC Auxiliar Sup 2º</option>
+                            <option>PC Auxiliar Sup 3º</option>
+                            <option>PC Auxiliar Sup 4º</option>
+                            <option>PC Auxiliar Sup 5º</option>
+                            <option>PC Auxiliar Sup 6º</option>
+                            <option>PC Auxiliar Sup 7º</option>
+                            <option>PC Auxiliar Sup 8º</option>
+                            <option>PC Auxiliar 1º</option>
+                            <option>PC Auxiliar 2º</option>
+                            <option>PC Auxiliar 3º</option>
+                            <option>PC Auxiliar 4º</option>
+                            <option>PC Auxiliar 5º</option>
+                            <option>PC Auxiliar 6º</option>
+                            <option>PC Auxiliar 7º</option>
+                            <option>PC Auxiliar 8º</option>
+                        </select><span class="em" id="eGra"><i class="fas fa-exclamation-circle"></i> Requerido</span>
+                    </div>
+                    <div class="fg"><label>DNI <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="text" id="sDni" placeholder="Ej: 35123456" maxlength="10" inputmode="numeric" readonly
+                            tabindex="-1"><span class="em" id="eDni"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>CUIL / CUIT <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i></label><input type="text" id="sCui"
+                            placeholder="Ej: 20-35123456-8" readonly tabindex="-1"></div>
+                    <div class="fg full"><label>Apellido y Nombres <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="text" id="sNom" placeholder="Apellido, Nombres" autocomplete="name" readonly
+                            tabindex="-1"><span class="em" id="eNom"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Fecha de Nacimiento <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="date" id="sFN" readonly tabindex="-1"><span class="em" id="eFN"><i
+                                class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Género <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i></label><select id="sGen" disabled>
+                            <option value="">Seleccionar</option>
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                            <option value="X">No binario</option>
+                            <option value="NP">Prefiero no decir</option>
+                        </select></div>
+                    <div class="fg"><label>Teléfono <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="tel" id="sTel" placeholder="Ej: 2901 555-1234" inputmode="tel" autocomplete="tel"
+                            readonly tabindex="-1"><span class="em" id="eTel"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Email <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="email" id="sEma" placeholder="correo@ejemplo.com" inputmode="email"
+                            autocomplete="email" readonly tabindex="-1"><span class="em" id="eEma"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg full"><label>Domicilio Real Constituido <i class="fas fa-lock"
+                                style="color:var(--blue);font-size:0.7rem;margin-left:4px"
+                                title="Dato oficial no modificable"></i> <span class="rq">*</span></label><input
+                            type="text" id="sDir" placeholder="Calle, número, piso, depto" autocomplete="street-address"
+                            readonly tabindex="-1"><span class="em" id="eDir"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg full"><label>Lugar de Usufructo <span class="rq">*</span> <span class="rq"
+                                style="font-weight:normal;font-size:0.75rem;color:var(--txt-s)">(Dirección constituida
+                                para la licencia)</span></label><input type="text" id="sUsu"
+                            placeholder="Calle, número, piso, depto donde cumplirá la licencia"><span class="em"
+                            id="eUsu"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Localidad</label><input type="text" id="sLoc" placeholder="Ej: Ushuaia">
+                    </div>
+                    <div class="fg"><label>Código Postal</label><input type="text" id="sCP" placeholder="Ej: V9410"
+                            maxlength="10"></div>
+                    <div class="fg full"><label>Obra Social <span class="rq">*</span></label><input type="text" id="sOS"
+                            placeholder="Ej: OSPF, Osde, PAMI..."><span class="em" id="eOS"><i
+                                class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg"><label>Nro. Afiliado</label><input type="text" id="sNAf" placeholder="Ej: 12345678">
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="fg" style="margin-bottom:0">
+                    <label><i class="fas fa-building-shield"
+                            style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span
+                            class="rq">*</span></label>
+                    <select id="sDep" onchange="onDep()">
+                        <option value="">Seleccionar dependencia</option>
+                    </select>
+                    <span class="em" id="eDep"><i class="fas fa-exclamation-circle"></i> Requerido</span>
+                    <div class="jefe-box" id="jBox" style="display:none">
+                        <div class="jb-i"><i class="fas fa-user-tie"></i></div>
+                        <div class="jb-n">
+                            <div class="jb-lb">Jefe a notificar</div>
+                            <div class="jb-nm" id="jNm">-</div>
+                            <div class="jb-dp" id="jDp">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(2)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(2)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 3 ═══ -->
+        <section class="panel" id="p3">
+            <div class="card">
+                <h2 class="card-t">Datos del Tercero</h2>
+                <p class="card-s">Persona a quien asistís</p>
+                <div class="fg"><label>Vínculo <span class="rq">*</span></label><select id="tVin">
+                        <option value="">Seleccionar</option>
+                        <option>Hijo/a</option>
+                        <option>Esposo/a</option>
+                        <option>Concubino/a</option>
+                        <option>Padre</option>
+                        <option>Madre</option>
+                        <option>Hermano/a</option>
+                        <option>Suegro/a</option>
+                        <option>Nuera/Yerno</option>
+                        <option>Otro</option>
+                    </select><span class="em" id="eTV"><i class="fas fa-exclamation-circle"></i> Seleccioná</span></div>
+                <div class="fg"><label>Nombre Completo <span class="rq">*</span></label><input type="text" id="tNom"
+                        placeholder="Apellido, Nombres"><span class="em" id="eTN"><i
+                            class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                <div class="fg"><label>DNI <span class="rq">*</span></label><input type="text" id="tDni"
+                        placeholder="Ej: 35123456" maxlength="10" inputmode="numeric"><span class="em" id="eTD"><i
+                            class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                <div class="fg"><label>Fecha de Nacimiento</label><input type="date" id="tFN"></div>
+                <div class="fg"><label>Obra Social del Tercero</label><input type="text" id="tOS"
+                        placeholder="Ej: PAMI"></div>
+                <div class="fg"><label>Nro. Afiliado</label><input type="text" id="tNAf" placeholder="Ej: 12345678">
+                </div>
+                <div class="fg"><label>Diagnóstico <span class="rq">*</span></label><textarea id="tDiag"
+                        placeholder="Motivo por el cual se necesita atender al tercero" rows="3"></textarea><span
+                        class="em" id="eTDi"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(3)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(3)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 4 ═══ -->
+        <section class="panel" id="p4">
+            <div class="card">
+                <h2 class="card-t">Detalle de la Licencia</h2>
+                <p class="card-s">Información clínica y períodos</p>
+                <div class="fgrid">
+                    <div class="fg"><label>Fecha Desde <span class="rq">*</span></label><input type="date"
+                            id="lDes"><span class="em" id="eDes"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg"><label>Fecha Hasta <span class="rq">*</span></label><input type="date"
+                            id="lHas"><span class="em" id="eHas"><i class="fas fa-exclamation-circle"></i>
+                            Requerido</span></div>
+                    <div class="fg full"><label>Diagnóstico <span class="rq">*</span></label><input type="text"
+                            id="lCie" placeholder="Ej: J06.9 - Infección aguda vías respiratorias"><span class="em"
+                            id="eCie"><i class="fas fa-exclamation-circle"></i> Requerido</span></div>
+                    <div class="fg full"><label>Descripción Diagnóstico</label><textarea id="lDiD"
+                            placeholder="Detalle adicional (opcional)" rows="2"></textarea></div>
+                    <div class="fg full"><label>Médico Tratante</label><input type="text"
+                            id="lMed" placeholder="Apellido y nombre"></div>
+                    <div class="fg"><label>Especialidad</label><select id="lEsp" onchange="onEspChange()">
+                            <option value="">Seleccionar</option>
+                            <option>Cardiología</option>
+                            <option>Cirugía General</option>
+                            <option>Clínica Médica</option>
+                            <option>Dermatología</option>
+                            <option>Endocrinología</option>
+                            <option>Gastroenterología</option>
+                            <option>Ginecología</option>
+                            <option>Guardia Médica</option>
+                            <option>Neumonología</option>
+                            <option>Neurología</option>
+                            <option>Obstetricia</option>
+                            <option>Oftalmología</option>
+                            <option>Oncología</option>
+                            <option>Otorrinolaringología</option>
+                            <option>Pediatría</option>
+                            <option>Psiquiatría</option>
+                            <option>Traumatología</option>
+                            <option>Urología</option>
+                            <option>Otra</option>
+                        </select>
+                    </div>
+                    <div class="fg cond full" id="cEspOtra">
+                        <label>Especificar Especialidad <span class="rq">*</span></label>
+                        <input type="text" id="lEspOtra" placeholder="Ingresá la especialidad médica">
+                        <span class="em" id="eEspOtra"><i class="fas fa-exclamation-circle"></i> Requerido al seleccionar 'Otra'</span>
+                    </div>
+                    <div class="fg"><label>Matrícula</label><input type="text" id="lMat" placeholder="Ej: MN 12345">
+                    </div>
+                    <div class="fg"><label>Institución</label><input type="text" id="lIns"
+                            placeholder="Hospital, clínica..."></div>
+                    <div class="fg"><label>Tel. Médico</label><input type="tel" id="lTM" placeholder="Ej: 2901 555-1234"
+                            inputmode="tel"></div>
+                </div>
+                <div class="divider"></div>
+                <div class="chk" id="chkI" onclick="togI()" tabindex="0" role="checkbox" aria-checked="false">
+                    <div class="ck-b"><i class="fas fa-check"></i></div>
+                    <span><i class="fas fa-hospital" style="color:var(--danger);margin-right:3px;font-size:.8rem"></i>
+                        Requiere internación</span>
+                </div>
+                <div class="cond" id="cInt">
+                    <div class="fgrid">
+                        <div class="fg"><label>Fecha Ingreso</label><input type="date" id="lFI"></div>
+                        <div class="fg"><label>Sala / Piso</label><input type="text" id="lSal"
+                                placeholder="Ej: Piso 3, Sala 12"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(4)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(4)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 5 ═══ -->
+        <section class="panel" id="p5">
+            <div class="card">
+                <h2 class="card-t">Documentación</h2>
+                <p class="card-s">Subí certificados y estudios</p>
+                <div class="um">
+                    <div>
+                        <div class="us-t"><i class="fas fa-file-medical-alt"></i> Certificado Médico (obligatorio)</div>
+                        <div class="uz" id="zC" onclick="document.getElementById('fC').click()"
+                            ondragover="dO(event,'zC')" ondragleave="dL(event,'zC')" ondrop="dD(event,'cert')"><input
+                                type="file" id="fC" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'cert')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>PDF, JPG o PNG. Máx 10MB.</p>
+                        </div>
+                        <div class="fl-l" id="lC"></div>
+                    </div>
+                    <div class="divider"></div>
+                    <div>
+                        <div class="us-t"><i class="fas fa-microscope"></i> Estudios Complementarios</div>
+                        <div class="uz" id="zE" onclick="document.getElementById('fE').click()"
+                            ondragover="dO(event,'zE')" ondragleave="dL(event,'zE')" ondrop="dD(event,'est')"><input
+                                type="file" id="fE" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'est')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>Análisis, radiografías, etc.</p>
+                        </div>
+                        <div class="fl-l" id="lE"></div>
+                    </div>
+                    <div class="divider"></div>
+                    <div>
+                        <div class="us-t"><i class="fas fa-prescription-bottle-medical"></i> Receta u Orden Médica</div>
+                        <div class="uz" id="zR" onclick="document.getElementById('fR').click()"
+                            ondragover="dO(event,'zR')" ondragleave="dL(event,'zR')" ondrop="dD(event,'rec')"><input
+                                type="file" id="fR" accept=".pdf,.jpg,.jpeg,.png" onchange="fS(event,'rec')" multiple>
+                            <div class="uz-i"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <h4>Tocá para seleccionar</h4>
+                            <p>Receta, orden, derivación.</p>
+                        </div>
+                        <div class="fl-l" id="lR"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(5)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="next(5)">Siguiente <i
+                        class="fas fa-arrow-right"></i></button></div>
+        </section>
+
+        <!-- ═══ PASO 6 ═══ -->
+        <section class="panel" id="p6">
+            <div class="card">
+                <h2 class="card-t">Resumen</h2>
+                <p class="card-s">Verificá antes de confirmar</p>
+                <div id="sumC"></div>
+            </div>
+            <div class="nav-btns"><button class="btn-s" onclick="prev(6)"><i class="fas fa-arrow-left"></i>
+                    Anterior</button><button class="btn-p" onclick="doSubmit()"><i class="fas fa-paper-plane"></i>
+                    Confirmar y Enviar</button></div>
+        </section>
+
+    </div>
+
+    <!-- Bottom bar mobile: duplica los botones del paso actual para acceso rapido -->
+    <div class="bot-bar" id="botBar">
+        <button class="btn-s" id="bPrev" onclick="prev(S.cur)" style="display:none"><i class="fas fa-arrow-left"></i>
+            Anterior</button>
+        <button class="btn-p" id="bNext" onclick="next(S.cur)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        <button class="btn-p" id="bSub" onclick="doSubmit()" style="display:none"><i class="fas fa-paper-plane"></i>
+            Confirmar</button>
+    </div>
+
+    <script>
+        /* ═══ DEPENDENCIAS ═══ */
+        // Se define DEPS con let como fallback (respaldo) si la carga dinámica falla o se abre localmente (file://)
+        let DEPS = [
+            {
+                "id": 1,
+                "nombre": "Jefatura de Policía",
+                "jefe": "Com. Gral. Mgtr. Jacinto Rolón",
+                "email": "policia.jefatura@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 2,
+                "nombre": "Dirección Secretaría General",
+                "jefe": "Com. My. David Rolando Raúl Foschiatti",
+                "email": "policia.jefatura@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 3,
+                "nombre": "Dirección Seguridad Gubernamental, Legislativa y Superior Tribunal de Justicia",
+                "jefe": "Com. Gral. Tec. Guillermo David Morgan",
+                "email": "policia.custodia@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 4,
+                "nombre": "Dirección Asesoría Letrada",
+                "jefe": "Com. Insp. Dr. Sebastián González",
+                "email": "policia.dal@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 5,
+                "nombre": "Dirección de Análisis Criminal",
+                "jefe": "Com. Insp. Lic. Lopez Jonatan Guillermo",
+                "email": "policia.dacush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 6,
+                "nombre": "Subjefatura de Policía",
+                "jefe": "Com. Gral. Lic. Barrios Kogan Oscar Alfredo",
+                "email": "subjefaturapolicia@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 7,
+                "nombre": "Dirección General Regional Zona Norte",
+                "jefe": "Com. Gral. Dr. Elio Rubén Cárdenas",
+                "email": "policia.dgrzn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 8,
+                "nombre": "Dirección General Regional Zona Sur",
+                "jefe": "Com. Gral. Tec. Enzo Osvaldo Hoyos",
+                "email": "policia.dgrzs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 9,
+                "nombre": "Dirección General de Recursos Humanos",
+                "jefe": "Com. My. Dr. Maximiliano Enrique Cruz",
+                "email": "policia.dgrh@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 10,
+                "nombre": "Dirección General de Administración",
+                "jefe": "Com. Gral. Cristian Maximiliano Salinas",
+                "email": "policia.dga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 11,
+                "nombre": "Dirección General de Investigaciones Criminales",
+                "jefe": "Com. Gral. Tec. Cardenas Victor Alejandro",
+                "email": "policia.dgic@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 12,
+                "nombre": "Dirección Institutos Policiales",
+                "jefe": "Com. Gral. Tec. Manuel Anzoategui",
+                "email": "policia.dip@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 13,
+                "nombre": "Dirección Investigaciones Administrativas Zona Norte",
+                "jefe": "Com. Insp. Dr. Sebastián Gustavo Juarez Galanti",
+                "email": "policia.diazn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 14,
+                "nombre": "Dirección Investigaciones Administrativas Zona Sur",
+                "jefe": "Com. Lic. Eleonora Roxana Mamani",
+                "email": "policía.diazs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 15,
+                "nombre": "Oficina de Información Institucional Río Grande",
+                "jefe": "Com. Insp. Tec. María Laura Gómez",
+                "email": "policia.cominst@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 16,
+                "nombre": "Oficina de Información Institucional Ushuaia",
+                "jefe": "Com. Tec. David Matías Peralta Lopez",
+                "email": "policia.cominst@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 17,
+                "nombre": "División Bienestar Policial Ushuaia",
+                "jefe": "Com. Insp. Mgtr. Véronica Alejandra Cumicheo Coloane",
+                "email": "policia.dbpush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 18,
+                "nombre": "División Bienestar Policial Río Grande",
+                "jefe": "Com. Insp. Lic. Rolando Walter Avellaneda",
+                "email": "policia.dbprga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 19,
+                "nombre": "División Delitos Complejos Río Grande",
+                "jefe": "Com. Insp. Tec. Maximiliano Javier Villafaña",
+                "email": "policia.ddcrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 20,
+                "nombre": "División Narcocriminalidad y Delitos Federales Río Grande",
+                "jefe": "Com. My. Tec. Javier Osvaldo Medina",
+                "email": "policia.dndfrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 21,
+                "nombre": "División Investigaciones Complejas y Narcocriminalidad Tolhuin",
+                "jefe": "Com. My. María Emilia Fuentes",
+                "email": "policia.ddcyntol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 22,
+                "nombre": "División Delitos Complejos Ushuaia",
+                "jefe": "Com. Insp. Lic. Roberto Carlos Diaz Ibarra",
+                "email": "policia.ddcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 23,
+                "nombre": "División Narcocriminalidad y Delitos Federales Ushuaia",
+                "jefe": "Com. Insp. Tec. Gustavo Javier Diaz",
+                "email": "policia.dndfush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 24,
+                "nombre": "División Policía Científica Río Grande",
+                "jefe": "Com. Insp. Lic. Juan Pablo Rosales",
+                "email": "policia.dpcrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 25,
+                "nombre": "División Policía Científica Tolhuin",
+                "jefe": "Ppal. Lic. Alejandro Emanuel Aguirre",
+                "email": "policia.dpctol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 26,
+                "nombre": "División Policía Científica Ushuaia",
+                "jefe": "Com. My. Mgtr. Darío Nicolás Monzon",
+                "email": "policia.dpcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 27,
+                "nombre": "División Documentación e Identificación Policial Río Grande",
+                "jefe": "Com. Insp. Valeria del Carmen Perez Velazquez",
+                "email": "policia.ddirga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 28,
+                "nombre": "División Documentación e Identificación Policial Ushuaia",
+                "jefe": "Com. Insp. Tec. Fatima Carola del Valle Menichetti",
+                "email": "policia.dgic@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 29,
+                "nombre": "Unidad Regional Sur",
+                "jefe": "Com. My. Tec. Martín Miguel Bobba",
+                "email": "policia.urzs@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 30,
+                "nombre": "Comisaría Primera Ushuaia",
+                "jefe": "Com. Insp. Juan Manuel Medina",
+                "email": "policia.com1ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 31,
+                "nombre": "Comisaría Segunda Ushuaia",
+                "jefe": "Com. Insp. Miguel Almada",
+                "email": "policia.com2ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 32,
+                "nombre": "Comisaría Tercera Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis María Medina",
+                "email": "policia.com3ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 33,
+                "nombre": "Comisaría Cuarta Ushuaia",
+                "jefe": "Com. Insp. Derlis Alfredo Filippini",
+                "email": "policia.com4ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 34,
+                "nombre": "Comisaría Quinta Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis Gustavo Perick",
+                "email": "policia.com5ush@tierradel fuego.gob.ar"
+            },
+            {
+                "id": 35,
+                "nombre": "Comisaría de Género y Familia N° 1 Ushuaia",
+                "jefe": "Com. Insp. Tec. Noelia Daniela Mazzelli",
+                "email": "policia.comgyf1ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 36,
+                "nombre": "Comisaría de Género y Familia N° 2 Ushuaia",
+                "jefe": "Com. Tec. Irene Lucía Marin Levin",
+                "email": "policia.comgyf2ush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 37,
+                "nombre": "División Servicios Especiales Ushuaia",
+                "jefe": "Com. Insp. Tec. Luis Eduardo Arce",
+                "email": "policia.dseush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 38,
+                "nombre": "División Comunicaciones Ushuaia",
+                "jefe": "Com. Insp. Tec. David Nicolás Albo",
+                "email": "policia.dcush@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 39,
+                "nombre": "Unidad Regional Norte",
+                "jefe": "Com. My. Lic. Angel Ismael Lasala",
+                "email": "policia.urzn@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 40,
+                "nombre": "Comisaría Primera Río Grande",
+                "jefe": "Com. My. Abg. Luis Adolfo Iglesias",
+                "email": "policia.com1rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 41,
+                "nombre": "Comisaría Segunda Río Grande",
+                "jefe": "Com. My. Diego Roberto Alderete",
+                "email": "policia.com2rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 42,
+                "nombre": "Comisaría Tercera Río Grande",
+                "jefe": "Com. My. Lucas Atilio Choque",
+                "email": "policia.com3rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 43,
+                "nombre": "Comisaría Cuarta Río Grande",
+                "jefe": "Com. My. Tec. Anibal Horacio Arias",
+                "email": "policia.com4rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 44,
+                "nombre": "Comisaría Quinta Río Grande",
+                "jefe": "Com. Insp. Miguel Ángel Nieva",
+                "email": "policia.com5rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 45,
+                "nombre": "Comisaría de Género y Familia Río Grande",
+                "jefe": "Com. Lic. Paula Alejandra Moreno",
+                "email": "policia.comgyf1rga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 46,
+                "nombre": "División Servicios Especiales Río Grande",
+                "jefe": "Com. My. Jorge Sebastián Cortez",
+                "email": "policia.dserga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 47,
+                "nombre": "División Bomberos Río Grande",
+                "jefe": "Com. Insp. Lic. Cristian Daniel Sepulveda",
+                "email": "policia.dbrg@tierredelfuego.gob.ar"
+            },
+            {
+                "id": 48,
+                "nombre": "División Comunicaciones Río Grande",
+                "jefe": "Com. My. Ivan Omar Gallucci Mansilla",
+                "email": "policia.dcomrga@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 49,
+                "nombre": "Unidad Regional Centro",
+                "jefe": "Com. My. Proc. Víctor Oscar Serrano",
+                "email": "policia.dgrzc@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 50,
+                "nombre": "Comisaría Tolhuin",
+                "jefe": "Com. My. Gastón Gustavo Aguilera",
+                "email": "policia.com1tol@tierradelfuego.gob.ar"
+            },
+            {
+                "id": 51,
+                "nombre": "Comisaría de Género y Familia Tolhuin",
+                "jefe": "Com. Insp. Lic. Ramiro Ignacio Sibauti",
+                "email": "policia.comgyf1tol@tierradelfuego.gob.ar"
+            }
+        ];
+
+        /* ═══ USUARIO & AUTENTICACIÓN ═══ */
+        let CURRENT_USER = null;
+
+        // Base de datos simulada para demostración
+        const MOCK_USERS = {
+            "12345": {
+                legajo: "12345",
+                grado: "Principal",
+                nombre: "Pérez, Juan Carlos",
+                dni: "35123456",
+                cuil: "20-35123456-8",
+                fechaNac: "1988-05-14",
+                telefono: "2901 555-4321",
+                email: "jcperez@policiatdf.gob.ar",
+                domicilio: "Av. San Martín 450, Ushuaia",
+                usufructo: "Av. San Martín 450, Ushuaia",
+                obraSocial: "OSPF",
+                nroAfiliado: "8845120",
+                dependenciaId: 1
+            }
+        };
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            const btn = document.getElementById('btnUserMenu');
+            dropdown.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        document.addEventListener('click', (e) => {
+            const bar = document.querySelector('.user-top-bar');
+            if (bar && !bar.contains(e.target)) {
+                document.getElementById('userDropdown')?.classList.remove('show');
+                document.getElementById('btnUserMenu')?.classList.remove('active');
+            }
+        });
+
+        function openLoginModal() {
+            document.getElementById('modLogin').classList.add('vis');
+            document.getElementById('userDropdown').classList.remove('show');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('modLogin').classList.remove('vis');
+        }
+
+        function doLogin(e) {
+            e.preventDefault();
+            const leg = document.getElementById('loginLeg').value.trim();
+            if (!leg) {
+                toast('Ingresá tu número de legajo', 'er');
+                return;
+            }
+
+            let user = MOCK_USERS[leg];
+            if (!user) {
+                user = {
+                    legajo: leg,
+                    grado: "Agente",
+                    nombre: `Oficial (Legajo ${leg})`,
+                    dni: `${leg}000`,
+                    cuil: `20-${leg}000-9`,
+                    fechaNac: "1990-01-01",
+                    telefono: "2901 555-0000",
+                    email: `legajo${leg}@policiatdf.gob.ar`,
+                    domicilio: "Domicilio Registrado",
+                    usufructo: "Domicilio Registrado",
+                    obraSocial: "OSPF",
+                    nroAfiliado: "100200",
+                    dependenciaId: 1
+                };
+            }
+
+            setSession(user);
+            closeLoginModal();
+            toast(`Bienvenido/a, ${user.nombre}`, 'ok');
+        }
+
+        function demoLogin() {
+            document.getElementById('loginLeg').value = "12345";
+            document.getElementById('loginPass').value = "123456";
+            doLogin(new Event('submit'));
+        }
+
+        function setSession(user) {
+            CURRENT_USER = user;
+            updateUserHeaderUI();
+            fillPersonalDataFromUser();
+        }
+
+        function doLogout() {
+            CURRENT_USER = null;
+            updateUserHeaderUI();
+            document.getElementById('userDropdown').classList.remove('show');
+            toast('Sesión cerrada correctamente', 'in');
+        }
+
+        function updateUserHeaderUI() {
+            const btnAvatar = document.getElementById('hdrUserAvatar');
+            const hdrName = document.getElementById('hdrUserName');
+            const hdrLeg = document.getElementById('hdrUserLeg');
+            const udName = document.getElementById('udName');
+            const udLeg = document.getElementById('udLeg');
+            const menuLogged = document.getElementById('udMenuLogged');
+            const menuGuest = document.getElementById('udMenuGuest');
+
+            if (CURRENT_USER) {
+                hdrName.textContent = CURRENT_USER.nombre;
+                hdrLeg.textContent = `Legajo: ${CURRENT_USER.legajo}`;
+                udName.textContent = CURRENT_USER.nombre;
+                udLeg.textContent = `${CURRENT_USER.grado} — Legajo ${CURRENT_USER.legajo}`;
+                btnAvatar.innerHTML = `<i class="fas fa-user-check"></i>`;
+                menuLogged.style.display = 'block';
+                menuGuest.style.display = 'none';
+            } else {
+                hdrName.textContent = 'Iniciar Sesión';
+                hdrLeg.textContent = 'Acceso por Legajo';
+                udName.textContent = 'Sin sesión activa';
+                udLeg.textContent = 'Ingresá tu legajo';
+                btnAvatar.innerHTML = `<i class="fas fa-user"></i>`;
+                menuLogged.style.display = 'none';
+                menuGuest.style.display = 'block';
+            }
+        }
+
+        function fillPersonalDataFromUser() {
+            if (!CURRENT_USER) return;
+            const setVal = (id, val) => {
+                const el = document.getElementById(id);
+                if (el && val) el.value = val;
+            };
+
+            setVal('sLeg', CURRENT_USER.legajo);
+            setVal('sGra', CURRENT_USER.grado);
+            setVal('sDni', CURRENT_USER.dni);
+            setVal('sCui', CURRENT_USER.cuil);
+            setVal('sNom', CURRENT_USER.nombre);
+            setVal('sFN', CURRENT_USER.fechaNac);
+            setVal('sTel', CURRENT_USER.telefono);
+            setVal('sEma', CURRENT_USER.email);
+            setVal('sDir', CURRENT_USER.domicilio);
+            setVal('sUsu', CURRENT_USER.usufructo);
+            setVal('sOS', CURRENT_USER.obraSocial);
+            setVal('sNAf', CURRENT_USER.nroAfiliado);
+            if (CURRENT_USER.dependenciaId) {
+                const sDep = document.getElementById('sDep');
+                if (sDep) {
+                    sDep.value = CURRENT_USER.dependenciaId;
+                    onDep();
+                }
+            }
+        }
+
+
+        /* ═══ MODAL CONTRASEÑA ═══ */
+        function openPasswordModal() {
+            if (!CURRENT_USER) {
+                openLoginModal();
+                return;
+            }
+            document.getElementById('userDropdown').classList.remove('show');
+            document.getElementById('pwCurr').value = '';
+            document.getElementById('pwNew').value = '';
+            document.getElementById('pwConf').value = '';
+            document.getElementById('modPassword').classList.add('vis');
+        }
+
+        function closePasswordModal() {
+            document.getElementById('modPassword').classList.remove('vis');
+        }
+
+        function savePassword(e) {
+            e.preventDefault();
+            const pNew = document.getElementById('pwNew').value;
+            const pConf = document.getElementById('pwConf').value;
+
+            if (pNew.length < 6) {
+                toast('La contraseña debe tener al menos 6 caracteres', 'er');
+                return;
+            }
+            if (pNew !== pConf) {
+                toast('Las contraseñas no coinciden', 'er');
+                return;
+            }
+            closePasswordModal();
+            toast('Contraseña modificada correctamente', 'ok');
+        }
+
+        /* ═══ MODAL MIS SOLICITUDES ═══ */
+        function openMyRequestsModal() {
+            if (!CURRENT_USER) {
+                openLoginModal();
+                return;
+            }
+            document.getElementById('userDropdown').classList.remove('show');
+            const container = document.getElementById('reqListContainer');
+            container.innerHTML = `
+                <div class="req-item">
+                    <div>
+                        <div class="req-id">LM-2025-00123</div>
+                        <div class="req-sub">Enfermedad común • 5 días</div>
+                    </div>
+                    <span class="badge gn"><i class="fas fa-check"></i> Aprobada</span>
+                </div>
+                <div class="req-item">
+                    <div>
+                        <div class="req-id">LM-2025-00456</div>
+                        <div class="req-sub">Atención familiar • 3 días</div>
+                    </div>
+                    <span class="badge am"><i class="fas fa-clock"></i> En revisión</span>
+                </div>
+            `;
+            document.getElementById('modRequests').classList.add('vis');
+        }
+
+        function closeMyRequestsModal() {
+            document.getElementById('modRequests').classList.remove('vis');
+        }
+
+        /* ═══ ESTADO ═══ */
+        const S = { cur: 1, tipo: 'propia', motivo: '', nat: 'nueva', intern: false, jefe: null, arch: { cert: [], est: [], rec: [] } };
+        const SL = { 1: { i: 'fa-clipboard-list', l: 'Tipo de Solicitud' }, 2: { i: 'fa-id-badge', l: 'Datos del Personal' }, 3: { i: 'fa-people-arrows', l: 'Datos del Tercero' }, 4: { i: 'fa-notes-medical', l: 'Detalle de la Licencia' }, 5: { i: 'fa-paperclip', l: 'Documentacion' }, 6: { i: 'fa-check-double', l: 'Resumen y Envio' } };
+        /* ═══ INIT ═══ */
+        (async function () {
+            const s = document.getElementById('sDep');
+
+            const renderDeps = () => {
+                s.innerHTML = '<option value="">Seleccionar dependencia</option>';
+                DEPS.forEach(d => {
+                    const o = document.createElement('option');
+                    o.value = d.id;
+                    o.textContent = d.nombre;
+                    s.appendChild(o);
+                });
+            };
+
+            try {
+                const res = await fetch('dependencias.json');
+                if (res.ok) {
+                    DEPS = await res.json();
+                    console.log('Dependencias cargadas dinámicamente.');
+                }
+            } catch (err) {
+                console.warn('No se pudo cargar dependencias.json de forma dinámica (usando fallback local):', err);
+            }
+
+            renderDeps();
+            updateUserHeaderUI();
+            updVis();
+            updBot();
+        })();
+
+        /* ═══ PASO 1 ═══ */
+        function onMotivoChange() { const m = document.getElementById('sMotivo').value; S.motivo = m; S.tipo = (m === 'Atencion familiar') ? 'atendible' : 'propia'; updVis(); }
+        function onEspChange() { const v = document.getElementById('lEsp').value; const c = document.getElementById('cEspOtra'); if (v === 'Otra') { c.classList.add('vis'); } else { c.classList.remove('vis'); document.getElementById('lEspOtra').value = ''; } }
+        function setTipo(t) { S.tipo = t; updVis(); }
+        function setNat(n) { S.nat = n; document.getElementById('rcN').classList.toggle('sel', n === 'nueva'); document.getElementById('rcP').classList.toggle('sel', n === 'prolongacion'); document.getElementById('rcN').setAttribute('aria-checked', n === 'nueva'); document.getElementById('rcP').setAttribute('aria-checked', n === 'prolongacion'); const c = document.getElementById('cProl'); if (n === 'prolongacion') c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('nroLicAnt').value = ''; } }
+        function togI() { S.intern = !S.intern; const e = document.getElementById('chkI'); e.classList.toggle('ck', S.intern); e.setAttribute('aria-checked', S.intern); const c = document.getElementById('cInt'); if (S.intern) c.classList.add('vis'); else { c.classList.remove('vis'); document.getElementById('lFI').value = ''; document.getElementById('lSal').value = ''; } }
+        function updVis() { const a = S.tipo === 'atendible'; document.getElementById('sTer').classList.toggle('hid', !a); document.getElementById('lnTer').classList.toggle('hid', !a); updStep(); updProg(); }
+
+        /* ═══ DEPENDENCIA → JEFE ═══ */
+        function onDep() { const id = parseInt(document.getElementById('sDep').value); const b = document.getElementById('jBox'); if (!id) { b.style.display = 'none'; S.jefe = null; return; } const d = DEPS.find(x => x.id === id); if (d) { S.jefe = d; document.getElementById('jNm').textContent = d.jefe; document.getElementById('jDp').textContent = d.nombre + ' — ' + d.email; b.style.display = 'flex'; } }
+
+        /* ═══ NAVEGACION ═══ */
+        function isAtt() { return S.tipo === 'atendible'; }
+        function next(f) { if (!val(f)) return; let n = f + 1; if (f === 2 && !isAtt()) n = 4; go(n); }
+        function prev(f) { let p = f - 1; if (f === 4 && !isAtt()) p = 2; go(p); }
+        function go(s) { document.getElementById('p' + S.cur).classList.remove('act'); S.cur = s; document.getElementById('p' + s).classList.add('act'); updProg(); updStep(); updBot(); if (s === 6) genSum(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function goD(s) { document.getElementById('p' + S.cur).classList.remove('act'); S.cur = s; document.getElementById('p' + s).classList.add('act'); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        function updProg() { const tot = isAtt() ? 6 : 5; const rn = gRN(S.cur); document.getElementById('pF').style.width = Math.round(rn / tot * 100) + '%'; document.getElementById('pT').textContent = rn + ' / ' + tot; const info = SL[S.cur]; document.getElementById('pS').innerHTML = '<i class="fas ' + info.i + '"></i> ' + info.l; }
+        function gRN(s) { let n = 0; for (let i = 1; i <= s; i++) { const e = document.querySelector('.st-i[data-step="' + i + '"]'); if (!e.classList.contains('hid')) n++; } return n; }
+
+        function updStep() {
+            document.querySelectorAll('.st-i').forEach(e => { const s = +e.dataset.step; e.classList.remove('act', 'done'); if (e.classList.contains('hid')) return; if (s === S.cur) { e.classList.add('act'); e.querySelector('.st-c').textContent = gRN(s); } else if (s < S.cur) { e.classList.add('done'); e.querySelector('.st-c').innerHTML = '<i class="fas fa-check"></i>'; } else { e.querySelector('.st-c').textContent = gRN(s); } });
+            document.querySelectorAll('.st-ln').forEach(l => { const n = +l.dataset.line; l.classList.remove('done'); if (l.classList.contains('hid')) return; if (n < S.cur) l.classList.add('done'); });
+        }
+
+        function updBot() { const bp = document.getElementById('bPrev'), bn = document.getElementById('bNext'), bs = document.getElementById('bSub'); bp.style.display = S.cur > 1 ? 'flex' : 'none'; if (S.cur === 6) { bn.style.display = 'none'; bs.style.display = 'flex'; } else { bn.style.display = 'flex'; bs.style.display = 'none'; } }
+
+        /* ═══ VALIDACIONES ═══ */
+        function clrE() { document.querySelectorAll('.em').forEach(e => e.classList.remove('vis')); document.querySelectorAll('.err').forEach(e => e.classList.remove('err')); }
+        function sE(iid, eid) { const i = document.getElementById(iid); const e = document.getElementById(eid); if (i) i.classList.add('err'); if (e) e.classList.add('vis'); }
+        function val(s) {
+            clrE(); let o = true;
+            if (s === 1) { if (!document.getElementById('sMotivo').value) { sE('sMotivo', 'eMotivo'); o = false; } if (S.nat === 'prolongacion' && !document.getElementById('nroLicAnt').value.trim()) { sE('nroLicAnt', 'eNroL'); o = false; } }
+            if (s === 2) { if (!document.getElementById('sLeg').value.trim()) sE('sLeg', 'eLeg'), o = false; if (!document.getElementById('sGra').value) sE('sGra', 'eGra'), o = false; if (!document.getElementById('sDni').value.trim()) sE('sDni', 'eDni'), o = false; if (!document.getElementById('sNom').value.trim()) sE('sNom', 'eNom'), o = false; if (!document.getElementById('sFN').value) sE('sFN', 'eFN'), o = false; if (!document.getElementById('sTel').value.trim()) sE('sTel', 'eTel'), o = false; if (!document.getElementById('sEma').value.trim()) sE('sEma', 'eEma'), o = false; if (!document.getElementById('sDir').value.trim()) sE('sDir', 'eDir'), o = false; if (!document.getElementById('sUsu').value.trim()) sE('sUsu', 'eUsu'), o = false; if (!document.getElementById('sOS').value.trim()) sE('sOS', 'eOS'), o = false; if (!document.getElementById('sDep').value) sE('sDep', 'eDep'), o = false; }
+            if (s === 3) { if (!document.getElementById('tVin').value) sE('tVin', 'eTV'), o = false; if (!document.getElementById('tNom').value.trim()) sE('tNom', 'eTN'), o = false; if (!document.getElementById('tDni').value.trim()) sE('tDni', 'eTD'), o = false; if (!document.getElementById('tDiag').value.trim()) sE('tDiag', 'eTDi'), o = false; }
+            if (s === 4) { if (!document.getElementById('lDes').value) sE('lDes', 'eDes'), o = false; if (!document.getElementById('lHas').value) sE('lHas', 'eHas'), o = false; const d = document.getElementById('lDes').value, h = document.getElementById('lHas').value; if (d && h && h < d) { sE('lHas', 'eHas'); document.getElementById('eHas').innerHTML = '<i class="fas fa-exclamation-circle"></i> Debe ser posterior'; o = false; } if (!document.getElementById('lCie').value.trim()) sE('lCie', 'eCie'), o = false; if (document.getElementById('lEsp').value === 'Otra' && !document.getElementById('lEspOtra').value.trim()) sE('lEspOtra', 'eEspOtra'), o = false; }
+            if (s === 5) { if (!S.arch.cert.length) { toast('Subí al menos el certificado médico', 'er'); o = false; } }
+            if (!o) toast('Completá los campos obligatorios', 'er'); return o;
+        }
+
+        /* ═══ UPLOAD ═══ */
+        const MX = 10 * 1024 * 1024, ALW = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        function dO(e, z) { e.preventDefault(); document.getElementById(z).classList.add('dov'); }
+        function dL(e, z) { e.preventDefault(); document.getElementById(z).classList.remove('dov'); }
+        function dD(e, c) { e.preventDefault(); const z = 'z' + c.charAt(0).toUpperCase() + c.slice(1); document.getElementById(z).classList.remove('dov'); pF(e.dataTransfer.files, c); }
+        function fS(e, c) { pF(e.target.files, c); e.target.value = ''; }
+        function pF(files, cat) { let a = 0; for (const f of files) { if (!ALW.includes(f.type)) { toast('"' + f.name + '" formato no válido', 'er'); continue; } if (f.size > MX) { toast('"' + f.name + '" supera 10MB', 'er'); continue; } if (S.arch[cat].some(x => x.name === f.name && x.size === f.size)) { toast('"' + f.name + '" ya cargado', 'in'); continue; } S.arch[cat].push({ name: f.name, size: f.size, type: f.type, file: f }); a++; } if (a) { rF(cat); toast(a + ' archivo(s) cargado(s)', 'ok'); } }
+        function rmF(c, i) { S.arch[c].splice(i, 1); rF(c); }
+        function rF(cat) { const m = { cert: 'lC', est: 'lE', rec: 'lR' }; const l = document.getElementById(m[cat]); l.innerHTML = ''; S.arch[cat].forEach((f, i) => { const ext = f.name.split('.').pop().toUpperCase(); const ic = ext === 'PDF' ? 'fa-file-pdf' : 'fa-file-image'; l.innerHTML += `<div class="fl-i"><div class="fi-ic"><i class="fas ${ic}"></i></div><div class="fi-n"><div class="fi-nm">${esc(f.name)}</div><div class="fi-sz">${fSz(f.size)}</div></div><button class="fi-rm" onclick="rmF('${cat}',${i})" aria-label="Eliminar"><i class="fas fa-times"></i></button></div>`; }); }
+        function fSz(b) { return b < 1024 ? b + ' B' : b < 1048576 ? (b / 1024).toFixed(1) + ' KB' : (b / 1048576).toFixed(1) + ' MB'; }
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+        /* ═══ RESUMEN ═══ */
+        function genSum() {
+            const c = document.getElementById('sumC'); let h = '';
+            const motText = S.motivo || 'No informado';
+            const tb = S.tipo === 'propia' ? '<span class="badge gn"><i class="fas fa-user"></i> Propia</span>' : '<span class="badge am"><i class="fas fa-people-arrows"></i> Atendible</span>';
+            const nb = S.nat === 'nueva' ? '<span class="badge gn"><i class="fas fa-file-medical"></i> Nueva</span>' : '<span class="badge am"><i class="fas fa-file-circle-plus"></i> Prolongación</span>';
+            h += `<div class="ss"><div class="ss-h" onclick="goD(1)"><h4><i class="fas fa-clipboard-list"></i> Tipo y Motivo</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf fu"><span class="sl">Motivo</span><span class="sv">${esc(motText)}</span></div><div class="sf"><span class="sl">Tipo</span><span class="sv">${tb}</span></div><div class="sf"><span class="sl">Naturaleza</span><span class="sv">${nb}</span></div>${S.nat === 'prolongacion' ? `<div class="sf fu"><span class="sl">Lic. Anterior</span><span class="sv">${v('nroLicAnt')}</span></div>` : ''}</div></div></div>`;
+            const dep = DEPS.find(d => d.id === +v('sDep'));
+            h += `<div class="ss"><div class="ss-h" onclick="goD(2)"><h4><i class="fas fa-id-badge"></i> Personal</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Legajo</span><span class="sv">${v('sLeg')}</span></div><div class="sf"><span class="sl">Jerarquía</span><span class="sv">${v('sGra')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('sDni')}</span></div><div class="sf"><span class="sl">CUIL</span><span class="sv">${v('sCui') || emp()}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('sNom')}</span></div><div class="sf"><span class="sl">Fec. Nac.</span><span class="sv">${fD(v('sFN'))}</span></div><div class="sf"><span class="sl">Teléfono</span><span class="sv">${v('sTel')}</span></div><div class="sf"><span class="sl">Email</span><span class="sv">${v('sEma')}</span></div><div class="sf fu"><span class="sl">Dom. Real</span><span class="sv">${v('sDir') || emp()}</span></div><div class="sf fu"><span class="sl">Lugar Usufructo</span><span class="sv">${v('sUsu') || emp()}</span></div><div class="sf"><span class="sl">Obra Social</span><span class="sv">${v('sOS')}</span></div><div class="sf fu"><span class="sl">Dependencia</span><span class="sv">${dep ? dep.nombre : emp()}</span></div><div class="sf fu"><span class="sl">Jefe a Notificar</span><span class="sv" style="color:var(--gold)">${dep ? dep.jefe + ' (' + dep.email + ')' : emp()}</span></div></div></div></div>`;
+            if (isAtt()) { h += `<div class="ss"><div class="ss-h" onclick="goD(3)"><h4><i class="fas fa-people-arrows"></i> Tercero</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Vínculo</span><span class="sv">${v('tVin')}</span></div><div class="sf"><span class="sl">DNI</span><span class="sv">${v('tDni')}</span></div><div class="sf fu"><span class="sl">Nombre</span><span class="sv">${v('tNom')}</span></div><div class="sf fu"><span class="sl">Diagnóstico</span><span class="sv">${v('tDiag')}</span></div></div></div></div>`; }
+            const espDisp = v('lEsp') === 'Otra' ? ('Otra' + (v('lEspOtra') ? ' (' + v('lEspOtra') + ')' : '')) : (v('lEsp') || emp());
+            h += `<div class="ss"><div class="ss-h" onclick="goD(4)"><h4><i class="fas fa-notes-medical"></i> Detalle</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div><div class="ss-b"><div class="ss-g"><div class="sf"><span class="sl">Desde</span><span class="sv">${fD(v('lDes'))}</span></div><div class="sf"><span class="sl">Hasta</span><span class="sv">${fD(v('lHas'))}</span></div><div class="sf fu"><span class="sl">CIE-10</span><span class="sv">${v('lCie')}</span></div><div class="sf fu"><span class="sl">Médico</span><span class="sv">${v('lMed') || emp()}</span></div><div class="sf"><span class="sl">Especialidad</span><span class="sv">${espDisp}</span></div><div class="sf"><span class="sl">Matrícula</span><span class="sv">${v('lMat') || emp()}</span></div><div class="sf"><span class="sl">Institución</span><span class="sv">${v('lIns') || emp()}</span></div><div class="sf"><span class="sl">Tel. Médico</span><span class="sv">${v('lTM') || emp()}</span></div><div class="sf fu"><span class="sl">Internación</span><span class="sv">${S.intern ? 'Sí' : 'No'}</span></div>${S.intern ? `<div class="sf"><span class="sl">Fec. Ingreso</span><span class="sv">${fD(v('lFI')) || emp()}</span></div><div class="sf"><span class="sl">Sala</span><span class="sv">${v('lSal') || emp()}</span></div>` : ''}</div></div></div>`;
+            const af = [...S.arch.cert.map(f => ({ ...f, c: 'Cert' })), ...S.arch.est.map(f => ({ ...f, c: 'Estudio' })), ...S.arch.rec.map(f => ({ ...f, c: 'Receta' }))];
+            h += `<div class="ss"><div class="ss-h" onclick="goD(5)"><h4><i class="fas fa-paperclip"></i> Docs (${af.length})</h4><button class="eb"><i class="fas fa-pen"></i> Editar</button></div>`; if (af.length) h += `<div class="ss-b"><div class="ss-fl">${af.map(f => `<span class="ss-ft"><i class="fas fa-file"></i> ${esc(f.name)} (${f.c})</span>`).join('')}</div></div>`; else h += `<div class="ss-b"><div class="ss-g"><div class="sf fu"><span class="sv empty">Sin archivos</span></div></div></div>`; h += '</div>';
+            c.innerHTML = h;
+        }
+        function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+        function fD(s) { if (!s) return ''; const p = s.split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : s; }
+        function emp() { return '<span class="empty">No informado</span>'; }
+
+        /* ═══ ENVIO ═══ */
+        function doSubmit() { const y = new Date().getFullYear(); const r = String(Math.floor(Math.random() * 99999) + 1).padStart(5, '0'); document.getElementById('trNum').textContent = 'LM-' + y + '-' + r; document.getElementById('modOk').classList.add('vis'); toast('Solicitud enviada con éxito', 'ok'); }
+        function resetApp() { document.getElementById('modOk').classList.remove('vis'); S.cur = 1; S.tipo = 'propia'; S.motivo = ''; S.nat = 'nueva'; S.intern = false; S.jefe = null; S.arch = { cert: [], est: [], rec: [] }; setNat('nueva'); document.getElementById('chkI').classList.remove('ck'); document.getElementById('cProl').classList.remove('vis'); document.getElementById('cInt').classList.remove('vis'); document.getElementById('cEspOtra').classList.remove('vis'); document.getElementById('jBox').style.display = 'none'; document.querySelectorAll('input:not([type="file"]),select,textarea').forEach(e => e.value = ''); rF('cert'); rF('est'); rF('rec'); clrE(); document.querySelectorAll('.panel').forEach(p => p.classList.remove('act')); document.getElementById('p1').classList.add('act'); updVis(); updProg(); updStep(); updBot(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        /* ═══ TOASTS ═══ */
+        function toast(msg, type) { const c = document.getElementById('toastC'); const ic = { ok: 'fa-check-circle', er: 'fa-exclamation-triangle', in: 'fa-info-circle' }; const t = document.createElement('div'); t.className = 'toast ' + type; t.innerHTML = '<i class="fas ' + (ic[type] || ic.in) + '"></i> ' + msg; c.appendChild(t); setTimeout(() => { t.style.animation = 'tO .3s ease forwards'; setTimeout(() => t.remove(), 300); }, 3500); }
+
+
+        /* Teclado */
+        document.querySelectorAll('[role="switch"],[role="checkbox"],[role="radio"]').forEach(el => { el.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); el.click(); } }); });
+    </script>
+</body>
+
+</html>
