@@ -1179,8 +1179,39 @@ body {
     color: var(--fg)
 }
 
+.btn-cancel {
+    background: rgba(239, 68, 68, 0.08);
+    color: #f87171;
+    border: 1.5px solid rgba(239, 68, 68, 0.25);
+    padding: 13px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--tr);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: var(--radius-sm);
+    min-height: 48px;
+    white-space: nowrap;
+}
+
+.btn-cancel:hover {
+    background: rgba(239, 68, 68, 0.16);
+    border-color: rgba(239, 68, 68, 0.45);
+    color: #ef4444;
+    box-shadow: 0 3px 12px rgba(239, 68, 68, 0.15);
+}
+
+.btn-cancel:active {
+    transform: scale(.97);
+}
+
 .btn-p:disabled,
-.btn-s:disabled {
+.btn-s:disabled,
+.btn-cancel:disabled {
     opacity: .35;
     cursor: not-allowed;
     transform: none !important
@@ -1198,21 +1229,39 @@ body {
 @media(max-width: 767px) {
     .nav-btns {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         margin-top: 22px;
         width: 100%;
+        align-items: center;
     }
 
     .nav-btns .btn-p,
-    .nav-btns .btn-s {
+    .nav-btns .btn-s,
+    .nav-btns .btn-cancel {
         flex: 1;
         justify-content: center;
         text-align: center;
-        padding: 13px 16px;
+        padding: 12px 10px;
+        font-size: 0.82rem;
+        min-height: 46px;
     }
 
     .nav-btns .spacer {
         display: none;
+    }
+}
+
+@media(max-width: 380px) {
+    .nav-btns {
+        gap: 5px;
+    }
+
+    .nav-btns .btn-p,
+    .nav-btns .btn-s,
+    .nav-btns .btn-cancel {
+        padding: 10px 4px;
+        font-size: 0.76rem;
+        gap: 4px;
     }
 }
 
