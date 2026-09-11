@@ -686,8 +686,8 @@
                 el.innerHTML = `<option value="">${placeholder}</option>`;
                 items.forEach(item => {
                     const opt = document.createElement('option');
-                    opt.value = item[valKey] || item.id || item;
-                    opt.textContent = item[textKey] || item;
+                    opt.value = typeof valKey === 'function' ? valKey(item) : (item[valKey] || item.id || item);
+                    opt.textContent = typeof textKey === 'function' ? textKey(item) : (item[textKey] || item);
                     el.appendChild(opt);
                 });
             };
@@ -718,7 +718,7 @@
             } catch (err) { console.warn('Error cargando code-cie-10.json:', err); }
 
             renderSelect(sDep, DEPS, 'Seleccionar dependencia', 'id', 'nombre');
-            renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', 'nombre');
+            renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', item => (item.id !== undefined && item.id !== null) ? `${item.id} — ${item.nombre}` : item.nombre);
             renderSelect(sGra, JERARQUIAS, 'Seleccionar', 'nombre', 'nombre');
             if (sEsp) renderSelect(sEsp, ESPECIALIDADES, 'Seleccionar', 'nombre', 'nombre');
 
@@ -914,9 +914,18 @@
 
         /* ═══ MANEJO DE PASO 1 (MOTIVOS Y NATURALEZA) ═══ */
         function onMotivoChange() {
-            const m = document.getElementById('sMotivo').value;
-            S.motivo = m;
-            const norm = m.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const val = document.getElementById('sMotivo').value;
+            const motObj = MOTIVOS.find(x => String(x.id) === String(val) || x.nombre === val);
+            if (motObj) {
+                S.motivo = (motObj.id !== undefined && motObj.id !== null && motObj.id !== '') 
+                    ? `${motObj.id} — ${motObj.nombre}` 
+                    : motObj.nombre;
+                S.motivoRaw = motObj.nombre;
+            } else {
+                S.motivo = val;
+                S.motivoRaw = val;
+            }
+            const norm = (S.motivoRaw || val).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             S.tipo = (norm.includes('atencion familiar') || norm.includes('atencion a familiar')) ? 'atendible' : 'propia';
             updVis();
         }
@@ -956,14 +965,14 @@
             }
             const lic = LICENCIAS_VIGENTES.find(l => l.nro === val);
             if (lic) {
-                let opt = Array.from(sMot.options).find(o => o.value === lic.motivo);
+                let opt = Array.from(sMot.options).find(o => o.value === lic.motivo || o.text.includes(lic.motivo));
                 if (!opt) {
                     opt = document.createElement('option');
                     opt.value = lic.motivo;
                     opt.textContent = lic.motivo;
                     sMot.appendChild(opt);
                 }
-                sMot.value = lic.motivo;
+                sMot.value = opt.value;
                 sMot.disabled = true;
                 onMotivoChange();
                 if (helpMot) {
