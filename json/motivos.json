@@ -1,15 +1,13 @@
 [
-  { "id": 1, "nombre": "Enfermedad común" },
-  { "id": 2, "nombre": "Por enfermedad o accidente de largo tratamiento, vinculado al servicio" },
-  { "id": 3, "nombre": "Por enfermedad o accidente de largo tratamiento, desvinculado al servicio" },
-  { "id": 4, "nombre": "Atención familiar" },
-  { "id": 5, "nombre": "Donación de sangre" },
-  { "id": 6, "nombre": "Maternidad" },
-  { "id": 7, "nombre": "Por lactancia" },
-  { "id": 8, "nombre": "Para donar órganos" },
-  { "id": 9, "nombre": "Licencia pandemia" },
-  { "id": 10, "nombre": "Dto. 564/18 lic. extraordinaria" },
-  { "id": 11, "nombre": "Dto. 564/18 lic. extraordinaria ley 911-art 9" },
-  { "id": 12, "nombre": "Art" },
-  { "id": 13, "nombre": "Fallecimiento" }
+  { "id": "1", "nombre": "ALTA MÉDICA-(10-M)" },
+  { "id": "3-319", "nombre": "AT. FLIAR" },
+  { "id": "11-314", "nombre": "DON. SANGRE" },
+  { "id": "21", "nombre": "LIC. (PANDEMIA)" },
+  { "id": "22-318", "nombre": "MATERNIDAD" },
+  { "id": "28-317", "nombre": "ENF. LAR. TRAT." },
+  { "id": "34-315", "nombre": "ENF. COMUN" },
+  { "id": "37-316", "nombre": "ACC. TRABAJO" },
+  { "id": "67", "nombre": "DT0.564/18 LIC. EXTRAORDINARIA" },
+  { "id": "69", "nombre": "Ley911-art-9" },
+  { "id": "70", "nombre": "LEY 1037-ACOGIMIENTO FAMILIAR" }
 ]

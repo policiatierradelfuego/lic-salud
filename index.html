@@ -926,7 +926,7 @@
                 S.motivoRaw = val;
             }
             const norm = (S.motivoRaw || val).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            S.tipo = (norm.includes('atencion familiar') || norm.includes('atencion a familiar')) ? 'atendible' : 'propia';
+            S.tipo = (norm.includes('atencion familiar') || norm.includes('atencion a familiar') || norm.includes('at. fliar') || norm.includes('at fliar')) ? 'atendible' : 'propia';
             updVis();
         }
 
