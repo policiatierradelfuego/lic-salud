@@ -1,13 +1,46 @@
 [
-  { "id": "1", "nombre": "ALTA MÉDICA-(10-M)" },
-  { "id": "3-319", "nombre": "AT. FLIAR" },
-  { "id": "11-314", "nombre": "DON. SANGRE" },
-  { "id": "21", "nombre": "LIC. (PANDEMIA)" },
-  { "id": "22-318", "nombre": "MATERNIDAD" },
-  { "id": "28-317", "nombre": "ENF. LAR. TRAT." },
-  { "id": "34-315", "nombre": "ENF. COMUN" },
-  { "id": "37-316", "nombre": "ACC. TRABAJO" },
-  { "id": "67", "nombre": "DT0.564/18 LIC. EXTRAORDINARIA" },
-  { "id": "69", "nombre": "Ley911-art-9" },
-  { "id": "70", "nombre": "LEY 1037-ACOGIMIENTO FAMILIAR" }
+  {
+    "id": "1 - (10 - M)",
+    "nombre": "Alta Médica"
+  },
+  {
+    "id": "3 - 319",
+    "nombre": "Atención Familiar"
+  },
+  {
+    "id": "11 - 314",
+    "nombre": "Donación de Sangre"
+  },
+  {
+    "id": "21",
+    "nombre": "Licencia (Pandemia)"
+  },
+  {
+    "id": "22 - 318",
+    "nombre": "Maternidad"
+  },
+  {
+    "id": "28 - 317",
+    "nombre": "Enfermedad de Largo Tratamiento"
+  },
+  {
+    "id": "34 - 315",
+    "nombre": "Enfermedad Común"
+  },
+  {
+    "id": "37 - 316",
+    "nombre": "Accidente de Trabajo"
+  },
+  {
+    "id": "67",
+    "nombre": "Dto. 564/18 Licencia Extraordinaria"
+  },
+  {
+    "id": "69",
+    "nombre": "Ley 911 - Art. 9"
+  },
+  {
+    "id": "70",
+    "nombre": "Ley 1037 - Acogimiento Familiar"
+  }
 ]

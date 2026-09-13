@@ -251,9 +251,28 @@
                 <p class="card-s">Definí el alcance y naturaleza</p>
                 <div class="fg" id="fgMotivo">
                     <label>Motivo de la Licencia <span class="rq">*</span></label>
-                    <select id="sMotivo" onchange="onMotivoChange()">
-                        <option value="">Seleccionar motivo</option>
-                    </select>
+                    
+                    <!-- Custom Search Select para Motivos de Licencia -->
+                    <div class="custom-search-select" id="motivoSelectContainer">
+                        <input type="hidden" id="sMotivo" name="motivoId" value="">
+                        
+                        <!-- Search Box / Trigger -->
+                        <div class="search-select-box" id="motivoSearchBox" onclick="focusAndOpenMotivo(event)">
+                            <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenMotivo(event)" title="Buscar motivo"></i>
+                            <input type="text" id="motivoSearchInput" placeholder="Seleccionar o buscar motivo..." autocomplete="off" onfocus="openMotivoDropdown()" onclick="openMotivoDropdown()" oninput="filterMotivos(this.value)">
+                            <button type="button" class="search-clear-btn" id="motivoClearBtn" onclick="clearMotivoSelection(event)" style="display:none;" title="Cambiar motivo">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Dropdown List -->
+                        <div class="search-select-dropdown" id="motivoDropdown" style="display:none;">
+                            <div class="search-select-list" id="motivoSelectList">
+                                <!-- Dynamic options rendered via JS -->
+                            </div>
+                        </div>
+                    </div>
+
                     <span class="em" id="eMotivo"><i class="fas fa-exclamation-circle"></i> Seleccioná un motivo</span>
                     <div id="helpMotivo"
                         style="display:none;font-size:0.8rem;color:var(--gold);margin-top:6px;align-items:center;gap:6px">
@@ -718,7 +737,7 @@
             } catch (err) { console.warn('Error cargando code-cie-10.json:', err); }
 
             renderSelect(sDep, DEPS, 'Seleccionar dependencia', 'id', 'nombre');
-            renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', item => (item.id !== undefined && item.id !== null) ? `${item.id} — ${item.nombre}` : item.nombre);
+            renderSelect(sMot, MOTIVOS, 'Seleccionar motivo', 'nombre', item => (item.id !== undefined && item.id !== null) ? `${item.nombre}\n${item.id}` : item.nombre);
             renderSelect(sGra, JERARQUIAS, 'Seleccionar', 'nombre', 'nombre');
             if (sEsp) renderSelect(sEsp, ESPECIALIDADES, 'Seleccionar', 'nombre', 'nombre');
 
@@ -939,7 +958,7 @@
             document.getElementById('rcP').setAttribute('aria-checked', n === 'extension');
 
             const c = document.getElementById('cProl');
-            const sMot = document.getElementById('sMotivo');
+            const inputMot = document.getElementById('motivoSearchInput');
             const helpMot = document.getElementById('helpMotivo');
 
             if (n === 'extension') {
@@ -948,33 +967,25 @@
             } else {
                 c.classList.remove('vis');
                 document.getElementById('nroLicAnt').value = '';
-                if (sMot) sMot.disabled = false;
+                if (inputMot) inputMot.disabled = false;
                 if (helpMot) helpMot.style.display = 'none';
             }
         }
 
         function onLicAntChange() {
             const val = document.getElementById('nroLicAnt').value;
-            const sMot = document.getElementById('sMotivo');
+            const inputMot = document.getElementById('motivoSearchInput');
             const helpMot = document.getElementById('helpMotivo');
 
             if (!val) {
                 if (helpMot) helpMot.style.display = 'none';
-                if (sMot) sMot.disabled = false;
+                if (inputMot) inputMot.disabled = false;
                 return;
             }
             const lic = LICENCIAS_VIGENTES.find(l => l.nro === val);
             if (lic) {
-                let opt = Array.from(sMot.options).find(o => o.value === lic.motivo || o.text.includes(lic.motivo));
-                if (!opt) {
-                    opt = document.createElement('option');
-                    opt.value = lic.motivo;
-                    opt.textContent = lic.motivo;
-                    sMot.appendChild(opt);
-                }
-                sMot.value = opt.value;
-                sMot.disabled = true;
-                onMotivoChange();
+                selectMotivo(lic.motivo);
+                if (inputMot) inputMot.disabled = true;
                 if (helpMot) {
                     helpMot.querySelector('span').textContent = `Motivo asignado automáticamente según la licencia a extender ${lic.nro}: "${lic.motivo}"`;
                     helpMot.style.display = 'flex';
@@ -1002,6 +1013,94 @@
             document.getElementById('lnTer').classList.toggle('hid', !a);
             updStep();
             updProg();
+        }
+
+        /* ═══ DESPLEGABLE BUSCADOR DE MOTIVOS ═══ */
+        function focusAndOpenMotivo(e) {
+            if (e && e.target && e.target.closest('.search-clear-btn')) return;
+            const input = document.getElementById('motivoSearchInput');
+            if (input && !input.disabled) {
+                input.focus();
+                openMotivoDropdown();
+            }
+        }
+
+        function openMotivoDropdown() {
+            const drop = document.getElementById('motivoDropdown');
+            if (drop) {
+                drop.style.display = 'block';
+                const currentVal = document.getElementById('motivoSearchInput').value;
+                filterMotivos(currentVal);
+            }
+        }
+
+        function filterMotivos(query) {
+            const listEl = document.getElementById('motivoSelectList');
+            if (!listEl) return;
+            const qNorm = normalizeText(query).trim();
+            const tokens = qNorm.split(/\s+/).filter(Boolean);
+
+            const filtered = MOTIVOS.filter(m => {
+                if (!tokens.length) return true;
+                const normNombre = normalizeText(m.nombre);
+                const normId = normalizeText(m.id || '');
+                const combined = `${normNombre} ${normId}`;
+                return tokens.every(token => combined.includes(token));
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div class="search-select-no-results"><i class="fas fa-search-minus"></i> No se encontraron motivos</div>`;
+                return;
+            }
+
+            const currentSelectedValue = document.getElementById('sMotivo').value;
+            listEl.innerHTML = filtered.map(m => {
+                const val = m.id || m.nombre;
+                const isSelected = String(val) === String(currentSelectedValue);
+                return `
+                    <div class="search-select-item ${isSelected ? 'selected' : ''}" onclick="selectMotivo('${escapeHtml(val)}')">
+                        <div class="ss-item-main">
+                            <i class="fas fa-notes-medical ss-item-icon"></i>
+                            <div class="ss-item-info">
+                                <div class="ss-item-title">${escapeHtml(m.nombre)}</div>
+                                ${m.id ? `<div class="ss-item-sub"><i class="fas fa-hashtag"></i> ${escapeHtml(m.id)}</div>` : ''}
+                            </div>
+                        </div>
+                        ${isSelected ? '<i class="fas fa-check ss-item-check"></i>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectMotivo(val) {
+            const m = MOTIVOS.find(x => String(x.id) === String(val) || x.nombre === val);
+            const input = document.getElementById('motivoSearchInput');
+            const hidden = document.getElementById('sMotivo');
+            if (!m) {
+                hidden.value = val;
+                input.value = val;
+            } else {
+                hidden.value = m.id || m.nombre;
+                input.value = m.nombre;
+            }
+            input.classList.add('has-selection');
+            document.getElementById('motivoClearBtn').style.display = 'flex';
+            document.getElementById('motivoDropdown').style.display = 'none';
+            document.getElementById('eMotivo').classList.remove('vis');
+            onMotivoChange();
+        }
+
+        function clearMotivoSelection(e) {
+            if (e) e.stopPropagation();
+            const input = document.getElementById('motivoSearchInput');
+            if (input.disabled) return;
+            document.getElementById('sMotivo').value = '';
+            input.value = '';
+            input.classList.remove('has-selection');
+            document.getElementById('motivoClearBtn').style.display = 'none';
+            document.getElementById('motivoDropdown').style.display = 'none';
+            onMotivoChange();
+            input.focus();
         }
 
         /* ═══ UTILIDADES Y DESPLEGABLE BUSCADOR DE DEPENDENCIAS ═══ */
@@ -1188,6 +1287,11 @@
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
+            const motContainer = document.getElementById('motivoSelectContainer');
+            if (motContainer && !motContainer.contains(e.target)) {
+                const drop = document.getElementById('motivoDropdown');
+                if (drop) drop.style.display = 'none';
+            }
             const depContainer = document.getElementById('depSelectContainer');
             if (depContainer && !depContainer.contains(e.target)) {
                 const drop = document.getElementById('depDropdown');
