@@ -251,20 +251,24 @@
                 <p class="card-s">Definí el alcance y naturaleza</p>
                 <div class="fg" id="fgMotivo">
                     <label>Motivo de la Licencia <span class="rq">*</span></label>
-                    
+
                     <!-- Custom Search Select para Motivos de Licencia -->
                     <div class="custom-search-select" id="motivoSelectContainer">
                         <input type="hidden" id="sMotivo" name="motivoId" value="">
-                        
+
                         <!-- Search Box / Trigger -->
                         <div class="search-select-box" id="motivoSearchBox" onclick="focusAndOpenMotivo(event)">
-                            <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenMotivo(event)" title="Buscar motivo"></i>
-                            <input type="text" id="motivoSearchInput" placeholder="Seleccionar o buscar motivo..." autocomplete="off" onfocus="openMotivoDropdown()" onclick="openMotivoDropdown()" oninput="filterMotivos(this.value)">
-                            <button type="button" class="search-clear-btn" id="motivoClearBtn" onclick="clearMotivoSelection(event)" style="display:none;" title="Cambiar motivo">
+                            <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenMotivo(event)"
+                                title="Buscar motivo"></i>
+                            <input type="text" id="motivoSearchInput" placeholder="Seleccionar o buscar motivo..."
+                                autocomplete="off" onfocus="openMotivoDropdown()" onclick="openMotivoDropdown()"
+                                oninput="filterMotivos(this.value)">
+                            <button type="button" class="search-clear-btn" id="motivoClearBtn"
+                                onclick="clearMotivoSelection(event)" style="display:none;" title="Cambiar motivo">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        
+
                         <!-- Dropdown List -->
                         <div class="search-select-dropdown" id="motivoDropdown" style="display:none;">
                             <div class="search-select-list" id="motivoSelectList">
@@ -308,7 +312,8 @@
             </div>
             <div class="nav-btns">
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="next(1)">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
@@ -402,20 +407,25 @@
                     <label><i class="fas fa-building-shield"
                             style="color:var(--gold);margin-right:3px;font-size:.75rem"></i> Dependencia <span
                             class="rq">*</span></label>
-                    
+
                     <!-- Searchable Custom Select Container -->
                     <div class="custom-search-select" id="depSelectContainer">
                         <input type="hidden" id="sDep" name="dependenciaId" value="">
-                        
+
                         <!-- Search Box / Trigger -->
                         <div class="search-select-box" id="depSearchBox" onclick="focusAndOpenDep(event)">
-                            <i class="fas fa-search search-icon" onclick="focusAndOpenDep(event)" title="Buscar dependencia"></i>
-                            <input type="text" id="depSearchInput" placeholder="Buscar dependencia (ej: Comisaría, Ushuaia)..." autocomplete="off" onfocus="openDepDropdown()" onclick="openDepDropdown()" oninput="filterDependencias(this.value)">
-                            <button type="button" class="search-clear-btn" id="depClearBtn" onclick="clearDepSelection(event)" style="display:none;" title="Cambiar dependencia">
+                            <i class="fas fa-search search-icon" onclick="focusAndOpenDep(event)"
+                                title="Buscar dependencia"></i>
+                            <input type="text" id="depSearchInput"
+                                placeholder="Buscar dependencia (ej: Comisaría, Ushuaia)..." autocomplete="off"
+                                onfocus="openDepDropdown()" onclick="openDepDropdown()"
+                                oninput="filterDependencias(this.value)">
+                            <button type="button" class="search-clear-btn" id="depClearBtn"
+                                onclick="clearDepSelection(event)" style="display:none;" title="Cambiar dependencia">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        
+
                         <!-- Dropdown List -->
                         <div class="search-select-dropdown" id="depDropdown" style="display:none;">
                             <div class="search-select-list" id="depSelectList">
@@ -438,7 +448,8 @@
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(2)"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="next(2)">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
@@ -494,7 +505,8 @@
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(3)"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="next(3)">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
@@ -517,20 +529,26 @@
                     </div>
                     <div class="fg full">
                         <label>Diagnóstico (CIE-10) <span class="rq">*</span></label>
-                        
+
                         <!-- Searchable Custom Select Container for CIE-10 -->
                         <div class="custom-search-select" id="cieSelectContainer">
                             <input type="hidden" id="lCie" name="diagnosticoCie" value="">
-                            
+
                             <!-- Search Box / Trigger -->
                             <div class="search-select-box" id="cieSearchBox" onclick="focusAndOpenCie(event)">
-                                <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenCie(event)" title="Buscar patología"></i>
-                                <input type="text" id="cieSearchInput" placeholder="Buscar por código (ej: J06, M54) o patología (ej: resfrío, lumbalgia)..." autocomplete="off" onfocus="openCieDropdown()" onclick="openCieDropdown()" oninput="filterCieCodes(this.value)">
-                                <button type="button" class="search-clear-btn" id="cieClearBtn" onclick="clearCieSelection(event)" style="display:none;" title="Cambiar diagnóstico">
+                                <i class="fas fa-notes-medical search-icon" onclick="focusAndOpenCie(event)"
+                                    title="Buscar patología"></i>
+                                <input type="text" id="cieSearchInput"
+                                    placeholder="Buscar por código (ej: J06, M54) o patología (ej: resfrío, lumbalgia)..."
+                                    autocomplete="off" onfocus="openCieDropdown()" onclick="openCieDropdown()"
+                                    oninput="filterCieCodes(this.value)">
+                                <button type="button" class="search-clear-btn" id="cieClearBtn"
+                                    onclick="clearCieSelection(event)" style="display:none;"
+                                    title="Cambiar diagnóstico">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-                            
+
                             <!-- Dropdown List -->
                             <div class="search-select-dropdown" id="cieDropdown" style="display:none;">
                                 <div class="search-select-list" id="cieSelectList">
@@ -559,7 +577,8 @@
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(4)"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="next(4)">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
@@ -598,7 +617,8 @@
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(5)"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="next(5)">Siguiente <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
@@ -629,7 +649,8 @@
             <div class="nav-btns">
                 <button class="btn-s" onclick="prev(6)"><i class="fas fa-arrow-left"></i> Anterior</button>
                 <div class="spacer"></div>
-                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i> Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="cancelAndReset()"><i class="fas fa-undo"></i>
+                    Cancelar</button>
                 <button class="btn-p" onclick="doSubmit()"><i class="fas fa-paper-plane"></i> Confirmar y
                     Enviar</button>
             </div>
@@ -732,7 +753,7 @@
             } catch (err) { console.warn('Error cargando especialidades.json:', err); }
 
             try {
-                const resCie = await fetch('code-cie-10.json');
+                const resCie = await fetch('json/code-cie-10.json');
                 if (resCie.ok) CIE10 = await resCie.json();
             } catch (err) { console.warn('Error cargando code-cie-10.json:', err); }
 
@@ -936,8 +957,8 @@
             const val = document.getElementById('sMotivo').value;
             const motObj = MOTIVOS.find(x => String(x.id) === String(val) || x.nombre === val);
             if (motObj) {
-                S.motivo = (motObj.id !== undefined && motObj.id !== null && motObj.id !== '') 
-                    ? `${motObj.id} — ${motObj.nombre}` 
+                S.motivo = (motObj.id !== undefined && motObj.id !== null && motObj.id !== '')
+                    ? `${motObj.id} — ${motObj.nombre}`
                     : motObj.nombre;
                 S.motivoRaw = motObj.nombre;
             } else {
@@ -1286,7 +1307,7 @@
         }
 
         // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const motContainer = document.getElementById('motivoSelectContainer');
             if (motContainer && !motContainer.contains(e.target)) {
                 const drop = document.getElementById('motivoDropdown');
